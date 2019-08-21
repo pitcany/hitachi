@@ -1,0 +1,313 @@
+\documentclass[english]{article}
+\usepackage{amsfonts}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{amscd}
+\usepackage[latin2]{inputenc}
+\usepackage{t1enc}
+\usepackage[mathscr]{eucal}
+\usepackage{indentfirst}
+\usepackage{graphicx}
+\usepackage{graphics}
+\usepackage{pict2e}
+\usepackage{epic}
+\usepackage{mathtools}
+\numberwithin{equation}{section}
+\usepackage[margin=2.9cm]{geometry}
+\usepackage{epstopdf}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}{Corollary}[theorem]
+\newtheorem{lemma}[theorem]{Lemma}
+
+\newcommand{\ovl}{\overline}
+\newcommand{\E}{\mathrm{E}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\Cov}{\mathrm{Cov}}
+
+\DeclarePairedDelimiter\paren{(}{)}           % (parentheses)
+\DeclarePairedDelimiter\ang{\langle}{\rangle} % <angle brackets>
+\DeclarePairedDelimiter\abs{\lvert}{\rvert}   % |absolute value|
+\DeclarePairedDelimiter\norm{\lVert}{\rVert}  % ||norm||
+\DeclarePairedDelimiter\bkt{[}{]}             % [brackets]
+\DeclarePairedDelimiter\set{\{}{\}}           % {braces}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
+
+\begin{document}
+	
+	\title{Writeup}
+	
+	\author{Yannik Pitcan \\
+		Panos Lambrianides \\
+		Ram Akella \\
+		Anil Aswani \\
+		Phil Kaminsky
+	}
+	\maketitle
+
+\section*{Preface}
+In this document, we will discuss the types of datasets, distributions, and contexts we need to make inferences from them. The first purpose for this writeup is to demonstrate why distribution models and parameters are necessary. The second purpose is to layout a proposed research plan.
+
+\section*{Introduction}
+We want to develop a probabilistic model for RUL (remaining useful life) of equipment, given historical run-to-failure data and past operational history.
+
+As we view sensor data and not the machine states, one approach may be to understand the distribution of sensor data for a normal functioning machine and compare that to the distribution for one that's failing.
+
+For our model, we have C-MAPSS inputs that simulate degradation scenarios, and then outputs to measure the system response. The fundamental flaw with past work is that the data generation process was ad-hoc and didn't assume any stochastic component for the flow and efficiency loss.
+
+\section*{What To Improve}
+Currently, modeling of the RUL and FP is not distribution based. We think that there is much to be gained by understanding the distribution of failure times beyond those of point estimates. There are two ways we propose to do so:
+
+\begin{itemize}
+	\item Parametric:  Assume the distribution of failure times follows an inverse gamma distribution. Do a Bayesian update of this once observing our machine. This does assume knowledge about the distribution of observed values, but parameter updates for this are straight-forward.
+	\item Nonparametric: Use a k-nearest-neighbors algorithm to model the failure times.
+\end{itemize}
+%\section*{High-Level Proposed Changes}
+%The proposed change by us involves a Bayesian update of the RUL distribution upon viewing system responses. Currently, we have no assumptions on the model family the RUL belongs to, but given a parametric representation of the RUL distribution, we can use Bayesian parameter estimation after observing the sensor responses from different machines.
+%
+%When we have multiple RUL models, we can assess which one is more relevant for the system via Bayesian likelihood ratio testing.
+%
+%In more detail, denoting our models $M_1$ and $M_2$ and our data as $D$, we have something like $$K=\frac{p(D|M_1)}{p(D|M_2)}=\frac{p(M_1|D)}{p(M_2|D)}\frac{p(M_2)}{p(M_1)}$$ where we accept one RUL model over the other if $K$ surpasses a certain threshold.
+
+\section*{Fusion of Data from Two Distributions}
+This problem breaks down if we have two sets of observations.
+
+Given a machine, we want to return a survival distribution dataset. The nuance here is we have two datasets, how do we combine these two datasets? 
+
+Without a prior distribution, one cannot blend the two observed datasets. Currently, the methods in place are RUL and FP point estimates.
+
+We don't quite know how these numbers are generated. We cannot build models if we don't know what those numbers mean!
+
+To delve into more detail, RUL is given by $$\E[T-t|T>t]=\int_{t}^{\infty} z f(z|D)\,dz = \int_t^{\infty} z f(z)\,dz.$$ and $FP$ is the cumulative probability up to time $t$ given by $$F(t)=\int_0^t f(\tau)\,d\tau.$$
+
+How does one combine a point estimate value with observed data? This is not known, but it is doable to combine estimates when we have prior information about the distribution.
+
+Furthermore, if I have both distributions with similar parametric form, then it's straightforward to update the prior with respect to each of the datasets and combine them. Note that the following examples are informal and not necessarily what we will use in our project. These are just used to demonstrate what we require beyond point estimates.
+
+\subsection*{Simple Example with Beta-Binomial}
+For a simple example, let's first look at a case where we take draws from a binomial distribution $X\sim Bin(n,p)$ where $p\sim Beta(\alpha,\beta)$. Then one can update our knowledge about $p$.
+
+$$f_{p|X}(p|X=x)\propto f_P(p)f_{X|p}(x|p) \propto p^{\alpha-1}(1-p)^{\beta-1} p^x (1-p)^{n-x} = p^{\alpha+x-1} (1-p)^{n-x+\beta-1}.$$
+
+Here, we see that $p|X\sim Beta(\alpha+x,n-x+\beta)$. Similarly, if we have $Y\sim Bin(m,p)$, then $p|{X,Y} \sim Beta(\alpha+x+y,n-x-y+\beta)$.  Then it's easy to get a new estimate for $p$. For instance, one can use a MAP estimation to get $$\hat{p}_{MAP}=\frac{\alpha+x+y}{\alpha+\beta+n}.$$
+
+\subsection*{Weibull-Inverse Gamma Demonstration}
+Now let's look at the case where we have Weibull and Inverse Gamma distributions.
+
+The Weibull distribution is given by
+$$f(x|\lambda, k)=\frac{k}{\lambda}x^{k-1}\text{exp}\left\{-x^k/\lambda \right\}$$
+
+Then 
+
+$$L(\lambda|x_1,\dots, x_n)\propto \prod_i \lambda^{-1}\text{exp}\left\{-\frac{x_i^k}{\lambda}\right\}\\
+=\lambda^{-n}\text{exp}\left\{-\frac{\sum_i {x_i^k}}{\lambda}\right\}$$
+
+The inverse gamma prior is
+
+$$P(\lambda|\alpha,\beta)=\frac{\beta^\alpha}{\Gamma(\alpha)}\lambda^{-\alpha-1}\text{exp}\left\{-\frac{\beta}{\lambda}\right\}$$
+
+The posterior then is
+
+\begin{align*}
+P(\lambda|x_1,\dots,x_n)\propto L(\lambda|x_1,\dots, x_n) P(\lambda|\alpha,\beta) &\propto \lambda^{-n}\text{exp}\left\{-\sum_i {x_i^k}\lambda^{-1}\right\}\lambda^{-\alpha-1}\text{exp}\left\{-\frac{\beta}{\lambda}\right\}\\
+&=\lambda^{-n-\alpha-1}\text{exp}\left\{-\frac{\sum_i {x_i^k}+\beta}{\lambda}\right\}
+\end{align*} 
+
+One thus sees the posterior distribution of $\lambda$ is inverse gamma with parameters $n+\alpha$ and $\sum_i x_i^k + \beta$. Subsequently, if we observe two datasets given by $x_1,\ldots,x_n$ and $y_1,\ldots,y_m$, then the update is simple and our posterior is still an inverse gamma with parameters $m+n+\alpha$ and $\sum_i x_i^k + \sum_j y_j^k + \beta$.
+
+This update is relevant because the Weibull distribution is often used to model failure times of machines. Assuming the RUL and FP distributions are inverse gamma, then we have the above result. With the knowledge of how to update the distribution, it is more tractable to understand the RUL and FP updates fully.
+
+Above, we used the assumption that the observations from different sources shared the same parametric model. But what if this were not the case? Then we have to do a bit of fitting. One could use a method of moments technique to fit a distribution to a data source that has the same parametric model and still carry the above steps. In particular, our constraints for method of moments techniques would be the point estimates provided. One may also utilize hierarchical Bayesian models here.
+
+\section*{Estimating Parameters}
+Earlier, we hinted at how one can use the above updates to obtain new estimates of the underlying parameters. In this section, we discuss the MAP and MoM (Method of Moments) techniques in further detail.
+
+\subsection*{MAP Estimates}
+Assume that we want to estimate an unobserved population parameter $\theta$ on the basis of observations $x$. Let $f$ be the sampling distribution of $x$, so that $f(x\mid\theta)$ is the probability of $x$ when the underlying population parameter is $\theta$.  Then the function:
+
+$$\theta \mapsto f(x \mid \theta)$$
+
+is known as the likelihood function and the estimate:
+
+$$\hat{\theta}_{\mathrm{MLE}}(x) = \underset{\theta}{\operatorname{arg\,max}} \ f(x \mid \theta) \!$$
+
+is the maximum likelihood estimate of $\theta$.
+
+Now assume that a prior distribution $g$ over $\theta$ exists.  This allows us to treat $\theta$ as a random variable as in Bayesian statistics.  We can calculate the posterior distribution of $\theta$ using Bayes' theorem:
+
+$$\theta \mapsto f(\theta \mid x) = \frac{f(x \mid \theta) \, g(\theta)}{\displaystyle\int_{\Theta} f(x \mid \vartheta) \, g(\vartheta) \, d\vartheta}$$
+
+where $g$ is density function of $\theta$, $\Theta$ is the domain of $g$.
+
+The method of maximum a posteriori estimation then estimates $\theta$ as the mode of the posterior distribution of this random variable:
+
+$$\hat{\theta}_{\mathrm{MAP}}(x)
+= \underset{\theta}{\operatorname{arg\,max}} \ f(\theta \mid x)
+= \underset{\theta}{\operatorname{arg\,max}} \ \frac{f(x \mid \theta) \, g(\theta)}
+{\displaystyle\int_{\Theta} f(x \mid \vartheta) \, g(\vartheta) \, d\vartheta}
+= \underset{\theta}{\operatorname{arg\,max}} \ f(x \mid \theta) \, g(\theta).
+$$
+
+The denominator of the posterior distribution (so-called marginal likelihood) is always positive and does not depend on $\theta$ and therefore plays no role in the optimization. Observe that the MAP estimate of $\theta$ coincides with the ML estimate when the prior $g$ is uniform (that is, a constant function).
+
+\subsection*{Method of Moments}
+This is a more frequentist in nature as it does not involve having prior parameter information.
+
+Suppose that the problem is to estimate $k$ unknown parameters $\theta_{1}, \theta_2, \dots, \theta_k$ characterizing the probability distribution $f_W(w; \theta)$ of the random variable $W$. Suppose the first $k$ moments of the true distribution (the "population moments") can be expressed as functions of the  $\theta$s:
+
+\begin{align}
+\mu_1 & \equiv \operatorname E[W]=g_1(\theta_1, \theta_2, \ldots, \theta_k) , \\
+\mu_2 & \equiv \operatorname E[W^2]=g_2(\theta_1, \theta_2, \ldots, \theta_k), \\
+& \,\,\, \vdots \\
+\mu_k & \equiv \operatorname E[W^k]=g_k(\theta_1, \theta_2, \ldots, \theta_k).
+\end{align}
+
+Suppose a sample of size $n$ is drawn, resulting in the values $w_1, \dots, w_n$. For $j=1,\dots,k$, let 
+$\widehat\mu_j = \frac{1}{n} \sum_{i=1}^n w_i^j$
+be the ''j''-th sample moment, an estimate of $\mu_j$. The method of moments estimator for $\theta_1, \theta_2, \ldots, \theta_k$  denoted by $\widehat\theta_1, \widehat\theta_2, \dots, \widehat\theta_k $ is defined as the solution (if there is one) to the equations
+
+\begin{align}
+\widehat \mu_1 & = g_1(\widehat\theta_1, \widehat\theta_2, \ldots, \widehat\theta_k), \\
+\widehat \mu_2 & = g_2(\widehat\theta_1, \widehat\theta_2, \ldots, \widehat\theta_k), \\
+& \,\,\, \vdots \\
+\widehat \mu_k & = g_k(\widehat\theta_1, \widehat\theta_2, \ldots, \widehat\theta_k).
+\end{align}
+
+\subsection*{Hierarchical Bayesian Models}
+
+Hierarchical bayesian models are multilevel statistical models that allow us to incorporate richer information into the model. Note that this concept ties in closely to the MAP parameter estimation as it gives us a way of constructing the posterior distribution to optimize.
+
+\subsection*{Components}
+
+Bayesian hierarchical modeling makes use of two important concepts in deriving the posterior distribution, namely:
+
+\begin{itemize}
+	\item Hyperparameters: parameters of the prior distribution
+	\item Hyperpriors: distributions of Hyperparameters
+\end{itemize}
+
+Suppose a random variable $Y$ follows a normal distribution with parameter $\theta$ as the mean and 1 as the variance, that is $Y\mid \theta \sim N(\theta,1)$. Suppose also that the parameter $\theta$ has a  distribution given by a normal distribution with mean $\mu$ and variance $1$, i.e. $\theta\mid\mu \sim N(\mu,1)$. Furthermore, $\mu$ follows another distribution given, for example, by the standard normal distribution, $\text{N}(0,1)$. The parameter $\mu$ is called the hyperparameter, while its distribution given by $\text{N}(0,1)$ is an example of a hyperprior distribution. The notation of the distribution of $Y$ changes as another parameter is added, i.e. $Y \mid \theta,\mu \sim  N(\theta,1)$. If there is another stage, say, $\mu$ follows another normal distribution with mean $\beta$ and variance $\epsilon$, meaning $\mu \sim N(\beta,\epsilon)$, $ \mbox { }$$\beta$ and $\epsilon$ can also be called hyperparameters while their distributions are hyperprior distributions as well.
+
+\subsection*{Framework}
+
+Let $y_j$ be an observation and $\theta_j$ a parameter governing the data generating process for $y_j$. Assume further that the parameters $\theta_1, \theta_2, \ldots, \theta_j$ are generated exchangeably from a common population, with distribution governed by a hyperparameter $\phi$. 
+
+The Bayesian hierarchical model contains the following stages:
+
+$$\text{Stage I: } y_j\mid\theta_j,\phi \sim P(y_j\mid\theta_j,\phi)$$
+
+$$\text{Stage II: } \theta_j\mid\phi \sim P(\theta_j\mid\phi)$$
+
+$$\text{Stage III: } \phi \sim P(\phi)$$
+
+The likelihood, as seen in stage I is $P(y_j\mid\theta_j,\phi)$, with $P(\theta_j,\phi)$ as its prior distribution. Note that the likelihood depends on $\phi$ only through $\theta_j$.
+
+The prior distribution from stage I can be broken down into:
+
+$$P(\theta_j,\phi) = P(\theta_j\mid\phi)P(\phi)$$ from the definition of conditional probability, with $\phi$ as its hyperparameter with hyperprior distribution, $P(\phi)$.
+
+Thus, the posterior distribution is proportional to:
+
+$$P(\phi,\theta_j\mid y)  \propto P(y_j \mid\theta_j,\phi) P(\theta_j,\phi)$$ using Bayes' Theorem.
+
+$$P(\phi,\theta_j\mid y)  \propto P(y_j\mid\theta_j ) P(\theta_j \mid\phi ) P(\phi) $$
+
+\section*{Future Steps}
+There are several open problems to be addressed here:
+
+\begin{itemize}
+	\item [a)] Solving the preventative maintenance optimization problem for a given distribution.
+	\item [b)] How can we combine two distributions? If we have multiple distributions for failure times, how can we choose a combination of these to combine with preventative maintenance optimization?
+\end{itemize}
+
+\newpage
+
+\section*{Appendix: End Of Life Analysis Background}
+The goal of the preliminary analysis is to create a Bayesian probabilistic survival model, using incomplete data sets in a general way.  The goal of this section is to define the model and methodology used and to outline options and identify risk areas.
+
+Let T be the continuous nonnegative random variable representation the end of life time of a machine in some population.  Let f(t) be the pdf of T and let the distribution function be
+\begin{equation}
+F(t) = P( t \le t) = \int_0^t f(u) du
+\end{equation}
+The probability of a machine functioning until time t is given by the function
+\begin{equation}
+S(t) = 1 - F(t)=P(T>t)
+\end{equation}
+where S(0)=1 and $S(\infty)=\lim_{t \rightarrow \infty} S(t)=0$.  The hazard function h(t) is defined as the instantaneous rate of failure at time t
+\begin{equation}
+h(t)=\frac{f(t)}{S(t)}
+\end{equation}
+The interpretation is that $h(t)\Delta t$ is the approximate probability of failure in $(t, t+\Delta t)$.  It is easy to show that
+\begin{equation}
+h(t)=-\frac{d}{dt}log(S(t))
+\end{equation}
+Integrating both sides and exponentiating we get
+\begin{equation}
+S(t)=exp(-\int_0^t h(u) du)
+\end{equation}
+The hazard function H(t) and the survivor function S(t) are related by
+\begin{equation}
+S(t)=exp(-H(t))
+\end{equation}
+and the hazard function h(t) has the properties
+\begin{equation}
+h(t) \ge 0 \quad  \text{and} \quad  \int_0^\infty h(t)dt = \infty
+\end{equation}
+Finally the survival pdf is given by
+\begin{equation}
+f(t)=h(t)exp(-\int_0^t h(u) du)
+\end{equation}
+\subsection*{The Weibull distribution}
+The Weibull distribution is one of the most commonly used distributions to model survival pdf, and is the distribution we will use to model survival pdf
+\begin{equation}
+f(t)=\begin{cases}
+\alpha \gamma t^{\alpha -1}exp(-\gamma t^{\alpha}) \quad t>0, \alpha >0, \gamma>0\\
+0 \quad \text{otherwise}
+\end{cases}
+\end{equation}
+The Weibull distribution is denoted by $\mathcal{W}(\alpha, \gamma)$ where $\alpha$ and $\gamma$ are the parameters of the distribution.  For this distribution the hazard distribution h(t) is monotonically increasing when $\alpha >1$ and monotonically decreasing when $0 \alpha < 1$.  It follows that
+the survivor function is 
+\begin{equation} \label{eq:W}
+S(t)=exp(-\gamma t^\alpha)
+\end{equation}
+and the hazard function is
+\begin{equation}
+h(t)=\gamma \alpha t^{\alpha -1}
+\end{equation}
+and the cumulative hazard function H(t) is given by
+\begin{equation}
+H(t)=\gamma t ^\alpha
+\end{equation}
+\subsection*{Proportional Hazard Model}
+The hazard function depends on both time and a set of covariates.  The proportional hazards model separates these components by by specifying that the hazard at time t, for a machine whose covariate vector is $\mathbf{x}$ is given by the linear relatioship
+\begin{equation}
+h(t|\mathbf{x})=h_0(t) exp(\mathbf{x}' \mathbf{\beta})
+\end{equation}
+where $\mathbf{\beta}$ is a vector of regression coefficients.
+\subsection*{Censoring}
+We expect the end of life sensor data is right censored, that is, the survival times are only known for a portion of machines under study.  The likelihood function for righ censored data will be constructed as follows.  Suppose there are n machines and associated with the $i^{th}$ individual is a survival time $t_i$ and a fixed censoring time $c_i$.  The $t_o$ are assumed to be independent and identically distributed with density f(t) and survival function S(t).  The exact survival time for machine i, $t_i$, will be observed only if $t_i \le c_i$,  The data can be represented as the n pairs of random variables $(y_i, \nu_i)$ where
+\begin{equation}
+y_i=\min(t_i, c_i)
+\end{equation}
+and
+\begin{equation}
+\nu_i=\begin{cases}
+1 \quad \text{if} \quad t_i \le c_i,\\
+0 \quad \text{if} \quad t_i > c_i
+\end{cases}
+\end{equation}
+Then the likelihood function for ($\mathbf{\beta}, h_0(.)$) for a set of right censored data is given by
+\begin{equation}
+\begin{split}
+L(\mathbf{\beta}, h_0(t) | D) \propto \prod_{i=1}^n [h_o(y_i) exp(\eta_i)]^{\nu_i} (S_0(y_i)^{exp(\eta_i)})\\
+\prod_{i=1}^n [h_o(y_i) exp(\eta_i)]^{\nu_i} exp \left \{ 
+-\sum_{i=1}^n exp(\eta_i)H_0(y_i) \right \}
+\end{split}
+\end{equation}
+where $D=(n,\mathbf{y}, X, \mathbf{\nu})$, $\mathbf{y}=(y_1, y_2,...,y_n)'$ and $\mathbf{\nu}=(\nu_1, \nu_2, ...,\nu_n)$, $\eta_i=\mathbf{x}_i' \mathbf{\beta}$ is the linear predictor of machine i, and
+\begin{equation}
+S_0(t)=exp(-\int_0^t h_0(u)du)=exp(-H_0(t))
+\end{equation}
+is the baseline survivor function.
+
+\end{document}
