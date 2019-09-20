@@ -77,10 +77,10 @@
 	$$
 	
 	We also see that
-	$$P(s,\mathcal{Y};\theta) = \prod_{d=1}^D \paren*{\pi_{s_1^{(d)}}B_{y_1^{(d)}}(y_1^{(d)}) \prod_{t=2}^T A_{s_{t-1}^{(d)}}B_{s_t^{(d)}}(y_t^{(d)})}$$
+	$$P(s,\mathcal{O};\theta) = \prod_{d=1}^D \paren*{\pi_{s_1^{(d)}}B_{s_1^{(d)}}(o_1^{(d)}) \prod_{t=2}^T A_{s_{t-1}^{(d)}}B_{s_t^{(d)}}(o_t^{(d)})}$$
 	
 	$$
-	\log P(s,\mathcal{O};\theta)=\sum_{d=1}^D \bkt*{\log \pi_{s_1^{(d)}} + \sum_{t=2}^T \log A_{z_{t-1}^{(d)}z_t^{(d)}} + \sum_{t=1}^T \log B_{z_t^{(d)}}(o_t^{(d)})}
+	\log P(s,\mathcal{O};\theta)=\sum_{d=1}^D \bkt*{\log \pi_{s_1^{(d)}} + \sum_{t=2}^T \log A_{s_{t-1}^{(d)}s_t^{(d)}} + \sum_{t=1}^T \log B_{s_t^{(d)}}(o_t^{(d)})}
 	$$
 	
 	And then, plugging this into $\hat{Q}(\theta,\theta^s)$, we get
@@ -90,32 +90,52 @@
 	&+ \sum_{s\in \mathcal{S}}\sum_{d=1}^{D}\sum_{t=1}^T \log B_{z_t^{(d)}}(o_t^{(d)})P(s,\mathcal{O};\theta^s)
 	\end{align*}
 	
+	Our update steps after maximizing using Lagrangians are
+	$$\pi_i^{(s+1)} = \frac{1}{d}\sum_{d=1}^D P(s_1^{(d)}=i|O^{(d)};\theta^s)$$
+	
+	$$A_{ij}^{s+1} = \frac{\sum_{d=1}^D \sum_{t=2}^T P(s_{t-1}^{(d)}=i,s_t^{(d)}=j|O^{(d)};\theta^s)}{\sum_{d=1}^D \sum_{t=2}^T P(s_{t-1}^{(d)}=i|O^{(d)};\theta^s)}$$
+	
+	$$B_i^{(s+1)}(j) = \frac{\sum_{d=1}^D \sum_{t=1}^T P(s_{t}^{(d)}=i|O^{(d)};\theta^s)I(o_t^{(d)}=j)}{\sum_{d=1}^D \sum_{t=1}^T P(s_{t}^{(d)}=i|O^{(d)};\theta^s)}$$
+	
 	\subsection*{Adapting for the initial and end states being fixed}
-	In our setting, the problem is trickier because we must constrain our set of state sequences to those that begin with a "perfect" state and end at a "failing" state. We propose to optimize $\hat{Q}(\theta,\theta^s)$ with not only constraints that $\pi$, $A$, and $B$ are valid probability distributions, but also extra constraints on $A^{(T)}$ and $\pi_1$.
+	In our setting, the problem is trickier because we must constrain our set of state sequences to those that begin with a "perfect" state and end at a "failing" state. We propose to optimize $\hat{Q}(\theta,\theta^s)$ with not only constraints that $\pi$, $A$, and $B$ are valid probability distributions, but also extra constraints on $A$ and $\pi$. In particular, $\pi_1$ must be such that $\pi_1^{(d)} = 1$ and $A_{ij}^{(d)}=0$ for $i<j$ in order for the state to always stay the same or deteriorate. Lastly, $\pi_1^{(d)} \prod_{t=1}^{T-1} A^{(d)}_{s_t}$ should be constrained to $0$ for every $d$. This is since we know the system must end in failure for each trajectory.
 	
-	\subsection*{Other methods to consider}
-	Letting $Q(\theta,\theta')$ be the objective function we want to optimize, we originally have $$Q(\theta,\theta')=\sum_{s\in S} \log P(O,s|\theta)P(O,s|\theta')$$ where $S$ represents the set of all possible state sequences. But as stated before, we now have an extra constraint that our start and end states are $M$ and $1$. The route we take is to consider an extra variable $R$ in the formulation of $Q(\theta,\theta')$, which represents a restriction to some subset of sequences. For our setting, we'll use $r\in R$ such that $r_0=M$ and $r_T=1$. This becomes:
+	Dealing with these constraints turns out to be very straightforward. All we do is skip parameter updates for $A_{ij}$ when $i<j$. This idea is inspired by the paper by Roweis discussing constrained HMM problems: https://cs.nyu.edu/~roweis/papers/sohmm.pdf.
 	
-	\begin{align*}
-	P(O,s|\theta,R) &= P(O|s,\theta,R)P(s|\theta,R) \\
-	&= P(O|s,\theta,R)P(s|\theta)P(s|R) \\
-	&= \prod_{t=1}^T P(o_t|s_t)P(s_t|s_{t-1})P(s_t|r_t) \\
-	&= \prod_{t=1}^T B_{s_t,o_t} A_{s_{t-1},s_t} P(s_t|r_t)
-	\end{align*}
+	And notice what we are doing is a constrained EM approach. Past results (Tettleton) show that within constrained parameter spaces like the one we have, we still see convergence to local optima.
 	
-	The crux here is that $P(s_1|r_1)$ is either zero or one (and so is  $P(s_T|r_T)$ ). If $s_1=M$, then $P(s_1|r_1)=1$ and zero otherwise. Similarly, if $s_T=M$, then $P(s_T|r_T)=1$ and zero otherwise.
-	
-	This assumes conditional independence of the parameters $\theta$ and the restricted sequence $R$.
-	
-	Alternatively, we do not assume independence of $\theta$ and $R$. So instead, we have the first line from above and we would like to find $\theta$ such that this is optimal.
-	
-	$$p(O|R,\theta) = \sum_{s\in S} p(O,s|R,\theta) = \sum_{s\in S} p(O|s,R,\theta) p(s|R,\theta)$$
-	
-	Then we can expand the expected log-likelihood expression to
-	\begin{align*}
-	Q(\hat{\theta},\theta) &= \sum_{s\in S} p(O|s,R,\theta)p(s|R,\theta) \log(p(O|s,R,\hat{\theta})) \\
-	&+ \sum_{s\in S} p(O|s,R,\theta)p(s|R,\theta) \log (P(s|R,\hat{\theta}))
-	\end{align*}
+	In summary, we frame the problem of restricting candidate state sequences as an extra constraint on the model parameters. Empirically, we also get promising results when using this method. The transition matrix we get from implementing this customized EM method on our CMAPSS data is 
+	$$\left(
+	\begin{array}{cccc}
+		1 & 0 & 0 & 0 \\
+		0.129 & 0.871 & 0 & 0 \\
+		0 & 0.284 & 0.716 & 0 \\
+		0 & 0 & 0.378 & 0.622 \\
+	\end{array}
+	\right)$$
+%	\subsection*{Other methods to consider}
+%	Letting $Q(\theta,\theta')$ be the objective function we want to optimize, we originally have $$Q(\theta,\theta')=\sum_{s\in S} \log P(O,s|\theta)P(O,s|\theta')$$ where $S$ represents the set of all possible state sequences. But as stated before, we now have an extra constraint that our start and end states are $M$ and $1$. The route we take is to consider an extra variable $R$ in the formulation of $Q(\theta,\theta')$, which represents a restriction to some subset of sequences. For our setting, we'll use $r\in R$ such that $r_0=M$ and $r_T=1$. This becomes:
+%	
+%	\begin{align*}
+%	P(O,s|\theta,R) &= P(O|s,\theta,R)P(s|\theta,R) \\
+%	&= P(O|s,\theta,R)P(s|\theta)P(s|R) \\
+%	&= \prod_{t=1}^T P(o_t|s_t)P(s_t|s_{t-1})P(s_t|r_t) \\
+%	&= \prod_{t=1}^T B_{s_t,o_t} A_{s_{t-1},s_t} P(s_t|r_t)
+%	\end{align*}
+%	
+%	The crux here is that $P(s_1|r_1)$ is either zero or one (and so is  $P(s_T|r_T)$ ). If $s_1=M$, then $P(s_1|r_1)=1$ and zero otherwise. Similarly, if $s_T=M$, then $P(s_T|r_T)=1$ and zero otherwise.
+%	
+%	This assumes conditional independence of the parameters $\theta$ and the restricted sequence $R$.
+%	
+%	Alternatively, we do not assume independence of $\theta$ and $R$. So instead, we have the first line from above and we would like to find $\theta$ such that this is optimal.
+%	
+%	$$p(O|R,\theta) = \sum_{s\in S} p(O,s|R,\theta) = \sum_{s\in S} p(O|s,R,\theta) p(s|R,\theta)$$
+%	
+%	Then we can expand the expected log-likelihood expression to
+%	\begin{align*}
+%	Q(\hat{\theta},\theta) &= \sum_{s\in S} p(O|s,R,\theta)p(s|R,\theta) \log(p(O|s,R,\hat{\theta})) \\
+%	&+ \sum_{s\in S} p(O|s,R,\theta)p(s|R,\theta) \log (P(s|R,\hat{\theta}))
+%	\end{align*}
 	
 	Now that we have hidden states estimated, we can introduce the POMDP model.
 	
@@ -253,6 +273,9 @@
 	These three are the possible ways of combining the two models, which we are investigating:
 	\begin{itemize}
 		\item One generating model at each timestep
+			\begin{itemize}
+				\item In this setting, only one of $P_1$ or $P_2$ generates our data.
+			\end{itemize}
 		\item Mixture model
 		\item Hierarchical Bayes
 	\end{itemize}
