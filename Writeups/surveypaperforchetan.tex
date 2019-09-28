@@ -113,35 +113,38 @@
 		0 & 0 & 0.378 & 0.622 \\
 	\end{array}
 	\right)$$
-%	\subsection*{Other methods to consider}
-%	Letting $Q(\theta,\theta')$ be the objective function we want to optimize, we originally have $$Q(\theta,\theta')=\sum_{s\in S} \log P(O,s|\theta)P(O,s|\theta')$$ where $S$ represents the set of all possible state sequences. But as stated before, we now have an extra constraint that our start and end states are $M$ and $1$. The route we take is to consider an extra variable $R$ in the formulation of $Q(\theta,\theta')$, which represents a restriction to some subset of sequences. For our setting, we'll use $r\in R$ such that $r_0=M$ and $r_T=1$. This becomes:
-%	
-%	\begin{align*}
-%	P(O,s|\theta,R) &= P(O|s,\theta,R)P(s|\theta,R) \\
-%	&= P(O|s,\theta,R)P(s|\theta)P(s|R) \\
-%	&= \prod_{t=1}^T P(o_t|s_t)P(s_t|s_{t-1})P(s_t|r_t) \\
-%	&= \prod_{t=1}^T B_{s_t,o_t} A_{s_{t-1},s_t} P(s_t|r_t)
-%	\end{align*}
-%	
-%	The crux here is that $P(s_1|r_1)$ is either zero or one (and so is  $P(s_T|r_T)$ ). If $s_1=M$, then $P(s_1|r_1)=1$ and zero otherwise. Similarly, if $s_T=M$, then $P(s_T|r_T)=1$ and zero otherwise.
-%	
-%	This assumes conditional independence of the parameters $\theta$ and the restricted sequence $R$.
-%	
-%	Alternatively, we do not assume independence of $\theta$ and $R$. So instead, we have the first line from above and we would like to find $\theta$ such that this is optimal.
-%	
-%	$$p(O|R,\theta) = \sum_{s\in S} p(O,s|R,\theta) = \sum_{s\in S} p(O|s,R,\theta) p(s|R,\theta)$$
-%	
-%	Then we can expand the expected log-likelihood expression to
-%	\begin{align*}
-%	Q(\hat{\theta},\theta) &= \sum_{s\in S} p(O|s,R,\theta)p(s|R,\theta) \log(p(O|s,R,\hat{\theta})) \\
-%	&+ \sum_{s\in S} p(O|s,R,\theta)p(s|R,\theta) \log (P(s|R,\hat{\theta}))
-%	\end{align*}
+	\subsection*{Other methods to consider}
+	Letting $Q(\theta,\theta')$ be the objective function we want to optimize, we originally have $$Q(\theta,\theta')=\sum_{s\in S} \log P(O,s|\theta)P(O,s|\theta')$$ where $S$ represents the set of all possible state sequences. But as stated before, we now have an extra constraint that our start and end states are $M$ and $1$. The route we take is to consider an extra variable $R$ in the formulation of $Q(\theta,\theta')$, which represents a restriction to some subset of sequences. For our setting, we'll use $r\in R$ such that $r_0=M$ and $r_T=1$. This becomes:
+	
+	\begin{align*}
+	P(O,s|\theta,R) &= P(O|s,\theta,R)P(s|\theta,R) \\
+	&= P(O|s,\theta,R)P(s|\theta)P(s|R) \\
+	&= \prod_{t=1}^T P(o_t|s_t)P(s_t|s_{t-1})P(s_t|r_t) \\
+	&= \prod_{t=1}^T B_{s_t,o_t} A_{s_{t-1},s_t} P(s_t|r_t)
+	\end{align*}
+	
+	The crux here is that $P(s_1|r_1)$ is either zero or one (and so is  $P(s_T|r_T)$ ). If $s_1=M$, then $P(s_1|r_1)=1$ and zero otherwise. Similarly, if $s_T=M$, then $P(s_T|r_T)=1$ and zero otherwise.
+	
+	This assumes conditional independence of the parameters $\theta$ and the restricted sequence $R$.
+	
+	Alternatively, we do not assume independence of $\theta$ and $R$. So instead, we have the first line from above and we would like to find $\theta$ such that this is optimal.
+	
+	$$p(O|R,\theta) = \sum_{s\in S} p(O,s|R,\theta) = \sum_{s\in S} p(O|s,R,\theta) p(s|R,\theta)$$
+	
+	Then we can expand the expected log-likelihood expression to
+	\begin{align*}
+	Q(\hat{\theta},\theta) &= \sum_{s\in S} p(O|s,R,\theta)p(s|R,\theta) \log(p(O|s,R,\hat{\theta})) \\
+	&+ \sum_{s\in S} p(O|s,R,\theta)p(s|R,\theta) \log (P(s|R,\hat{\theta}))
+	\end{align*}
 	
 	Now that we have hidden states estimated, we can introduce the POMDP model.
 	
 	\subsection*{Variational Autoencoders}
 	The prior two approaches involved treating our preventive maintenance problem as a hidden Markov Model. We can use deep learning techniques such as variational autoencoders instead to tackle this problem. The intuition behind the VAE approach is we want to maximize the sum of log marginal likelihood terms $\sum_{n=1}^N \log p_{\theta}(o^{(n)})$ for observations $(o^{(n)})_{n=1}^N$ where $p_{\theta}(o)=\int p_{\theta}(o|s)p_{\theta}(s)\,ds.$ This is intractable in practice so instead we maximize the sum of ELBOs where each ELBO term is a lower bound of the log marginal likelihood.
 	$$ELBO(\theta,\phi,o)=\E_{q_{\phi}(s|o)}[\log \frac{p_{\theta}(o|s)p_{\theta}(s)}{q_{\phi}(s|o)}]$$ for a family of encoders $q_{\phi}(s|o)$ parameterised by $\phi$. One can see the analogy between this and the EM approach discussed earlier. We're using a surrogate expression, ELBO, instead of the log marginal distribution.
+	
+	\subsection*{Deep Variational RL}
+	Lastly, we can incorporate estimation and control by using deep variational reinforcement learning. Fundamentally, instead of learning a generative model that maximizes just the ELBO functions, we also optimize an expected return. We implemented this on CMAPSS data using Tensorflow instead of PyTorch because we needed to modify our implementation to restrict the state sequences from our model estimates. Tensorflow, although more difficult to prototype in, leads itself to customization far easier than Keras or PyTorch.
 	 
 	\section*{Detailed Discussion of Two Research Pathways}
 	Currently, the models in place just treat the preventive maintenance problem as an MDP, focusing solely on measurement observations $(y_t)$ while ignoring the potential hidden states $(x_t)$. This leads us to discuss the first research direction.
