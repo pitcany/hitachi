@@ -254,6 +254,9 @@
 	
 	So far, we have studied four different POMDP based techniques for modeling the preventive maintenance problem. We implemented value-iteration, Monte-Carlo Tree Search (POMCP), ADRQN, and DVRL on the CMAPSS dataset. After finishing up these implementations, we are currently analyzing how well deep-RL methods such as DVRL and ADRQN performed versus model-based methods. We also incorporate constraints on the start and end states by a method similar to boosting, where we propagate the errors between our true start and end states and our estimates, re-running DVRL until we reach convergence. The next steps are analyzing how two sources of information (prior knowledge with observations) should be combined to determine optimal repair strategies.
 	
+	\subsection*{Results from Separating Estimation and Control}
+	After doing HMM estimation and POMDP value iteration, we get the following utility vector $[209.88702446,   90.76156902,  -34.01230831, -185.57933297]$.
+	
 	In practice, we often have some existing knowledge about the system process before seeing measurements. This leads us to the second research path.
 	
 	\subsection*{Path 2: Combining Multiple Sources}

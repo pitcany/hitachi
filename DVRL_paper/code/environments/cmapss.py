@@ -16,19 +16,6 @@ from scipy.stats import norm
 import pomegranate
 
 
-SMALL_SIZE = 7
-MEDIUM_SIZE = 9
-BIGGER_SIZE = 11
-
-plt.rc('font', size=SMALL_SIZE)          # controls default text sizes
-plt.rc('axes', titlesize=SMALL_SIZE)     # fontsize of the axes title
-plt.rc('axes', labelsize=SMALL_SIZE)    # fontsize of the x and y labels
-plt.rc('xtick', labelsize=SMALL_SIZE)    # fontsize of the tick labels
-plt.rc('ytick', labelsize=SMALL_SIZE)    # fontsize of the tick labels
-plt.rc('legend', fontsize=SMALL_SIZE)    # legend fontsize
-plt.rc('figure', titlesize=BIGGER_SIZE)  # fontsize of the figure title
-
-
 class CMAPSS(gym.Env):
 
     def __init__(self,
@@ -41,10 +28,6 @@ class CMAPSS(gym.Env):
         self.data = data_cycles
         self.cycle_num = cycle_num
         self.timestep = timestep
-
-    def resize(self, pos):
-        return pos * self.box_scale
-        # return (pos - self.box_mean) * 2 / self.box_size
 
     def observation(self):
         cycle_num = self.cycle_num
