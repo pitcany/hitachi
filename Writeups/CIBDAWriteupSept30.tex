@@ -79,15 +79,16 @@
 	&= \sum_{k=1}^N \sum_{i=1}^X \pi_{k|N}(i)\log B_{iy_k}(\eta) + \sum_{k=1}^N \sum_{i=1}^X \sum_{j=1}^X \pi_{k|N}(i,j)\log P_{ij} + const(\theta^s)
 	\end{align*}
 	
-	In this setting, $\pi_{k|N}(i)=P(x_k=i|y_{1:N},\theta^s)$ and $\pi_{k|N}(i,j)=P(x_k=i,x_{k+1}=j|y_{1:N},\theta^s)$.
+	In this setting, $\pi_{k|N}(i)=P(x_k=i|y_{1:N},\theta^s)$ and $\pi_{k|N}(i,j)=P(x_k=i,x_{k+1}=j|y_{1:N},\theta^s)$. We derive these probabilities in the next subsection.
 	
+	$\alpha_{1:k}P_{ij}\beta_{jy_{k+1}}\beta_{k+1:N}$
 	$$P_{ij}=\frac{\sum_{k=1}^N \pi_{k|N}(i,j)}{\sum_{k=1}^N \pi_{k|N}(i)}$$ is our estimate after maximizing $Q(\theta^{s},\theta)$ with respect to the constraint that $P$ is stochastic.
 	
 	\subsection*{Forward-Backward Filtering}
 	
 	It is not obvious how to compute $\pi_{k|N}$ and $\pi_{k|N}(i,j)$ at a first glance. For this, we use a forward-backward filtering algorithm. In this algorithm, we make two passes through the data. The first pass goes forward in time while the second pass goes backward in time.
 	
-	$$P(x_k|y_{1:N})=P(x_k|y_{1:k},y_{k+1:N})\propto P(y_{k+1:N}|x_k)P(x_k|y_{1:k})=\beta_{k+1:N}\alpha_{1:k}$$ where $\alpha_{1:k} = P(x_k|y_{1:k})$ and $\beta_{k+1:N}=P(y_{k+1:N}|x_k)$. We call $\alpha$ and $\beta$ the forward and backward 'messages' respectively.
+	$$\pi_{k|N}=P(x_k|y_{1:N})=P(x_k|y_{1:k},y_{k+1:N})\propto P(y_{k+1:N}|x_k)P(x_k|y_{1:k})=\beta_{k+1:N}\alpha_{1:k}$$ where $\alpha_{1:k} = P(x_k|y_{1:k})$ and $\beta_{k+1:N}=P(y_{k+1:N}|x_k)$. We call $\alpha$ and $\beta$ the forward and backward 'messages' respectively.
 	
 	To compute these, we can do this recursively. For the forward update, we have
 	\begin{align*}
@@ -135,9 +136,13 @@
 	
 	There are several ways one can do this. We investigated two methods -- the first method involved modifying the M-step calculation for the expected log-likelihood to add an extra constraint in the Lagrangian. The other route we looked at was incorporating the constraint in the forward-backward recursion. We decided to use the latter approach as it was more amenable to a closed form solution.
 	
-	Since we know the final state will be a failing state, this means we want $$\alpha_{1:N}=P(x_N|y_{1:N})=(0,0,0,1)$$, the vector of all zeroes except for a $1$ in the final position. This is the final $\alpha$ calculated in the forward recursions traditionally, but assuming $O$ and $P$ are invertible, we see that $$\alpha_{1:k+1}O_{k+1}^{-1}(P^{\top})^{-1} \propto \alpha_{1:k}.$$ Thus we can work backwards from $\alpha_{1:N}$ to determine the rest of the $\alpha$ terms.
+	Since we know the final state will be a failing state, this means we want $$\alpha_{1:N}=P(x_N|y_{1:N})=(0,0,0,1),$$ the vector of all zeroes except for a $1$ in the final position. This is the final $\alpha$ calculated in the forward recursions traditionally, but assuming $O$ and $P$ are invertible, we see that $$\alpha_{1:k+1}O_{k+1}^{-1}(P^{\top})^{-1} \propto \alpha_{1:k}.$$ Thus we can work backwards from $\alpha_{1:N}$ to determine the rest of the $\alpha$ terms.
 	
-	Every time we do the $E$ step in our $EM$ algorithm, we must compute $\alpha_{1:j}$ for $j\in \{1,\ldots,N\}$. To that extent, note that $\alpha_{1:1}=(1,0,0,0)$ and $\alpha_{1:N}=(0,0,0,1)$ as noted previously.
+	Every time we do the $E$ step in our $EM$ algorithm, we must compute $\alpha_{1:j}$ for $j\in \{1,\ldots,N\}$. To that extent, note that $\alpha_{1:1}=(1,0,0,0)$ and $\alpha_{1:N}=(0,0,0,1)$ as noted previously. Then $$\alpha_{1:k}\propto \prod_{i=2}^k (O_{i}P^{\top})\alpha_{1:1}$$ in the forward direction. And in the backward direction, $$\alpha_{1:k}\propto \prod_{i=N}^{k} (P^{\top})^{-1} O_{i}^{-1}\alpha_{1:N}.$$
+	
+	To account for constraints on the final state \textit{and} the start state, we redefine $$\alpha_{1:k} = \frac{c_1\prod_{i=N}^{k} (P^{\top})^{-1} O_{i}^{-1}\alpha_{1:N} + c_2\prod_{i=2}^k (O_{i}P^{\top})\alpha_{1:1}}{2},$$ for $1<k<N$, where $c_1$ and $c_2$ are normalizing constants.
+	
+	Our backward message updates do not change.
 	
 	Another unique aspect is we skip parameter updates for $P_{ij}$ when $i<j$ and thus normalize over a subset. This idea is inspired by Roweis [1].
 	
