@@ -1,14 +1,11 @@
 from gym import spaces
 from gym.utils import seeding
-from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 
 import gym
 import matplotlib.mlab as mlab
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib import cm
-from mpl_toolkits.mplot3d import Axes3D
-
 import pandas as pd
 from hmmlearn import hmm
 from sklearn import preprocessing
@@ -16,10 +13,9 @@ from scipy.stats import norm
 import pomegranate
 
 
-class CMAPSS(gym.Env):
+class CMAPSSEnv(gym.Env):
 
-    def __init__(self,
-                 data, cycle_num=0, timestep=0):
+    def __init__(self, cycle_num=0, timestep=0):
         df = pd.read_csv('~/Documents/hitachi/CMAPSS/train_FD001.txt', sep=" ", header=None)
         unique_unit_values = df[0].unique() #Number of units
         data_cycles = []

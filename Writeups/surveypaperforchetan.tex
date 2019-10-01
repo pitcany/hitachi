@@ -56,87 +56,175 @@
 	
 	The other approach involves using POMDP-RL techniques using deep variational autoencoders
 	.
-	\subsection*{Measuring Hidden States}
+	\section*{Estimation: Hidden States}
 	The question then becomes: "How we can determine these hidden states?
 	
-	Let $S=\{1,2,\ldots,M\}$ be the space of underlying states and the space of observations be $O=\{1,2,\ldots,N\}$. An HMM $\theta=(\pi,A,B)$ is parameterized by $\pi$, $A$, and $B$ representing the initial state matrix, state transition matrix, and emission matrix respectively. Let $\pi_i=P(s_1=i)$, $A_{ij}=P(s_{t+1}=j|s_t=i)$ and $B_i(j)=P(o_t=j|s_t=i)$.
+	Let $S=\{1,2,\ldots,X\}$ be the space of underlying states and the space of observations be $O$. An HMM $\theta=(\pi_0,P,B)$ is parameterized by $\pi_0$, $P$, and $B$ representing the initial state matrix, state transition matrix, and emission matrix respectively. Let $\pi_0=[P(s_0=i)]_{i=1}^X$, $P_{ij}=P(s_{t+1}=j|s_t=i)$ and $B_ij(\eta)=P_{\eta}(y_t=j|s_t=i)$.
 	
 	For estimation, we can use an EM framework, treating the hidden states as the latent states in a Hidden Markov Model with our measurements as the observations. The latent states represent the health of the machine, where $1$ is failing condition and $M$ is perfect condition.
 	
-	Let $\mathcal{O} = (O^{(1)},\ldots,O^{(D)})$ be the set of $D$ observation sequences, where each $O^{(i)}=(o_1^{(i)},\ldots,o_{T}^{(i)})$ and assume each observation is an iid draw.
+	Let $\mathcal{Y} = (Y^{(1)},\ldots,Y^{(D)})$ be the set of $D$ observation sequences, where each $Y^{(i)}=(y_1^{(i)},\ldots,y_{T}^{(i)})$ and assume each observation is an iid draw.
 
-	The technique we use is to repeat the following steps until convergence ($\theta = (\pi,A,B)$):
+	The technique we use is to repeat the following steps until convergence ($\theta = (\pi_0,P,B)$):
 	\begin{itemize}
 		\item Compute $Q(\theta,\theta^s) = \sum_{s\in \mathcal{S}} \log [P(\mathcal{O},s;\theta)]P(s|\mathcal{O};\theta^s).$
 		\item Set $\theta^{s+1} = \arg \max_{\theta} Q(\theta, \theta^s)$
 	\end{itemize}
 	
-	Let $\theta^s = (\pi^s,A^s,B^s)$. In our setting, since $P(s,\mathcal{O})=P(\mathcal{O})P(s|\mathcal{O})$, we can write
-	$$
-	\arg \max_{\theta} \sum_{s\in \mathcal{S}} \log [P(\mathcal{O},s;\theta)] P(s|\mathcal{O};\theta^{s}) = \arg \max_{\theta} \sum_{s\in \mathcal{S}} \log [P(\mathcal{O},s;\theta)] P(s,\mathcal{O};\theta^{s})=\arg \max_{\theta} \hat{Q}(\theta,\theta^s).
-	$$
+	Let $\theta^s = (\pi_0^s,P^s,B^s)$. 
 	
-	We also see that
-	$$P(s,\mathcal{O};\theta) = \prod_{d=1}^D \paren*{\pi_{s_1^{(d)}}B_{s_1^{(d)}}(o_1^{(d)}) \prod_{t=2}^T A_{s_{t-1}^{(d)}}B_{s_t^{(d)}}(o_t^{(d)})}$$
-	
-	$$
-	\log P(s,\mathcal{O};\theta)=\sum_{d=1}^D \bkt*{\log \pi_{s_1^{(d)}} + \sum_{t=2}^T \log A_{s_{t-1}^{(d)}s_t^{(d)}} + \sum_{t=1}^T \log B_{s_t^{(d)}}(o_t^{(d)})}
-	$$
-	
-	And then, plugging this into $\hat{Q}(\theta,\theta^s)$, we get
-	
+	We can rewrite the auxiliary log-likelihood as
 	\begin{align*}
-	\hat{Q}(\theta,\theta^s) = \sum_{s\in \mathcal{S}}\sum_{d=1}^{D} \log \pi_{s_1^{(d)}}P(s,\mathcal{O};\theta^s) &+ \sum_{s\in \mathcal{S}}\sum_{d=1}^{D}\sum_{t=2}^T \log A_{z_{t-1}^{(d)}z_t^{(d)}} P(s,\mathcal{O};\theta^s)P(s,\mathcal{O};\theta^s) \\
-	&+ \sum_{s\in \mathcal{S}}\sum_{d=1}^{D}\sum_{t=1}^T \log B_{z_t^{(d)}}(o_t^{(d)})P(s,\mathcal{O};\theta^s)
+	Q(\theta^{s},\theta) &= \E\left[ \sum_{k=1}^N \sum_{i=1}^X I(x_k=i) \log B_{iy_k}(\eta) + \sum_{k=1}^N \sum_{i=1}^X \sum_{j=1}^X I(x_{k-1}=i,x_k=j) \log P_{ij} | y_{1:N},\theta^{(n)}\right] + const(\theta^{s}) \\
+	&= \sum_{k=1}^N \sum_{i=1}^X \pi_{k|N}(i)\log B_{iy_k}(\eta) + \sum_{k=1}^N \sum_{i=1}^X \sum_{j=1}^X \pi_{k|N}(i,j)\log P_{ij} + const(\theta^s)
 	\end{align*}
 	
-	Our update steps after maximizing using Lagrangians are
-	$$\pi_i^{(s+1)} = \frac{1}{d}\sum_{d=1}^D P(s_1^{(d)}=i|O^{(d)};\theta^s)$$
+	In this setting, $\pi_{k|N}(i)=P(x_k=i|y_{1:N},\theta^s)$ and $\pi_{k|N}(i,j)=P(x_k=i,x_{k+1}=j|y_{1:N},\theta^s)$.
 	
-	$$A_{ij}^{s+1} = \frac{\sum_{d=1}^D \sum_{t=2}^T P(s_{t-1}^{(d)}=i,s_t^{(d)}=j|O^{(d)};\theta^s)}{\sum_{d=1}^D \sum_{t=2}^T P(s_{t-1}^{(d)}=i|O^{(d)};\theta^s)}$$
+	\subsection*{Forward-Backward Filtering}
 	
-	$$B_i^{(s+1)}(j) = \frac{\sum_{d=1}^D \sum_{t=1}^T P(s_{t}^{(d)}=i|O^{(d)};\theta^s)I(o_t^{(d)}=j)}{\sum_{d=1}^D \sum_{t=1}^T P(s_{t}^{(d)}=i|O^{(d)};\theta^s)}$$
+	It is not obvious how to compute $\pi_{k|N}$ and $\pi_{k|N}(i,j)$ at a first glance. For this, we use a forward-backward filtering algorithm. In this algorithm, we make two passes through the data. The first pass goes forward in time while the second pass goes backward in time.
+	
+	$$P(x_k|y_{1:N})=P(x_k|y_{1:k},y_{(k+1):N})\propto P(y_{(k+1):N}|x_k)P(x_k|y_{1:k})=b_{(k+1):N}\alpha_{1:k}$$ where $\alpha_{1:k} = P(x_k|y_{1:k})$ and $\beta_{(k+1):N}=P(y_{(k+1):N}|x_k)$. We call $\alpha$ and $\beta$ the forward and backward 'messages' respectively.
+	
+	To compute these, we can do this recursively. For the forward update, we have
+	\begin{align*}
+	\alpha_{1:(k+1)} &=P(x_{k+1}|y_{1:(k+1)}) \\
+	&=P(x_{k+1}|y_{1:k},y_{k+1}) \\
+	&\propto P(y_{k+1}|x_{k+1},y_{1:k})P(x_{k+1}|y_{1:k}) \\
+	&\propto P(y_{k+1}|x_{k+1}) P(x_{k+1}|y_{1:k}) 
+	\end{align*}
+	
+	And \begin{align*}
+	P(x_{k+1}|y_{1:(k+1)}) &\propto P(y_{k+1}|x_{k+1})\sum_{x_k} P(x_{k+1}|x_k,y_{1:k})P(x_k|y_{1:k}) \\
+	&= P(y_{k+1}|x_{k+1})\sum_{x_k} P(x_{k+1}|x_k)P(x_k|y_{1:k}) \\
+	&= P(y_{k+1}|x_{k+1})\sum_{x_k} P(x_{k+1}|x_k)\alpha_{1:k}.
+	\end{align*}
+	
+	\begin{align*}
+	\beta_{k+1:N} &=P(y_{k+1:N}|x_k) \\
+	&=\sum_{x_{k+1}}P(y_{k+1:N}|x_k,x_{k+1})P(x_{k+1}|x_k) \\
+	&= \sum_{x_{k+1}}P(y_{k+1:N}|x_{k+1})P(x_{k+1}|x_k) \\
+	&= \sum_{x_{k+1}}P(y_{k+1},y_{k+2:N}|x_{k+1})P(x_{k+1}|x_k) \\
+	&= \sum_{x_{k+1}}P(y_{k+1}|x_{k+1})P(y_{k+2:N}|x_{k+1})P(x_{k+1}|x_k) = \sum_{x_{k+1}} P(y_{k+1}|x_{k+1})\beta_{k+2:N}P(x_{k+1}|x_k)
+	\end{align*}
+	
+	
+	In our case, we have continuous observations, which we assume are distributed Gaussian. Our model is $$y_k = C(x_k) + v_k, \quad v_k\sim N_d(0,R(x_k)))$$ i.i.d where $d$ is the dimension of the observation vectors and $\eta=(C(1),\ldots,C(X),R(1),\ldots,R(X)).$
+	
+	$B_{iy_k}=p(y_k|s_t=i)$ as a density instead of a probability mass and $y_k \sim N_d(C(i),R(i))$.
+	
+	Then $\pi_{k|N}(i)\log B_{iy_k}(\eta)$ becomes
+	$$
+	\sum_{k=1}^N \sum_{i=1}^X \pi_{k|N}(i)\paren*{-\frac{\log R(i)}{2}-\frac{(y_k-C(i))^2}{2R(i)}}=-\frac{1}{2}\sum_{k=1}^N \sum_{i=1}^X \pi_{k|N}(i)\paren*{\log R(i)+\frac{(y_k-C(i))^2}{R(i)}}.
+	$$
+	
+	We optimize $Q$ with the constraints that $\sum_{j} P_{ij}=1$, $\pi_0=(1,0,\ldots,0)$, and $\pi_0 P^t = (0,\ldots,0,1)$. For this, we can use a Lagrangian.
+	
+	Solving this Lagrangian, we get
+	$C(i) = \frac{\sum_{k=1}^N \pi_{k|N}(i)y_k}{\sum_{k=1}^N \pi_{k|N}(i)}$ and $R(i)=$ (still computing this...).
 	
 	\subsection*{Adapting for the initial and end states being fixed}
-	In our setting, the problem is trickier because we must constrain our set of state sequences to those that begin with a "perfect" state and end at a "failing" state. We propose to optimize $\hat{Q}(\theta,\theta^s)$ with not only constraints that $\pi$, $A$, and $B$ are valid probability distributions, but also extra constraints on $A$ and $\pi$. In particular, $\pi_1$ must be such that $\pi_1^{(d)} = 1$ and $A_{ij}^{(d)}=0$ for $i<j$ in order for the state to always stay the same or deteriorate. Lastly, $\pi_1^{(d)} \prod_{t=1}^{T-1} A^{(d)}_{s_t}$ should be constrained to $0$ for every $d$. This is since we know the system must end in failure for each trajectory.
+	As mentioned before, we must constrain our set of state sequences to those that begin with a "perfect" state and end at a "failing" state. 
 	
-	Dealing with these constraints turns out to be very straightforward. All we do is skip parameter updates for $A_{ij}$ when $i<j$. This idea is inspired by the paper by Roweis discussing constrained HMM problems: https://cs.nyu.edu/~roweis/papers/sohmm.pdf.
+	Here we discuss how we can do this in practice:
+	
+	The idea is to skip parameter updates for $A_{ij}$ when $i<j$. This idea is inspired by the paper by Roweis discussing constrained HMM problems: https://cs.nyu.edu/~roweis/papers/sohmm.pdf.
 	
 	And notice what we are doing is a constrained EM approach. Past results (Tettleton) show that within constrained parameter spaces like the one we have, we still see convergence to local optima.
 	
-	In summary, we frame the problem of restricting candidate state sequences as an extra constraint on the model parameters. Empirically, we also get promising results when using this method. The transition matrix we get from implementing this customized EM method on our CMAPSS data is 
-	$$\left(
-	\begin{array}{cccc}
-		1 & 0 & 0 & 0 \\
-		0.129 & 0.871 & 0 & 0 \\
-		0 & 0.284 & 0.716 & 0 \\
-		0 & 0 & 0.378 & 0.622 \\
-	\end{array}
-	\right)$$
-	\subsection*{Other methods to consider}
-	Letting $Q(\theta,\theta')$ be the objective function we want to optimize, we originally have $$Q(\theta,\theta')=\sum_{s\in S} \log P(O,s|\theta)P(O,s|\theta')$$ where $S$ represents the set of all possible state sequences. But as stated before, we now have an extra constraint that our start and end states are $M$ and $1$. The route we take is to consider an extra variable $R$ in the formulation of $Q(\theta,\theta')$, which represents a restriction to some subset of sequences. For our setting, we'll use $r\in R$ such that $r_0=M$ and $r_T=1$. This becomes:
+	\par\noindent\rule{\textwidth}{0.4pt}
 	
-	\begin{align*}
-	P(O,s|\theta,R) &= P(O|s,\theta,R)P(s|\theta,R) \\
-	&= P(O|s,\theta,R)P(s|\theta)P(s|R) \\
-	&= \prod_{t=1}^T P(o_t|s_t)P(s_t|s_{t-1})P(s_t|r_t) \\
-	&= \prod_{t=1}^T B_{s_t,o_t} A_{s_{t-1},s_t} P(s_t|r_t)
-	\end{align*}
+	In summary, we frame the problem of restricting candidate state sequences as an extra constraint on the model parameters. Empirically, we also get promising results when using this method. 
+
+	The following figures show the state transition (Figure 1) and emission matrices. For our emissions, we provide two matrices -- one representing the means at each state (Figure 2) and the other with variances (Figure 3).
+%	In our setting, since $P(s,\mathcal{O})=P(\mathcal{O})P(s|\mathcal{O})$, we can write
+%	$$
+%	\arg \max_{\theta} \sum_{s\in \mathcal{S}} \log [P(\mathcal{O},s;\theta)] P(s|\mathcal{O};\theta^{s}) = \arg \max_{\theta} \sum_{s\in \mathcal{S}} \log [P(\mathcal{O},s;\theta)] P(s,\mathcal{O};\theta^{s})=\arg \max_{\theta} \hat{Q}(\theta,\theta^s).
+%	$$
+%	
+%	We also see that
+%	$$P(s,\mathcal{O};\theta) = \prod_{d=1}^D \paren*{\pi_{s_1^{(d)}}B_{s_1^{(d)}}(o_1^{(d)}) \prod_{t=2}^T A_{s_{t-1}^{(d)}}B_{s_t^{(d)}}(o_t^{(d)})}$$
+%	
+%	$$
+%	\log P(s,\mathcal{O};\theta)=\sum_{d=1}^D \bkt*{\log \pi_{s_1^{(d)}} + \sum_{t=2}^T \log A_{s_{t-1}^{(d)}s_t^{(d)}} + \sum_{t=1}^T \log B_{s_t^{(d)}}(o_t^{(d)})}
+%	$$
+%	
+%	And then, plugging this into $\hat{Q}(\theta,\theta^s)$, we get
+%	
+%	\begin{align*}
+%	\hat{Q}(\theta,\theta^s) = \sum_{s\in \mathcal{S}}\sum_{d=1}^{D} \log \pi_{s_1^{(d)}}P(s,\mathcal{O};\theta^s) &+ \sum_{s\in \mathcal{S}}\sum_{d=1}^{D}\sum_{t=2}^T \log A_{z_{t-1}^{(d)}z_t^{(d)}} P(s,\mathcal{O};\theta^s)P(s,\mathcal{O};\theta^s) \\
+%	&+ \sum_{s\in \mathcal{S}}\sum_{d=1}^{D}\sum_{t=1}^T \log B_{z_t^{(d)}}(o_t^{(d)})P(s,\mathcal{O};\theta^s)
+%	\end{align*}
+%	
+%	Our update steps after maximizing using Lagrangians are
+%	$$\pi_i^{(s+1)} = \frac{1}{d}\sum_{d=1}^D P(s_1^{(d)}=i|O^{(d)};\theta^s)$$
+%	
+%	$$A_{ij}^{s+1} = \frac{\sum_{d=1}^D \sum_{t=2}^T P(s_{t-1}^{(d)}=i,s_t^{(d)}=j|O^{(d)};\theta^s)}{\sum_{d=1}^D \sum_{t=2}^T P(s_{t-1}^{(d)}=i|O^{(d)};\theta^s)}$$
+%	
+%	$$B_i^{(s+1)}(j) = \frac{\sum_{d=1}^D \sum_{t=1}^T P(s_{t}^{(d)}=i|O^{(d)};\theta^s)I(o_t^{(d)}=j)}{\sum_{d=1}^D \sum_{t=1}^T P(s_{t}^{(d)}=i|O^{(d)};\theta^s)}$$
+%	
 	
-	The crux here is that $P(s_1|r_1)$ is either zero or one (and so is  $P(s_T|r_T)$ ). If $s_1=M$, then $P(s_1|r_1)=1$ and zero otherwise. Similarly, if $s_T=M$, then $P(s_T|r_T)=1$ and zero otherwise.
+%	\begin{align*}
+%	\hat{Q}(\theta,\theta^s) = \sum_{s\in \mathcal{S}}\sum_{d=1}^{D} \log \pi_{s_1^{(d)}}P(s,\mathcal{O};\theta^s) &+ \sum_{s\in \mathcal{S}}\sum_{d=1}^{D}\sum_{t=2}^T \log A_{z_{t-1}^{(d)}z_t^{(d)}} P(s,\mathcal{O};\theta^s)P(s,\mathcal{O};\theta^s) \\
+%	&+ \sum_{s\in \mathcal{S}}\sum_{d=1}^{D}\sum_{t=1}^T \log B_{z_t^{(d)}}(o_t^{(d)})P(s,\mathcal{O};\theta^s)
+%	\end{align*}
 	
-	This assumes conditional independence of the parameters $\theta$ and the restricted sequence $R$.
+%	 The transition matrix we get from implementing this customized EM method on our CMAPSS data is 
+%	$$\left(
+%	\begin{array}{cccc}
+%		1 & 0 & 0 & 0 \\
+%		0.129 & 0.871 & 0 & 0 \\
+%		0 & 0.284 & 0.716 & 0 \\
+%		0 & 0 & 0.378 & 0.622 \\
+%	\end{array}
+%	\right)$$
 	
-	Alternatively, we do not assume independence of $\theta$ and $R$. So instead, we have the first line from above and we would like to find $\theta$ such that this is optimal.
+	\begin{figure}
+		\centering
+		\includegraphics[width=0.5\linewidth]{../../../Pictures/transmat}
+		\caption[State transition matrix]{}
+		\label{fig:transmat}
+	\end{figure}
 	
-	$$p(O|R,\theta) = \sum_{s\in S} p(O,s|R,\theta) = \sum_{s\in S} p(O|s,R,\theta) p(s|R,\theta)$$
+		\begin{figure}
+		\centering
+		\includegraphics[width=0.5\linewidth]{../../../Pictures/emission_means}
+		\caption[Emission matrix]{}
+		\label{fig:emissionmeans}
+	\end{figure}
+
+	\begin{figure}
+	\centering
+	\includegraphics[width=0.7\linewidth]{../../../Pictures/covars}
+	\caption[Emission matrix covariances]{}
+	\label{fig:emissioncovars}
+	\end{figure}
 	
-	Then we can expand the expected log-likelihood expression to
-	\begin{align*}
-	Q(\hat{\theta},\theta) &= \sum_{s\in S} p(O|s,R,\theta)p(s|R,\theta) \log(p(O|s,R,\hat{\theta})) \\
-	&+ \sum_{s\in S} p(O|s,R,\theta)p(s|R,\theta) \log (P(s|R,\hat{\theta}))
-	\end{align*}
-	
+%	\subsection*{Other methods to consider}
+%	Letting $Q(\theta,\theta')$ be the objective function we want to optimize, we originally have $$Q(\theta,\theta')=\sum_{s\in S} \log P(O,s|\theta)P(O,s|\theta')$$ where $S$ represents the set of all possible state sequences. But as stated before, we now have an extra constraint that our start and end states are $M$ and $1$. The route we take is to consider an extra variable $R$ in the formulation of $Q(\theta,\theta')$, which represents a restriction to some subset of sequences. For our setting, we'll use $r\in R$ such that $r_0=M$ and $r_T=1$. This becomes:
+%	
+%	\begin{align*}
+%	P(O,s|\theta,R) &= P(O|s,\theta,R)P(s|\theta,R) \\
+%	&= P(O|s,\theta,R)P(s|\theta)P(s|R) \\
+%	&= \prod_{t=1}^T P(o_t|s_t)P(s_t|s_{t-1})P(s_t|r_t) \\
+%	&= \prod_{t=1}^T B_{s_t,o_t} A_{s_{t-1},s_t} P(s_t|r_t)
+%	\end{align*}
+%	
+%	The crux here is that $P(s_1|r_1)$ is either zero or one (and so is  $P(s_T|r_T)$ ). If $s_1=M$, then $P(s_1|r_1)=1$ and zero otherwise. Similarly, if $s_T=M$, then $P(s_T|r_T)=1$ and zero otherwise.
+%	
+%	This assumes conditional independence of the parameters $\theta$ and the restricted sequence $R$.
+%	
+%	Alternatively, we do not assume independence of $\theta$ and $R$. So instead, we have the first line from above and we would like to find $\theta$ such that this is optimal.
+%	
+%	$$p(O|R,\theta) = \sum_{s\in S} p(O,s|R,\theta) = \sum_{s\in S} p(O|s,R,\theta) p(s|R,\theta)$$
+%	
+%	Then we can expand the expected log-likelihood expression to
+%	\begin{align*}
+%	Q(\hat{\theta},\theta) &= \sum_{s\in S} p(O|s,R,\theta)p(s|R,\theta) \log(p(O|s,R,\hat{\theta})) \\
+%	&+ \sum_{s\in S} p(O|s,R,\theta)p(s|R,\theta) \log (P(s|R,\hat{\theta}))
+%	\end{align*}
+%	
 	Now that we have hidden states estimated, we can introduce the POMDP model.
 	
 	\subsection*{Variational Autoencoders}
@@ -240,6 +328,19 @@
 	\end{bmatrix}
 	$$
 	
+	In our experiments, we use the reward matrix
+	$$
+	 \begin{tabular}{|c|c|c|c|}
+	 	\hline 
+	 	100 & 50 & 0 & -50  \\ 
+	 	\hline 
+	 	-50 & 0 & 50 & 100 \\ 
+	 	\hline 
+	 \end{tabular}
+	 $$
+	 
+	 For example, the reward we get for repairing in state $2$ is $50$.
+	
 	The overarching goal is to use reinforcement learning methods with POMDPs to give an optimal strategy for repairing the system that minimizes the total repair costs and losses due to non-repair.
 	
 	The two routes are as follows:
@@ -255,7 +356,14 @@
 	So far, we have studied four different POMDP based techniques for modeling the preventive maintenance problem. We implemented value-iteration, Monte-Carlo Tree Search (POMCP), ADRQN, and DVRL on the CMAPSS dataset. After finishing up these implementations, we are currently analyzing how well deep-RL methods such as DVRL and ADRQN performed versus model-based methods. We also incorporate constraints on the start and end states by a method similar to boosting, where we propagate the errors between our true start and end states and our estimates, re-running DVRL until we reach convergence. The next steps are analyzing how two sources of information (prior knowledge with observations) should be combined to determine optimal repair strategies.
 	
 	\subsection*{Results from Separating Estimation and Control}
-	After doing HMM estimation and POMDP value iteration, we get the following utility vector $[209.88702446,   90.76156902,  -34.01230831, -185.57933297]$.
+	After doing HMM estimation and POMDP value iteration, we get the utility vector seen in Figure 4.
+	
+		\begin{figure}
+		\centering
+		\includegraphics[width=0.25\linewidth]{../../../Pictures/utilityvector}
+		\caption[Utility vector]{}
+		\label{fig:utilityvec}
+	\end{figure}
 	
 	In practice, we often have some existing knowledge about the system process before seeing measurements. This leads us to the second research path.
 	

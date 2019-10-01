@@ -6,6 +6,7 @@ import gym
 import matplotlib.mlab as mlab
 import matplotlib.pyplot as plt
 import numpy as np
+import scipy
 from matplotlib import cm
 from mpl_toolkits.mplot3d import Axes3D
 
@@ -131,7 +132,8 @@ class DeathValleyEnv(gym.Env):
         num_mixtures = len(means)
         for mean, cov, factor in zip(means, covs, factors):
             # Z += factor * mlab.bivariate_normal(X, Y, cov[0, 0], cov[1, 1], mean[0], mean[1], cov[0, 1]) / num_mixtures
-            Z = np.maximum(Z, factor * mlab.bivariate_normal(X, Y, cov[0, 0], cov[1, 1], mean[0], mean[1], cov[0, 1]) / num_mixtures)
+            Z = np.maximum(Z, factor * scipy.stats.multivariate_normal(X, cov[0, 0], mean[0], cov[0, 1]) / num_mixtures)
+            #Z = np.maximum(Z, factor * scipy.stats.multivariate_normal(X, Y, cov[0, 0], cov[1, 1], mean[0], mean[1], cov[0, 1]) / num_mixtures)
 
         # Z = Z - (X + Y) * (1-Z)
         # Z = (X + Y + 2) / 4 * Z

@@ -1,0 +1,419 @@
+INFO - POMRL - Running command 'main'
+INFO - POMRL - Started run with ID "28"
+/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/gym/logger.py:30: UserWarning: [33mWARN: Environment '<class 'environments.death_valley.DeathValleyEnv'>' has deprecated methods '_step' and '_reset' rather than 'step' and 'reset'. Compatibility code invoked. Set _gym_disable_underscore_compat = True to disable this behavior.[0m
+  warnings.warn(colorize('%s: %s'%('WARN', msg % args), 'yellow'))
+/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/gym/logger.py:30: UserWarning: [33mWARN: Environment '<class 'environments.death_valley.DeathValleyEnv'>' has deprecated methods '_step' and '_reset' rather than 'step' and 'reset'. Compatibility code invoked. Set _gym_disable_underscore_compat = True to disable this behavior.[0m
+  warnings.warn(colorize('%s: %s'%('WARN', msg % args), 'yellow'))
+/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/gym/logger.py:30: UserWarning: [33mWARN: Environment '<class 'environments.death_valley.DeathValleyEnv'>' has deprecated methods '_step' and '_reset' rather than 'step' and 'reset'. Compatibility code invoked. Set _gym_disable_underscore_compat = True to disable this behavior.[0m
+  warnings.warn(colorize('%s: %s'%('WARN', msg % args), 'yellow'))
+/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/gym/logger.py:30: UserWarning: [33mWARN: Environment '<class 'environments.death_valley.DeathValleyEnv'>' has deprecated methods '_step' and '_reset' rather than 'step' and 'reset'. Compatibility code invoked. Set _gym_disable_underscore_compat = True to disable this behavior.[0m
+  warnings.warn(colorize('%s: %s'%('WARN', msg % args), 'yellow'))
+/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/gym/logger.py:30: UserWarning: [33mWARN: Environment '<class 'environments.death_valley.DeathValleyEnv'>' has deprecated methods '_step' and '_reset' rather than 'step' and 'reset'. Compatibility code invoked. Set _gym_disable_underscore_compat = True to disable this behavior.[0m
+  warnings.warn(colorize('%s: %s'%('WARN', msg % args), 'yellow'))
+/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/gym/logger.py:30: UserWarning: [33mWARN: Environment '<class 'environments.death_valley.DeathValleyEnv'>' has deprecated methods '_step' and '_reset' rather than 'step' and 'reset'. Compatibility code invoked. Set _gym_disable_underscore_compat = True to disable this behavior.[0m
+  warnings.warn(colorize('%s: %s'%('WARN', msg % args), 'yellow'))
+/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/gym/logger.py:30: UserWarning: [33mWARN: Environment '<class 'environments.death_valley.DeathValleyEnv'>' has deprecated methods '_step' and '_reset' rather than 'step' and 'reset'. Compatibility code invoked. Set _gym_disable_underscore_compat = True to disable this behavior.[0m
+  warnings.warn(colorize('%s: %s'%('WARN', msg % args), 'yellow'))
+Create Monitor in ./tmp/gym//28/
+Create Monitor in ./tmp/gym//28/
+Create Monitor in ./tmp/gym//28/
+<Monitor<TimeLimit<DeathValleyEnv<DeathValley-v0>>>>
+Create Monitor in ./tmp/gym//28/
+<Monitor<TimeLimit<DeathValleyEnv<DeathValley-v0>>>>
+Create Monitor in ./tmp/gym//28/
+<Monitor<TimeLimit<DeathValleyEnv<DeathValley-v0>>>>
+Create Monitor in ./tmp/gym//28/
+<Monitor<TimeLimit<DeathValleyEnv<DeathValley-v0>>>>
+<Monitor<TimeLimit<DeathValleyEnv<DeathValley-v0>>>>
+Create Monitor in ./tmp/gym//28/
+<Monitor<TimeLimit<DeathValleyEnv<DeathValley-v0>>>>
+<Monitor<TimeLimit<DeathValleyEnv<DeathValley-v0>>>>
+/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/gym/logger.py:30: UserWarning: [33mWARN: Environment '<class 'environments.death_valley.DeathValleyEnv'>' has deprecated methods '_step' and '_reset' rather than 'step' and 'reset'. Compatibility code invoked. Set _gym_disable_underscore_compat = True to disable this behavior.[0m
+  warnings.warn(colorize('%s: %s'%('WARN', msg % args), 'yellow'))
+/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/gym/logger.py:30: UserWarning: [33mWARN: Environment '<class 'environments.death_valley.DeathValleyEnv'>' has deprecated methods '_step' and '_reset' rather than 'step' and 'reset'. Compatibility code invoked. Set _gym_disable_underscore_compat = True to disable this behavior.[0m
+  warnings.warn(colorize('%s: %s'%('WARN', msg % args), 'yellow'))
+/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/gym/logger.py:30: UserWarning: [33mWARN: Environment '<class 'environments.death_valley.DeathValleyEnv'>' has deprecated methods '_step' and '_reset' rather than 'step' and 'reset'. Compatibility code invoked. Set _gym_disable_underscore_compat = True to disable this behavior.[0m
+  warnings.warn(colorize('%s: %s'%('WARN', msg % args), 'yellow'))
+/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/gym/logger.py:30: UserWarning: [33mWARN: Environment '<class 'environments.death_valley.DeathValleyEnv'>' has deprecated methods '_step' and '_reset' rather than 'step' and 'reset'. Compatibility code invoked. Set _gym_disable_underscore_compat = True to disable this behavior.[0m
+  warnings.warn(colorize('%s: %s'%('WARN', msg % args), 'yellow'))
+/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/gym/logger.py:30: UserWarning: [33mWARN: Environment '<class 'environments.death_valley.DeathValleyEnv'>' has deprecated methods '_step' and '_reset' rather than 'step' and 'reset'. Compatibility code invoked. Set _gym_disable_underscore_compat = True to disable this behavior.[0m
+  warnings.warn(colorize('%s: %s'%('WARN', msg % args), 'yellow'))
+Create Monitor in ./tmp/gym//28/
+Create Monitor in ./tmp/gym//28/
+<Monitor<TimeLimit<DeathValleyEnv<DeathValley-v0>>>>
+<Monitor<TimeLimit<DeathValleyEnv<DeathValley-v0>>>>
+Create Monitor in ./tmp/gym//28/
+Create Monitor in ./tmp/gym//28/
+/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/gym/logger.py:30: UserWarning: [33mWARN: Environment '<class 'environments.death_valley.DeathValleyEnv'>' has deprecated methods '_step' and '_reset' rather than 'step' and 'reset'. Compatibility code invoked. Set _gym_disable_underscore_compat = True to disable this behavior.[0m
+  warnings.warn(colorize('%s: %s'%('WARN', msg % args), 'yellow'))
+<Monitor<TimeLimit<DeathValleyEnv<DeathValley-v0>>>>
+<Monitor<TimeLimit<DeathValleyEnv<DeathValley-v0>>>>
+/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/gym/logger.py:30: UserWarning: [33mWARN: Environment '<class 'environments.death_valley.DeathValleyEnv'>' has deprecated methods '_step' and '_reset' rather than 'step' and 'reset'. Compatibility code invoked. Set _gym_disable_underscore_compat = True to disable this behavior.[0m
+  warnings.warn(colorize('%s: %s'%('WARN', msg % args), 'yellow'))
+Create Monitor in ./tmp/gym//28/
+<Monitor<TimeLimit<DeathValleyEnv<DeathValley-v0>>>>
+Create Monitor in ./tmp/gym//28/
+<Monitor<TimeLimit<DeathValleyEnv<DeathValley-v0>>>>
+/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/gym/logger.py:30: UserWarning: [33mWARN: Environment '<class 'environments.death_valley.DeathValleyEnv'>' has deprecated methods '_step' and '_reset' rather than 'step' and 'reset'. Compatibility code invoked. Set _gym_disable_underscore_compat = True to disable this behavior.[0m
+  warnings.warn(colorize('%s: %s'%('WARN', msg % args), 'yellow'))
+Create Monitor in ./tmp/gym//28/
+<Monitor<TimeLimit<DeathValleyEnv<DeathValley-v0>>>>
+Create Monitor in ./tmp/gym//28/
+<Monitor<TimeLimit<DeathValleyEnv<DeathValley-v0>>>>
+/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/gym/logger.py:30: UserWarning: [33mWARN: Environment '<class 'environments.death_valley.DeathValleyEnv'>' has deprecated methods '_step' and '_reset' rather than 'step' and 'reset'. Compatibility code invoked. Set _gym_disable_underscore_compat = True to disable this behavior.[0m
+  warnings.warn(colorize('%s: %s'%('WARN', msg % args), 'yellow'))
+Create Monitor in ./tmp/gym//28/
+<Monitor<TimeLimit<DeathValleyEnv<DeathValley-v0>>>>
+RNNPolicy(
+  (critic_linear): Linear(in_features=128, out_features=1, bias=True)
+  (dist): DiagGaussian(
+    (fc_mean): Linear(in_features=128, out_features=2, bias=True)
+    (logstd): AddBias()
+  )
+  (encoding_bn): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+  (encoder): Sequential(
+    (0): Linear(in_features=2, out_features=64, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=64, out_features=64, bias=True)
+    (3): ReLU()
+  )
+  (linear_obs_decoder): Sequential(
+    (0): Linear(in_features=192, out_features=64, bias=True)
+    (1): ReLU()
+  )
+  (action_encoder): Sequential(
+    (0): Linear(in_features=2, out_features=64, bias=True)
+    (1): ReLU()
+  )
+  (gru): GRUCell(128, 128)
+  (obs_criterion): MSELoss()
+)
+INFO - root - Number of parameters =	116613
+INFO - root - Total number of updates: 625000
+INFO - root - Learning rate: 0.0003
+INFO - root -       Progr | FPS | NKP | ToL | avg | med | min | max || Losses: | ent | val | act | enc || pri | emi | rew |
+INFO - root -       ------|-----|-----|-----|-----|-----|-----|-----||---------|-----|-----|-----|-----||-----|-----|-----|
+Process Process-3:
+Process Process-4:
+Process Process-5:
+Process Process-1:
+Process Process-8:
+Traceback (most recent call last):
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/multiprocessing/process.py", line 297, in _bootstrap
+    self.run()
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/multiprocessing/process.py", line 99, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/baselines/common/vec_env/subproc_vec_env.py", line 12, in worker
+    ob, reward, done, info = env.step(data)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/baselines/bench/monitor.py", line 60, in step
+    ob, rew, done, info = self.env.step(action)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/gym/wrappers/time_limit.py", line 16, in step
+    observation, reward, done, info = self.env.step(action)
+  File "/home/yannik/Documents/hitachi/DVRL_paper/code/environments/death_valley.py", line 169, in _step
+    reward = self.get_reward(*self.position)
+  File "/home/yannik/Documents/hitachi/DVRL_paper/code/environments/death_valley.py", line 135, in get_reward
+    Z = np.maximum(Z, factor * scipy.stats.multivariate_normal(X, cov[0, 0], mean[0], cov[0, 1]) / num_mixtures)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/scipy/stats/_multivariate.py", line 363, in __call__
+    seed=seed)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/scipy/stats/_multivariate.py", line 733, in __init__
+    self._dist = multivariate_normal_gen(seed)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/scipy/stats/_multivariate.py", line 351, in __init__
+    super(multivariate_normal_gen, self).__init__(seed)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/scipy/stats/_multivariate.py", line 190, in __init__
+    self._random_state = check_random_state(seed)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/scipy/_lib/_util.py", line 190, in check_random_state
+    ' instance' % seed)
+Process Process-9:
+ValueError: 0.0 cannot be used to seed a numpy.random.RandomState instance
+Traceback (most recent call last):
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/multiprocessing/process.py", line 297, in _bootstrap
+    self.run()
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/multiprocessing/process.py", line 99, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/baselines/common/vec_env/subproc_vec_env.py", line 12, in worker
+    ob, reward, done, info = env.step(data)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/baselines/bench/monitor.py", line 60, in step
+    ob, rew, done, info = self.env.step(action)
+Traceback (most recent call last):
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/multiprocessing/process.py", line 297, in _bootstrap
+    self.run()
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/multiprocessing/process.py", line 99, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/baselines/common/vec_env/subproc_vec_env.py", line 12, in worker
+    ob, reward, done, info = env.step(data)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/baselines/bench/monitor.py", line 60, in step
+    ob, rew, done, info = self.env.step(action)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/gym/wrappers/time_limit.py", line 16, in step
+    observation, reward, done, info = self.env.step(action)
+  File "/home/yannik/Documents/hitachi/DVRL_paper/code/environments/death_valley.py", line 169, in _step
+    reward = self.get_reward(*self.position)
+  File "/home/yannik/Documents/hitachi/DVRL_paper/code/environments/death_valley.py", line 135, in get_reward
+    Z = np.maximum(Z, factor * scipy.stats.multivariate_normal(X, cov[0, 0], mean[0], cov[0, 1]) / num_mixtures)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/scipy/stats/_multivariate.py", line 363, in __call__
+    seed=seed)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/scipy/stats/_multivariate.py", line 733, in __init__
+    self._dist = multivariate_normal_gen(seed)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/scipy/stats/_multivariate.py", line 351, in __init__
+    super(multivariate_normal_gen, self).__init__(seed)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/scipy/stats/_multivariate.py", line 190, in __init__
+    self._random_state = check_random_state(seed)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/scipy/_lib/_util.py", line 190, in check_random_state
+    ' instance' % seed)
+ValueError: 0.0 cannot be used to seed a numpy.random.RandomState instance
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/gym/wrappers/time_limit.py", line 16, in step
+    observation, reward, done, info = self.env.step(action)
+  File "/home/yannik/Documents/hitachi/DVRL_paper/code/environments/death_valley.py", line 169, in _step
+    reward = self.get_reward(*self.position)
+  File "/home/yannik/Documents/hitachi/DVRL_paper/code/environments/death_valley.py", line 135, in get_reward
+    Z = np.maximum(Z, factor * scipy.stats.multivariate_normal(X, cov[0, 0], mean[0], cov[0, 1]) / num_mixtures)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/scipy/stats/_multivariate.py", line 363, in __call__
+    seed=seed)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/scipy/stats/_multivariate.py", line 733, in __init__
+    self._dist = multivariate_normal_gen(seed)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/scipy/stats/_multivariate.py", line 351, in __init__
+    super(multivariate_normal_gen, self).__init__(seed)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/scipy/stats/_multivariate.py", line 190, in __init__
+    self._random_state = check_random_state(seed)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/scipy/_lib/_util.py", line 190, in check_random_state
+    ' instance' % seed)
+ValueError: 0.0 cannot be used to seed a numpy.random.RandomState instance
+Process Process-16:
+Process Process-13:
+Process Process-14:
+Process Process-15:
+Traceback (most recent call last):
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/multiprocessing/process.py", line 297, in _bootstrap
+    self.run()
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/multiprocessing/process.py", line 99, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/baselines/common/vec_env/subproc_vec_env.py", line 12, in worker
+    ob, reward, done, info = env.step(data)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/baselines/bench/monitor.py", line 60, in step
+    ob, rew, done, info = self.env.step(action)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/gym/wrappers/time_limit.py", line 16, in step
+    observation, reward, done, info = self.env.step(action)
+  File "/home/yannik/Documents/hitachi/DVRL_paper/code/environments/death_valley.py", line 169, in _step
+    reward = self.get_reward(*self.position)
+Traceback (most recent call last):
+Traceback (most recent call last):
+  File "/home/yannik/Documents/hitachi/DVRL_paper/code/environments/death_valley.py", line 135, in get_reward
+    Z = np.maximum(Z, factor * scipy.stats.multivariate_normal(X, cov[0, 0], mean[0], cov[0, 1]) / num_mixtures)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/multiprocessing/process.py", line 297, in _bootstrap
+    self.run()
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/multiprocessing/process.py", line 297, in _bootstrap
+    self.run()
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/multiprocessing/process.py", line 99, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/multiprocessing/process.py", line 99, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/baselines/common/vec_env/subproc_vec_env.py", line 12, in worker
+    ob, reward, done, info = env.step(data)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/baselines/common/vec_env/subproc_vec_env.py", line 12, in worker
+    ob, reward, done, info = env.step(data)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/baselines/bench/monitor.py", line 60, in step
+    ob, rew, done, info = self.env.step(action)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/baselines/bench/monitor.py", line 60, in step
+    ob, rew, done, info = self.env.step(action)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/gym/wrappers/time_limit.py", line 16, in step
+    observation, reward, done, info = self.env.step(action)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/gym/wrappers/time_limit.py", line 16, in step
+    observation, reward, done, info = self.env.step(action)
+  File "/home/yannik/Documents/hitachi/DVRL_paper/code/environments/death_valley.py", line 169, in _step
+    reward = self.get_reward(*self.position)
+  File "/home/yannik/Documents/hitachi/DVRL_paper/code/environments/death_valley.py", line 169, in _step
+    reward = self.get_reward(*self.position)
+  File "/home/yannik/Documents/hitachi/DVRL_paper/code/environments/death_valley.py", line 135, in get_reward
+    Z = np.maximum(Z, factor * scipy.stats.multivariate_normal(X, cov[0, 0], mean[0], cov[0, 1]) / num_mixtures)
+  File "/home/yannik/Documents/hitachi/DVRL_paper/code/environments/death_valley.py", line 135, in get_reward
+    Z = np.maximum(Z, factor * scipy.stats.multivariate_normal(X, cov[0, 0], mean[0], cov[0, 1]) / num_mixtures)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/scipy/stats/_multivariate.py", line 363, in __call__
+    seed=seed)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/scipy/stats/_multivariate.py", line 363, in __call__
+    seed=seed)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/scipy/stats/_multivariate.py", line 733, in __init__
+    self._dist = multivariate_normal_gen(seed)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/scipy/stats/_multivariate.py", line 733, in __init__
+    self._dist = multivariate_normal_gen(seed)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/scipy/stats/_multivariate.py", line 351, in __init__
+    super(multivariate_normal_gen, self).__init__(seed)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/scipy/stats/_multivariate.py", line 351, in __init__
+    super(multivariate_normal_gen, self).__init__(seed)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/scipy/stats/_multivariate.py", line 190, in __init__
+    self._random_state = check_random_state(seed)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/scipy/stats/_multivariate.py", line 190, in __init__
+    self._random_state = check_random_state(seed)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/scipy/_lib/_util.py", line 190, in check_random_state
+    ' instance' % seed)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/scipy/_lib/_util.py", line 190, in check_random_state
+    ' instance' % seed)
+ValueError: 0.0 cannot be used to seed a numpy.random.RandomState instance
+ValueError: 0.0 cannot be used to seed a numpy.random.RandomState instance
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/scipy/stats/_multivariate.py", line 363, in __call__
+    seed=seed)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/scipy/stats/_multivariate.py", line 733, in __init__
+    self._dist = multivariate_normal_gen(seed)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/scipy/stats/_multivariate.py", line 351, in __init__
+    super(multivariate_normal_gen, self).__init__(seed)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/scipy/stats/_multivariate.py", line 190, in __init__
+    self._random_state = check_random_state(seed)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/scipy/_lib/_util.py", line 190, in check_random_state
+    ' instance' % seed)
+ValueError: 0.0 cannot be used to seed a numpy.random.RandomState instance
+Traceback (most recent call last):
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/multiprocessing/process.py", line 297, in _bootstrap
+    self.run()
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/multiprocessing/process.py", line 99, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/baselines/common/vec_env/subproc_vec_env.py", line 12, in worker
+    ob, reward, done, info = env.step(data)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/baselines/bench/monitor.py", line 60, in step
+    ob, rew, done, info = self.env.step(action)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/gym/wrappers/time_limit.py", line 16, in step
+    observation, reward, done, info = self.env.step(action)
+  File "/home/yannik/Documents/hitachi/DVRL_paper/code/environments/death_valley.py", line 169, in _step
+    reward = self.get_reward(*self.position)
+  File "/home/yannik/Documents/hitachi/DVRL_paper/code/environments/death_valley.py", line 135, in get_reward
+    Z = np.maximum(Z, factor * scipy.stats.multivariate_normal(X, cov[0, 0], mean[0], cov[0, 1]) / num_mixtures)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/scipy/stats/_multivariate.py", line 363, in __call__
+    seed=seed)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/scipy/stats/_multivariate.py", line 733, in __init__
+    self._dist = multivariate_normal_gen(seed)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/scipy/stats/_multivariate.py", line 351, in __init__
+    super(multivariate_normal_gen, self).__init__(seed)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/scipy/stats/_multivariate.py", line 190, in __init__
+    self._random_state = check_random_state(seed)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/scipy/_lib/_util.py", line 190, in check_random_state
+    ' instance' % seed)
+ValueError: 0.0 cannot be used to seed a numpy.random.RandomState instance
+Process Process-12:
+Traceback (most recent call last):
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/multiprocessing/process.py", line 297, in _bootstrap
+    self.run()
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/multiprocessing/process.py", line 99, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/baselines/common/vec_env/subproc_vec_env.py", line 12, in worker
+    ob, reward, done, info = env.step(data)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/baselines/bench/monitor.py", line 60, in step
+    ob, rew, done, info = self.env.step(action)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/gym/wrappers/time_limit.py", line 16, in step
+    observation, reward, done, info = self.env.step(action)
+  File "/home/yannik/Documents/hitachi/DVRL_paper/code/environments/death_valley.py", line 169, in _step
+    reward = self.get_reward(*self.position)
+  File "/home/yannik/Documents/hitachi/DVRL_paper/code/environments/death_valley.py", line 135, in get_reward
+    Z = np.maximum(Z, factor * scipy.stats.multivariate_normal(X, cov[0, 0], mean[0], cov[0, 1]) / num_mixtures)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/scipy/stats/_multivariate.py", line 363, in __call__
+    seed=seed)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/scipy/stats/_multivariate.py", line 733, in __init__
+    self._dist = multivariate_normal_gen(seed)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/scipy/stats/_multivariate.py", line 351, in __init__
+    super(multivariate_normal_gen, self).__init__(seed)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/scipy/stats/_multivariate.py", line 190, in __init__
+    self._random_state = check_random_state(seed)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/scipy/_lib/_util.py", line 190, in check_random_state
+    ' instance' % seed)
+ValueError: 0.0 cannot be used to seed a numpy.random.RandomState instance
+Traceback (most recent call last):
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/multiprocessing/process.py", line 297, in _bootstrap
+    self.run()
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/multiprocessing/process.py", line 99, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/baselines/common/vec_env/subproc_vec_env.py", line 12, in worker
+    ob, reward, done, info = env.step(data)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/baselines/bench/monitor.py", line 60, in step
+    ob, rew, done, info = self.env.step(action)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/gym/wrappers/time_limit.py", line 16, in step
+    observation, reward, done, info = self.env.step(action)
+  File "/home/yannik/Documents/hitachi/DVRL_paper/code/environments/death_valley.py", line 169, in _step
+    reward = self.get_reward(*self.position)
+  File "/home/yannik/Documents/hitachi/DVRL_paper/code/environments/death_valley.py", line 135, in get_reward
+    Z = np.maximum(Z, factor * scipy.stats.multivariate_normal(X, cov[0, 0], mean[0], cov[0, 1]) / num_mixtures)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/scipy/stats/_multivariate.py", line 363, in __call__
+    seed=seed)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/scipy/stats/_multivariate.py", line 733, in __init__
+    self._dist = multivariate_normal_gen(seed)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/scipy/stats/_multivariate.py", line 351, in __init__
+    super(multivariate_normal_gen, self).__init__(seed)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/scipy/stats/_multivariate.py", line 190, in __init__
+    self._random_state = check_random_state(seed)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/scipy/_lib/_util.py", line 190, in check_random_state
+    ' instance' % seed)
+ValueError: 0.0 cannot be used to seed a numpy.random.RandomState instance
+Process Process-11:
+Traceback (most recent call last):
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/multiprocessing/process.py", line 297, in _bootstrap
+    self.run()
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/multiprocessing/process.py", line 99, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/baselines/common/vec_env/subproc_vec_env.py", line 12, in worker
+    ob, reward, done, info = env.step(data)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/baselines/bench/monitor.py", line 60, in step
+    ob, rew, done, info = self.env.step(action)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/gym/wrappers/time_limit.py", line 16, in step
+    observation, reward, done, info = self.env.step(action)
+  File "/home/yannik/Documents/hitachi/DVRL_paper/code/environments/death_valley.py", line 169, in _step
+    reward = self.get_reward(*self.position)
+  File "/home/yannik/Documents/hitachi/DVRL_paper/code/environments/death_valley.py", line 135, in get_reward
+    Z = np.maximum(Z, factor * scipy.stats.multivariate_normal(X, cov[0, 0], mean[0], cov[0, 1]) / num_mixtures)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/scipy/stats/_multivariate.py", line 363, in __call__
+    seed=seed)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/scipy/stats/_multivariate.py", line 733, in __init__
+    self._dist = multivariate_normal_gen(seed)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/scipy/stats/_multivariate.py", line 351, in __init__
+    super(multivariate_normal_gen, self).__init__(seed)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/scipy/stats/_multivariate.py", line 190, in __init__
+    self._random_state = check_random_state(seed)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/scipy/_lib/_util.py", line 190, in check_random_state
+    ' instance' % seed)
+ValueError: 0.0 cannot be used to seed a numpy.random.RandomState instance
+Traceback (most recent call last):
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/multiprocessing/process.py", line 297, in _bootstrap
+    self.run()
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/multiprocessing/process.py", line 99, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/baselines/common/vec_env/subproc_vec_env.py", line 12, in worker
+    ob, reward, done, info = env.step(data)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/baselines/bench/monitor.py", line 60, in step
+    ob, rew, done, info = self.env.step(action)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/gym/wrappers/time_limit.py", line 16, in step
+    observation, reward, done, info = self.env.step(action)
+  File "/home/yannik/Documents/hitachi/DVRL_paper/code/environments/death_valley.py", line 169, in _step
+    reward = self.get_reward(*self.position)
+  File "/home/yannik/Documents/hitachi/DVRL_paper/code/environments/death_valley.py", line 135, in get_reward
+    Z = np.maximum(Z, factor * scipy.stats.multivariate_normal(X, cov[0, 0], mean[0], cov[0, 1]) / num_mixtures)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/scipy/stats/_multivariate.py", line 363, in __call__
+    seed=seed)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/scipy/stats/_multivariate.py", line 733, in __init__
+    self._dist = multivariate_normal_gen(seed)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/scipy/stats/_multivariate.py", line 351, in __init__
+    super(multivariate_normal_gen, self).__init__(seed)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/scipy/stats/_multivariate.py", line 190, in __init__
+    self._random_state = check_random_state(seed)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/scipy/_lib/_util.py", line 190, in check_random_state
+    ' instance' % seed)
+ValueError: 0.0 cannot be used to seed a numpy.random.RandomState instance
+Traceback (most recent call last):
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/multiprocessing/process.py", line 297, in _bootstrap
+    self.run()
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/multiprocessing/process.py", line 99, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/baselines/common/vec_env/subproc_vec_env.py", line 12, in worker
+    ob, reward, done, info = env.step(data)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/baselines/bench/monitor.py", line 60, in step
+    ob, rew, done, info = self.env.step(action)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/gym/wrappers/time_limit.py", line 16, in step
+    observation, reward, done, info = self.env.step(action)
+  File "/home/yannik/Documents/hitachi/DVRL_paper/code/environments/death_valley.py", line 169, in _step
+    reward = self.get_reward(*self.position)
+  File "/home/yannik/Documents/hitachi/DVRL_paper/code/environments/death_valley.py", line 135, in get_reward
+    Z = np.maximum(Z, factor * scipy.stats.multivariate_normal(X, cov[0, 0], mean[0], cov[0, 1]) / num_mixtures)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/scipy/stats/_multivariate.py", line 363, in __call__
+    seed=seed)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/scipy/stats/_multivariate.py", line 733, in __init__
+    self._dist = multivariate_normal_gen(seed)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/scipy/stats/_multivariate.py", line 351, in __init__
+    super(multivariate_normal_gen, self).__init__(seed)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/scipy/stats/_multivariate.py", line 190, in __init__
+    self._random_state = check_random_state(seed)
+  File "/home/yannik/miniconda3/envs/ykp/lib/python3.7/site-packages/scipy/_lib/_util.py", line 190, in check_random_state
+    ' instance' % seed)
+ValueError: 0.0 cannot be used to seed a numpy.random.RandomState instance

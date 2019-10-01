@@ -1,0 +1,106 @@
+{
+  "__doc__": "\n- Sets device=cuda or, if cuda is 'auto' sets it depending on availability of cuda\n- Entries in algorithm.model are overriden with new values from environment.model_adaptation\n- Entries in rl_setting are overriden with new values from environment.rl_setting_adaptation\n- algorithm.model.batch_size is set to rl_setting.num_processes\n",
+  "algorithm": {
+    "model": {
+      "action_encoding": 64,
+      "batch_size": 16,
+      "cnn_channels": [
+        64,
+        64
+      ],
+      "detach_encoder": false,
+      "encoder_batch_norm": false,
+      "h_dim": 128,
+      "init_function": "orthogonal_",
+      "obs_loss_coef": 0.0,
+      "observation_type": "fc",
+      "policy_batch_norm": false,
+      "resample": false
+    },
+    "multiplier_backprop_length": 5,
+    "particle_filter": {
+      "num_particles": 10,
+      "obs_loss_coef": 1.0,
+      "particle_aggregation": "rnn",
+      "prior_loss_coef": 1.0,
+      "z_dim": 256
+    },
+    "use_particle_filter": false
+  },
+  "cuda": "auto",
+  "device": "cpu",
+  "environment": {
+    "config": {
+      "observation_std": 0.0,
+      "transition_std": 0.025
+    },
+    "config_file": "cmapss.yaml",
+    "entry_point": "environments.cmapss:CMAPSSEnv",
+    "frameskips_cases": [],
+    "max_episode_steps": 75,
+    "model_adaptation": {
+      "action_encoding": 64,
+      "cnn_channels": [
+        64,
+        64
+      ],
+      "h_dim": 128,
+      "observation_type": "fc"
+    },
+    "name": "CMAPSS-v0",
+    "p_blank": 0,
+    "rl_setting_adaptation": {
+      "gamma": 0.99
+    },
+    "vec_norm": false
+  },
+  "log": {
+    "log_interval": 1000,
+    "predicted_times": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      10
+    ],
+    "save_model_interval": 0,
+    "save_particle_reconstruction": false,
+    "save_reconstruction_interval": 0,
+    "tmp_dir": "./tmp/gym/"
+  },
+  "loss_function": {
+    "action_loss_coef": 1.0,
+    "encoding_loss_coef": 0.0,
+    "entropy_coef": 0.01,
+    "num_frames": "50.0e06",
+    "value_loss_coef": 0.5
+  },
+  "meta": {
+    "conditions": "None",
+    "label": "None"
+  },
+  "opt": {
+    "alpha": 0.99,
+    "betas": [
+      0.9,
+      0.999
+    ],
+    "eps": 1e-05,
+    "lr": 0.0003,
+    "max_grad_norm": 0.5,
+    "optimizer": "RMSProp"
+  },
+  "platform": "linux",
+  "rl_setting": {
+    "gamma": 0.99,
+    "num_processes": 16,
+    "num_steps": 5
+  },
+  "seed": 558592992,
+  "server": {
+    "gpu_id": "None",
+    "name": "None"
+  }
+}
