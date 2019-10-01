@@ -56,7 +56,7 @@
 	
 	The other approach involves using POMDP-RL techniques using deep variational autoencoders
 	.
-	\section*{Estimation: Hidden States}
+	\section*{Using a Modified EM Framework}
 	The question then becomes: "How we can determine these hidden states?
 	
 	Let $S=\{1,2,\ldots,X\}$ be the space of underlying states and the space of observations be $O$. An HMM $\theta=(\pi_0,P,B)$ is parameterized by $\pi_0$, $P$, and $B$ representing the initial state matrix, state transition matrix, and emission matrix respectively. Let $\pi_0=[P(s_0=i)]_{i=1}^X$, $P_{ij}=P(s_{t+1}=j|s_t=i)$ and $B_{ij}(\eta)=P_{\eta}(y_t=j|s_t=i)$.
@@ -67,8 +67,8 @@
 
 	The technique we use is to repeat the following steps until convergence ($\theta = (\pi_0,P,B)$):
 	\begin{itemize}
-		\item Compute $Q(\theta,\theta^s) = \sum_{s\in \mathcal{S}} \log [P(\mathcal{O},s;\theta)]P(s|\mathcal{O};\theta^s).$
-		\item Set $\theta^{s+1} = \arg \max_{\theta} Q(\theta, \theta^s)$
+		\item Compute $Q(\theta,\theta^s) = \sum_{x\in \mathcal{S}} \log [P(\mathcal{O},x;\theta)]P(x|\mathcal{O};\theta^s)$ for the $E$-step
+		\item Set $\theta^{s+1} = \arg \max_{\theta} Q(\theta, \theta^s)$ for the $M$-step.
 	\end{itemize}
 	
 	Let $\theta^s = (\pi_0^s,P^s,B^s)$. 
@@ -81,16 +81,19 @@
 	
 	In this setting, $\pi_{k|N}(i)=P(x_k=i|y_{1:N},\theta^s)$ and $\pi_{k|N}(i,j)=P(x_k=i,x_{k+1}=j|y_{1:N},\theta^s)$. We derive these probabilities in the next subsection.
 	
-	$\alpha_{1:k}P_{ij}\beta_{jy_{k+1}}\beta_{k+1:N}$
 	$$P_{ij}=\frac{\sum_{k=1}^N \pi_{k|N}(i,j)}{\sum_{k=1}^N \pi_{k|N}(i)}$$ is our estimate after maximizing $Q(\theta^{s},\theta)$ with respect to the constraint that $P$ is stochastic.
 	
 	\subsection*{Forward-Backward Filtering}
 	
 	It is not obvious how to compute $\pi_{k|N}$ and $\pi_{k|N}(i,j)$ at a first glance. For this, we use a forward-backward filtering algorithm. In this algorithm, we make two passes through the data. The first pass goes forward in time while the second pass goes backward in time.
 	
-	$$\pi_{k|N}=P(x_k|y_{1:N})=P(x_k|y_{1:k},y_{k+1:N})\propto P(y_{k+1:N}|x_k)P(x_k|y_{1:k})=\beta_{k+1:N}\alpha_{1:k}$$ where $\alpha_{1:k} = P(x_k|y_{1:k})$ and $\beta_{k+1:N}=P(y_{k+1:N}|x_k)$. We call $\alpha$ and $\beta$ the forward and backward 'messages' respectively.
+	$$\pi_{k|N}(i)=P(x_k=i|y_{1:N})=P(x_k=i|y_{1:k},y_{k+1:N})\propto P(y_{k+1:N}|x_k=i)P(x_k=i|y_{1:k})=\alpha_{1:k}(i)\beta_{k+1:N}(i)$$ where $\alpha_{1:k}(i) = P(x_k=i|y_{1:k})$ and $\beta_{k+1:N}(i)=P(y_{k+1:N}|x_k=i)$. In shorthand notation, we say $$\pi_{k|N}\propto \alpha_{1:k}\beta_{k+1:N}.$$
 	
-	To compute these, we can do this recursively. For the forward update, we have
+	We call $\alpha$ and $\beta$ the forward and backward 'messages' respectively.
+	
+	Similarly, $$\pi_{k|N}(i,j)\propto \alpha_{1:k}(i)P_{ij}B_{jy_{k+1}}\beta_{k+1:N}(j).$$
+	
+	To compute the forward and backward messages, we can do this recursively. For the forward update, we have
 	\begin{align*}
 	\alpha_{1:k+1} &=P(x_{k+1}|y_{1:k+1}) \\
 	&=P(x_{k+1}|y_{1:k},y_{k+1}) \\
@@ -104,6 +107,7 @@
 	&= P(y_{k+1}|x_{k+1})\sum_{x_k} P(x_{k+1}|x_k)\alpha_{1:k}.
 	\end{align*}
 	
+	And, for the backward update, we have
 	\begin{align*}
 	\beta_{k+1:N} &=P(y_{k+1:N}|x_k) \\
 	&=\sum_{x_{k+1}}P(y_{k+1:N}|x_k,x_{k+1})P(x_{k+1}|x_k) \\
@@ -140,17 +144,17 @@
 	
 	Every time we do the $E$ step in our $EM$ algorithm, we must compute $\alpha_{1:j}$ for $j\in \{1,\ldots,N\}$. To that extent, note that $\alpha_{1:1}=(1,0,0,0)$ and $\alpha_{1:N}=(0,0,0,1)$ as noted previously. Then $$\alpha_{1:k}\propto \prod_{i=2}^k (O_{i}P^{\top})\alpha_{1:1}$$ in the forward direction. And in the backward direction, $$\alpha_{1:k}\propto \prod_{i=N}^{k} (P^{\top})^{-1} O_{i}^{-1}\alpha_{1:N}.$$
 	
-	To account for constraints on the final state \textit{and} the start state, we redefine $$\alpha_{1:k} = \frac{c_1\prod_{i=N}^{k} (P^{\top})^{-1} O_{i}^{-1}\alpha_{1:N} + c_2\prod_{i=2}^k (O_{i}P^{\top})\alpha_{1:1}}{2},$$ for $1<k<N$, where $c_1$ and $c_2$ are normalizing constants.
+	To account for constraints on the final state \textit{and} the start state, we redefine $$\alpha_{1:k} = \frac{c_1\prod_{i=N}^{k} (P^{\top})^{-1} O_{i}^{-1}\alpha_{1:N} + c_2\prod_{i=2}^k (O_{i}P^{\top})\alpha_{1:1}}{2},$$ for $1<k<N$, where $c_1$ and $c_2$ are normalizing constants for the corresponding terms in the numerator.
 	
-	Our backward message updates do not change.
+	Our backward message updates do not change. These averaged $\alpha$ values along with the $\beta$ values are then used to compute $\pi_{k|N}(i)$
 	
-	Another unique aspect is we skip parameter updates for $P_{ij}$ when $i<j$ and thus normalize over a subset. This idea is inspired by Roweis [1].
+	And in the $M$-step, we skip parameter updates for $P_{ij}$ when $i<j$ and keep these values fixed at $0$. This idea is inspired by Roweis [1].
 	
 %	And notice what we are doing is a constrained EM approach. Past results (Tettleton) show that within constrained parameter spaces like the one we have, we still see convergence to local optima.
 	
 	\par\noindent\rule{\textwidth}{0.4pt}
 	
-	In summary, we frame the problem of restricting candidate state sequences as an extra constraint on the model parameters. Empirically, we also get promising results when using this method. 
+	In summary, we use an altered method of forward-backward filtering to control our first and last states. We don't believe this has been done in the literature and empirically, we also get promising results when using this method. 
 
 	The following figures show the state transition (Figure 1) and emission matrices. For our emissions, we provide two matrices -- one representing the means at each state (Figure 2) and the other with variances (Figure 3).
 %	In our setting, since $P(s,\mathcal{O})=P(\mathcal{O})P(s|\mathcal{O})$, we can write
