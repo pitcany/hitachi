@@ -358,17 +358,22 @@
 	4 & r'_4 \\
 	\end{bmatrix}
 	$$
-	
-	In our experiments, we use the reward matrix
-	$$
-	 \begin{tabular}{|c|c|c|c|}
-	 	\hline 
-	 	100 & 50 & 0 & -50  \\ 
-	 	\hline 
-	 	-50 & 0 & 50 & 100 \\ 
-	 	\hline 
-	 \end{tabular}
-	 $$
+	 
+	 \begin{table}[h!]
+	 	\begin{center}
+	 		\caption{Reward table.}
+	 		\label{tab:table1}
+	 		\begin{tabular}{l|c|r} % <-- Alignments: 1st column left, 2nd middle and 3rd right, with vertical lines in between
+	 			\textbf{State} & \textbf{Repair} & \textbf{Not Repair}\\
+	 			%$\alpha$ & $\beta$ & $\gamma$ \\
+	 			\hline
+	 			1 & 100 & -50\\
+	 			2 & 50 & 0\\
+	 			3 & 0 & 50\\
+	 			4 & -50 & 100
+	 		\end{tabular}
+	 	\end{center}
+	 \end{table}
 	 
 	 For example, the reward we get for repairing in state $2$ is $50$.
 	
