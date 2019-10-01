@@ -166,7 +166,9 @@
 	
 	\par\noindent\rule{\textwidth}{0.4pt}
 	
-	In summary, we use an altered method of forward-backward filtering to control our first and last states. We don't believe this has been done in the literature and empirically, we also get promising results when using this method. 
+	In summary, we use an altered method of forward-backward filtering to control our first and last states. We don't believe this has been done in the literature and empirically, we also get promising results when using this method.
+	
+	The estimation of HMM parameters is done for each system trajectory, and then we take an average of these parameters over all trajectories. For example, we estimate the transition matrix for each sample path for a given machine and then take the average of all these transition matrices to obtain a state transition matrix for that machine.
 
 	The following figures show the state transition (Figure 1) and emission matrices. For our emissions, we provide two matrices -- one representing the means at each state (Figure 2) and the other with variances (Figure 3).
 %	In our setting, since $P(s,\mathcal{O})=P(\mathcal{O})P(s|\mathcal{O})$, we can write
