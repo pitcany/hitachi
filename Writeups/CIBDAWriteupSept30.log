@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2019.8.27)  1 OCT 2019 12:58
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2019.8.27)  1 OCT 2019 13:26
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -476,7 +476,7 @@ Overfull \hbox (11.03293pt too wide) detected at line 80
  []
 
 
-Overfull \hbox (2.46478pt too wide) detected at line 90
+Overfull \hbox (2.46478pt too wide) detected at line 102
 \OML/cmm/m/it/10 ^^Y[]\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 i\OT1/cmr/m/n/10 ) = \O
 ML/cmm/m/it/10 P\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 x[] \OT1/cmr/m/n/10 = \OML/cm
 m/m/it/10 i\OMS/cmsy/m/n/10 j\OML/cmm/m/it/10 y[]\OT1/cmr/m/n/10 ) = \OML/cmm/m
@@ -491,73 +491,72 @@ t/10 i\OMS/cmsy/m/n/10 j\OML/cmm/m/it/10 y[]\OT1/cmr/m/n/10 ) = \OML/cmm/m/it/1
  []
 
 [2] [3]
-<../../../Pictures/transmat.png, id=38, 277.035pt x 137.51375pt>
+<../../../Pictures/transmat.png, id=40, 277.035pt x 137.51375pt>
 File: ../../../Pictures/transmat.png Graphic file (type png)
 <use ../../../Pictures/transmat.png>
-Package pdftex.def Info: ../../../Pictures/transmat.png  used on input line 204
+Package pdftex.def Info: ../../../Pictures/transmat.png  used on input line 216
 .
 (pdftex.def)             Requested size: 224.63467pt x 111.50302pt.
-<../../../Pictures/emission_means.png, id=40, 854.19125pt x 143.53625pt>
+<../../../Pictures/emission_means.png, id=42, 854.19125pt x 143.53625pt>
 File: ../../../Pictures/emission_means.png Graphic file (type png)
 <use ../../../Pictures/emission_means.png>
 Package pdftex.def Info: ../../../Pictures/emission_means.png  used on input li
-ne 211.
+ne 223.
 (pdftex.def)             Requested size: 224.63467pt x 37.74562pt.
-<../../../Pictures/covars.png, id=41, 960.58875pt x 139.52126pt>
+<../../../Pictures/covars.png, id=43, 960.58875pt x 139.52126pt>
 File: ../../../Pictures/covars.png Graphic file (type png)
 <use ../../../Pictures/covars.png>
-Package pdftex.def Info: ../../../Pictures/covars.png  used on input line 218.
+Package pdftex.def Info: ../../../Pictures/covars.png  used on input line 230.
 (pdftex.def)             Requested size: 314.48718pt x 45.6781pt.
- [4 <../../../Pictures/transmat.png> <../../../Pictures/emission_means.png>]
-Overfull \hbox (30.03639pt too wide) in paragraph at lines 263--264
+ [4] [5 <../../../Pictures/transmat.png> <../../../Pictures/emission_means.png>
+ <../../../Pictures/covars.png>]
+Overfull \hbox (30.03639pt too wide) in paragraph at lines 275--276
 []\T1/cmr/bx/n/10 Control: \T1/cmr/m/n/10 De-ter-min-ing op-ti-mal ac-tions wit
 h-out knowl-edge of un-der-ly-ing states (model-free reinforcement-
  []
 
-[5 <../../../Pictures/covars.png>] [6]
-<../../../Pictures/utilityvector.png, id=66, 116.435pt x 122.4575pt>
+[6]
+<../../../Pictures/utilityvector.png, id=69, 116.435pt x 122.4575pt>
 File: ../../../Pictures/utilityvector.png Graphic file (type png)
 <use ../../../Pictures/utilityvector.png>
 Package pdftex.def Info: ../../../Pictures/utilityvector.png  used on input lin
-e 382.
+e 394.
 (pdftex.def)             Requested size: 112.31734pt x 118.13148pt.
-
-Underfull \hbox (badness 10000) in paragraph at lines 393--397
+ [7]
+Underfull \hbox (badness 10000) in paragraph at lines 405--409
 
  []
 
-[7 <../../../Pictures/utilityvector.png>]
-LaTeX Font Info:    Try loading font information for T1+cmtt on input line 425.
-
+LaTeX Font Info:    Try loading font information for T1+cmtt on input line 437.
 
 (/usr/share/texlive/texmf-dist/tex/latex/base/t1cmtt.fd
 File: t1cmtt.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
-Overfull \hbox (6.4008pt too wide) in paragraph at lines 425--426
+Overfull \hbox (6.4008pt too wide) in paragraph at lines 437--438
 []\T1/cmr/m/n/10 The pa-per []$\T1/cmtt/m/n/10 http : / / stat . columbia . edu
  / ~jcliu / paper / GSPRT _ SQA3 . pdf$[] \T1/cmr/m/n/10 in-tro-duces Se-quen-t
 ial Prob-
  []
 
-[8]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 567.
+[8 <../../../Pictures/utilityvector.png>]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 579.
  [9]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 567.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 579.
  (./CIBDAWriteupSept30.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 567.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 567.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 579.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 579.
 Package rerunfilecheck Info: File `CIBDAWriteupSept30.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 567.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 579.
  ) 
 Here is how much of TeX's memory you used:
- 7219 strings out of 494484
- 107013 string characters out of 6175786
- 215356 words of memory out of 5000000
+ 7220 strings out of 494484
+ 107024 string characters out of 6175786
+ 214356 words of memory out of 5000000
  10745 multiletter control sequences out of 15000+600000
  17907 words of font info for 51 fonts, out of 8000000 for 9000
  59 hyphenation exceptions out of 8191
- 29i,9n,35p,1004b,346s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 29i,9n,35p,1004b,384s stack positions out of 5000i,500n,10000p,200000b,80000s
  </home/yannik/.texlive2018/texmf-var/fonts/pk/ljfour/jknappen/ec/ectt1000.60
 0pk> </home/yannik/.texlive2018/texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx1000.
 600pk> </home/yannik/.texlive2018/texmf-var/fonts/pk/ljfour/jknappen/ec/ecti100
@@ -567,18 +566,20 @@ m1000.600pk> </home/yannik/.texlive2018/texmf-var/fonts/pk/ljfour/jknappen/ec/e
 cbx1440.600pk> </home/yannik/.texlive2018/texmf-var/fonts/pk/ljfour/jknappen/ec
 /ecrm1200.600pk> </home/yannik/.texlive2018/texmf-var/fonts/pk/ljfour/jknappen/
 ec/ecrm1728.600pk></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm
-/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi1
-0.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb><
-/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/sh
-are/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/tex
-live/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/share/texlive/tex
-mf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/
-fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/
-type1/public/amsfonts/cm/cmsy7.pfb>
-Output written on CIBDAWriteupSept30.pdf (9 pages, 217935 bytes).
+/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cmextra/
+cmex7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.
+pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></u
+sr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/shar
+e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texli
+ve/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/share/texlive/texmf
+-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fo
+nts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/ty
+pe1/public/amsfonts/cm/cmsy5.pfb></usr/share/texlive/texmf-dist/fonts/type1/pub
+lic/amsfonts/cm/cmsy7.pfb>
+Output written on CIBDAWriteupSept30.pdf (9 pages, 234236 bytes).
 PDF statistics:
- 387 PDF objects out of 1000 (max. 8388607)
- 125 compressed objects within 2 object streams
- 33 named destinations out of 1000 (max. 500000)
+ 396 PDF objects out of 1000 (max. 8388607)
+ 132 compressed objects within 2 object streams
+ 34 named destinations out of 1000 (max. 500000)
  21 words of extra memory for PDF output out of 10000 (max. 10000000)
 

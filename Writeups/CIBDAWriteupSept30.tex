@@ -79,9 +79,21 @@
 	&= \sum_{k=1}^N \sum_{i=1}^X \pi_{k|N}(i)\log B_{iy_k}(\eta) + \sum_{k=1}^N \sum_{i=1}^X \sum_{j=1}^X \pi_{k|N}(i,j)\log P_{ij} + const(\theta^s)
 	\end{align*}
 	
-	In this setting, $\pi_{k|N}(i)=P(x_k=i|y_{1:N},\theta^s)$ and $\pi_{k|N}(i,j)=P(x_k=i,x_{k+1}=j|y_{1:N},\theta^s)$. We derive these probabilities in the next subsection.
+	Of note is that $\pi_{k|N}(i)=P(x_k=i|y_{1:N},\theta^s)$ and $\pi_{k|N}(i,j)=P(x_k=i,x_{k+1}=j|y_{1:N},\theta^s)$ are computed in the E step. We derive these probabilities in the Forward-Backward Filtering subsection.
 	
+	\subsection*{Continuous Emissions}
+	
+	For our work, we assume $B_{ij}(\eta) = P_{\eta}(y_t=j|s_t=i) = f(j)$, where $f\sim N(C(i),R(i))$. So in our case, $\eta=(C(1),\ldots,C(X),R(1),\ldots,R(X))$. We estimate $\eta$ and $P$ in the $M$ step.
+	
+	Then $\pi_{k|N}(i)\log B_{iy_k}(\eta)$ becomes
+	$$
+	\sum_{k=1}^N \sum_{i=1}^X \pi_{k|N}(i)\paren*{-\frac{\log R(i)}{2}-\frac{(y_k-C(i))^2}{2R(i)}}=-\frac{1}{2}\sum_{k=1}^N \sum_{i=1}^X \pi_{k|N}(i)\paren*{\log R(i)+\frac{(y_k-C(i))^2}{R(i)}}.
+	$$
+		
 	$$P_{ij}=\frac{\sum_{k=1}^N \pi_{k|N}(i,j)}{\sum_{k=1}^N \pi_{k|N}(i)}$$ is our estimate after maximizing $Q(\theta^{s},\theta)$ with respect to the constraint that $P$ is stochastic.
+	
+	And subsequently, the M-step updates for $C$ and $R$ yield
+	$C(i) = \frac{\sum_{k=1}^N \pi_{k|N}(i)y_k}{\sum_{k=1}^N \pi_{k|N}(i)}$ and $R(i)=$ (still computing this...).
 	
 	\subsection*{Forward-Backward Filtering}
 	
