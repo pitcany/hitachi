@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2019.8.27)  5 OCT 2019 14:53
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2019.8.27)  5 OCT 2019 16:53
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -491,26 +491,41 @@ t/10 i\OMS/cmsy/m/n/10 j\OML/cmm/m/it/10 y[]\OT1/cmr/m/n/10 ) = \OML/cmm/m/it/1
  []
 
 [2] [3]
-<../../../Pictures/transmat.png, id=43, 277.035pt x 137.51375pt>
-File: ../../../Pictures/transmat.png Graphic file (type png)
-<use ../../../Pictures/transmat.png>
-Package pdftex.def Info: ../../../Pictures/transmat.png  used on input line 214
-.
-(pdftex.def)             Requested size: 224.63467pt x 111.50302pt.
-<../../../Pictures/emission_means.png, id=45, 854.19125pt x 143.53625pt>
-File: ../../../Pictures/emission_means.png Graphic file (type png)
-<use ../../../Pictures/emission_means.png>
-Package pdftex.def Info: ../../../Pictures/emission_means.png  used on input li
-ne 221.
-(pdftex.def)             Requested size: 224.63467pt x 37.74562pt.
-<../../../Pictures/covars.png, id=46, 960.58875pt x 139.52126pt>
-File: ../../../Pictures/covars.png Graphic file (type png)
-<use ../../../Pictures/covars.png>
-Package pdftex.def Info: ../../../Pictures/covars.png  used on input line 228.
-(pdftex.def)             Requested size: 314.48718pt x 45.6781pt.
- [4] [5 <../../../Pictures/transmat.png> <../../../Pictures/emission_means.png>
- <../../../Pictures/covars.png>]
-Overfull \hbox (30.03639pt too wide) in paragraph at lines 274--275
+Overfull \hbox (49.12755pt too wide) detected at line 169
+[] \OML/cmm/m/it/10 P\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 y[]\OMS/cmsy/m/n/10 j\OM
+L/cmm/m/it/10 x[]\OT1/cmr/m/n/10 )\OML/cmm/m/it/10 ^^L[]P\OT1/cmr/m/n/10 (\OML/
+cmm/m/it/10 x[]\OMS/cmsy/m/n/10 j\OML/cmm/m/it/10 x[]\OT1/cmr/m/n/10 ) = [] \OM
+L/cmm/m/it/10 P\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 y[]\OMS/cmsy/m/n/10 j\OML/cmm/
+m/it/10 x[]\OT1/cmr/m/n/10 )\OML/cmm/m/it/10 ^^L[]P\OT1/cmr/m/n/10 (\OML/cmm/m/
+it/10 x[]\OMS/cmsy/m/n/10 j\OML/cmm/m/it/10 x[]\OT1/cmr/m/n/10 ) = \OML/cmm/m/i
+t/10 P\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 y[]\OMS/cmsy/m/n/10 j\OML/cmm/m/it/10 x
+[] \OT1/cmr/m/n/10 = 3)\OML/cmm/m/it/10 ^^L[]P\OT1/cmr/m/n/10 (\OML/cmm/m/it/10
+ x[] \OT1/cmr/m/n/10 = 3\OMS/cmsy/m/n/10 j\OML/cmm/m/it/10 x[]\OT1/cmr/m/n/10 )
+
+ []
+
+<../../../Pictures/bettertransmat.png, id=43, 284.06125pt x 141.52875pt>
+File: ../../../Pictures/bettertransmat.png Graphic file (type png)
+<use ../../../Pictures/bettertransmat.png>
+Package pdftex.def Info: ../../../Pictures/bettertransmat.png  used on input li
+ne 228.
+(pdftex.def)             Requested size: 224.63467pt x 111.92525pt.
+[4]
+<../../../Pictures/betterstatemean.png, id=51, 888.31876pt x 147.55125pt>
+File: ../../../Pictures/betterstatemean.png Graphic file (type png)
+<use ../../../Pictures/betterstatemean.png>
+Package pdftex.def Info: ../../../Pictures/betterstatemean.png  used on input l
+ine 235.
+(pdftex.def)             Requested size: 224.63467pt x 37.31099pt.
+<../../../Pictures/bettercovars.png, id=52, 897.3525pt x 138.5175pt>
+File: ../../../Pictures/bettercovars.png Graphic file (type png)
+<use ../../../Pictures/bettercovars.png>
+Package pdftex.def Info: ../../../Pictures/bettercovars.png  used on input line
+ 242.
+(pdftex.def)             Requested size: 314.48718pt x 48.54524pt.
+ [5 <../../../Pictures/bettertransmat.png> <../../../Pictures/betterstatemean.p
+ng> <../../../Pictures/bettercovars.png>]
+Overfull \hbox (30.03639pt too wide) in paragraph at lines 288--289
 []\T1/cmr/bx/n/10 Control: \T1/cmr/m/n/10 De-ter-min-ing op-ti-mal ac-tions wit
 h-out knowl-edge of un-der-ly-ing states (model-free reinforcement-
  []
@@ -520,32 +535,32 @@ h-out knowl-edge of un-der-ly-ing states (model-free reinforcement-
 File: ../../../Pictures/utilityvector.png Graphic file (type png)
 <use ../../../Pictures/utilityvector.png>
 Package pdftex.def Info: ../../../Pictures/utilityvector.png  used on input lin
-e 398.
+e 412.
 (pdftex.def)             Requested size: 112.31734pt x 118.13148pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 409--413
+Underfull \hbox (badness 10000) in paragraph at lines 423--427
 
  []
 
 [8 <../../../Pictures/utilityvector.png>] [9]
-Overfull \hbox (53.39967pt too wide) in paragraph at lines 582--583
+Overfull \hbox (53.39967pt too wide) in paragraph at lines 596--597
 []\T1/cmr/m/n/10 T. Ko-larik, ``Use SPRT as stop-ping con-di-tion," on-line: ht
 tp://stat.columbia.edu/ jcliu/paper/GSPRT_SQA3.pdf 
  []
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 586.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 600.
 [10]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 586.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 600.
  (./CIBDA_4October.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 586.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 586.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 600.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 600.
 Package rerunfilecheck Info: File `CIBDA_4October.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 586.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 600.
  ) 
 Here is how much of TeX's memory you used:
  7215 strings out of 494484
- 106469 string characters out of 6175786
+ 106534 string characters out of 6175786
  214458 words of memory out of 5000000
  10735 multiletter control sequences out of 15000+600000
  17594 words of font info for 50 fonts, out of 8000000 for 9000
@@ -569,7 +584,7 @@ ist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/font
 s/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type
 1/public/amsfonts/cm/cmsy5.pfb></usr/share/texlive/texmf-dist/fonts/type1/publi
 c/amsfonts/cm/cmsy7.pfb>
-Output written on CIBDA_4October.pdf (10 pages, 240575 bytes).
+Output written on CIBDA_4October.pdf (10 pages, 241415 bytes).
 PDF statistics:
  421 PDF objects out of 1000 (max. 8388607)
  146 compressed objects within 2 object streams

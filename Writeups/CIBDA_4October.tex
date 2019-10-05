@@ -148,13 +148,27 @@
 	
 	There are several ways to carry out this constraint; this work investigates two methods. The first method involves modifying the $M$ step calculation for the expected log-likelihood to add an extra constraint in the Lagrangian. The second method incorporates the constraint in the forward-backward recursion. Ultimately, the second method was chosen for future study, as it was more amenable to a closed form solution.
 	
-	Since the final state will be a failing state, $$\alpha_{1:N}=P(x_N|y_{1:N})=(0,0,0,1),$$ the vector of all zeroes except for a $1$ in the final position. This is the final $\alpha$ calculated in the forward recursions traditionally, but assuming $O$ and $P$ are invertible,  we see that $$\alpha_{1:k+1}O_{k+1}^{-1}(P^{\top})^{-1} \propto \alpha_{1:k}.$$ Thus we can work backwards from $\alpha_{1:N}$ to determine the rest of the $\alpha$ terms.
+	Since the starting state will be a fully healthy state,
+	$$\alpha_{1:1}=P(x_1|y_1)=(1,0,0,0).$$
 	
-	Every time we do the $E$ step in our $EM$ algorithm, we must compute $\alpha_{1:j}$ for $j\in \{1,\ldots,N\}$. To that extent, note that $\alpha_{1:1}=(1,0,0,0)$ and $\alpha_{1:N}=(0,0,0,1)$, as shown previously. Then $$\alpha_{1:k}\propto \prod_{i=2}^k (O_{i}P^{\top})\alpha_{1:1}$$ in the forward direction. In the backward direction, $$\alpha_{1:k}\propto \prod_{i=N}^{k} (P^{\top})^{-1} O_{i}^{-1}\alpha_{1:N}.$$
+	Every time we do the $E$ step in our $EM$ algorithm, we must compute $\alpha_{1:j}$ for $j\in \{1,\ldots,N\}$.
+	$$\alpha_{1:k}\propto \prod_{i=2}^k (O_{i}P^{\top})\alpha_{1:1}$$ in the forward direction. 
 	
-	To account for constraints on the final state \textit{and} the start state, we redefine $$\alpha_{1:k} = \frac{c_1\prod_{i=N}^{k} (P^{\top})^{-1} O_{i}^{-1}\alpha_{1:N} + c_2\prod_{i=2}^k (O_{i}P^{\top})\alpha_{1:1}}{2},$$ for $1<k<N$, where $c_1$ and $c_2$ are normalizing constants for the corresponding terms in the numerator.
+	We then deal with the end state constraint in our backward message updates. Normally, one sets $\beta_{N:N}=(1,1,1,1)$, but since we know with certainty that the final state is a failing state, we set $\beta_{N+1:N}=(0,0,0,1)$.
 	
-	The backward message updates do not change. These averaged $\alpha$ value,s along with the $\beta$ values, are used to compute $\pi_{k|N}(i)$
+	To see why this works, look at
+	
+	\begin{align*}
+	\beta_{N:N} &=P(y_{N:N}|x_{N-1}) \\
+	&= \sum_{x_N}P(y_{N:N}|x_N,x_{N-1})P(x_N|x_{N-1}) \\
+	&= \sum_{x_N}P(y_{N:N}|x_N)P(x_N|x_{N-1}) \\
+	&= \sum_{x_N}P(y_N,y_{N+1:N}|x_N)P(x_N|x_{N-1}) \\
+	&= \sum_{x_N}P(y_N|x_N)P(y_{N+1:N}|x_N)P(x_N|x_{N-1}) = \sum_{x_N} P(y_N|x_N)\beta_{N+1:N}P(x_N|x_{N-1})
+	\end{align*}
+	
+	And since $$\sum_{x_N} P(y_N|x_N)\beta_{N+1:N}P(x_N|x_{N-1}) = \sum_{x_N=3} P(y_N|x_N)\beta_{N+1:N}P(x_N|x_{N-1}) = P(y_N|x_N=3)\beta_{N+1:N}P(x_N=3|x_{N-1})$$ and $$P(y_{N:N}|x_{N-1}) = P(y_N|x_N=3,x_{N-1})P(x_N=3|x_{N-1}),$$ this means $\beta_{N+1:N}=(0,0,0,1)$ is our initialization vector.
+	
+	These computed $\beta$ and $\alpha$ values, are used to compute $\pi_{k|N}(i)$
 	
 	And in the $M$ step, we skip parameter updates for $P_{ij}$ when $i<j$ and keep these values fixed at $0$. This idea is inspired by Roweis \cite{hmm}.
 	
@@ -211,21 +225,21 @@
 	
 	\begin{figure}
 		\centering
-		\includegraphics[width=0.5\linewidth]{../../../Pictures/transmat}
+		\includegraphics[width=0.5\linewidth]{../../../Pictures/bettertransmat}
 		\caption[State transition matrix]{}
 		\label{fig:transmat}
 	\end{figure}
 	
 		\begin{figure}
 		\centering
-		\includegraphics[width=0.5\linewidth]{../../../Pictures/emission_means}
+		\includegraphics[width=0.5\linewidth]{../../../Pictures/betterstatemean}
 		\caption[Emission matrix]{}
 		\label{fig:emissionmeans}
 	\end{figure}
 
 	\begin{figure}
 	\centering
-	\includegraphics[width=0.7\linewidth]{../../../Pictures/covars}
+	\includegraphics[width=0.7\linewidth]{../../../Pictures/bettercovars}
 	\caption[Emission matrix covariances]{}
 	\label{fig:emissioncovars}
 	\end{figure}
