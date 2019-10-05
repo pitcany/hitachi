@@ -44,28 +44,24 @@
 	\maketitle
 	
 	\section*{Research Objective}
-	Deep reinforcement learning methods have not been studied for the preventive maintenance problem, not withstanding claims made by firms such as GE. The first goal is to understand how well such deep reinforcement learning methods can help us implicitly predict quantities such as RUL (remaining useful life) and achieve close to optimal repair policies. The second goal is to investigate how we can combine observations about the system process with prior knowledge and for multiple predictor distributions. In particular, we want to understand how to mix the two models to get a better understanding of our system. One is data-based empirical knowledge and the second is either prior knowledge or expertise-based adaptation of empirical knowledge. This will be combined with real-time observations. Currently, the first task is completed with deep reinforcement learning and classical POMDP implementations for the CMAPPS dataset. The focus from now onwards is the second task.
+	Deep reinforcement learning methods have not been studied for the preventive maintenance problem, not withstanding claims made by firms such as General Electric (GE) \cite{GE}. The goal of the current study is to explore the use of such methods for the preventative maintenance problem.  The first step to achieving this goal is to understand how well such deep reinforcement learning methods can be leveraged to implicitly predict maintenance metrics such as Remaining Useful Life (RUL) to achieve close to optimal repair policies. The second step is to investigate how to combine two models: one, observations about the system process, and two, prior knowledge of the system. In particular, this study seeks to understand how to mix the observations with the prior knowledge to get a better understanding of the given system. The first model is data-based empirical knowledge and the second model is either prior knowledge or expertise-based adaptation of empirical knowledge. The study also seeks to understand how to combine these models with  multiple predictor distributions. Currently, the first step has been realized using deep reinforcement learning and classical POMDP implementations for the CMAPPS dataset. The following paper describes the deep reinforcement learning and POMDP implementation used. Two methods for combining real-time observation with prior knowledge were taken in this research. The first method is fitting a Hidden Markov Model (HMM) to the provided data to create a POMDP, and the created POMDP was solved using model-based approaches. The other method uses POMDP-RL techniques \textit{citation} using deep variational autoencoders.  Future efforts beyond what is presented in this paper will focus on the second step of the proposed research.
 	
 	\subsection*{Dynamical System Consideration}
-	Past work on RL for preventive maintenance had promise, but suffered from a few flaws. One of them was the lack of distinguishment between covariates and sensor readings. For example, past work attempted to understand the RUL distribution via fitting a Weibull distribution. But, the fitted parameters ($\lambda$ and $k$) were dependent on input covariates. This takes us to our second point that summary values such as RUL (remaining useful life) were used to represent the full distribution, when a set of samples $(x_t,y_t)$ from said distribution may have been preferable. Our current work differs from past work in that it models the data as a dynamical system with latent states and observations and avoids encapsulating knowledge of the distributions by a summary statistic.
+	Past work on RL for preventive maintenance have shown promise, but suffered from a few flaws. One flaw was the lack of distinguishment between covariates and sensor readings. For example, past work attempted to understand the RUL distribution via fitting a Weibull distribution. But, the fitted parameters ($\lambda$ and $k$) were dependent on input covariates. This dependence shines light on the second flaw, the use of summary values such as RUL to represent the full distribution, when a set of samples $(x_t,y_t)$ from said distribution may have been preferable. The presented research differs from past work in that it models the data as a dynamic system with latent states and observations and avoids encapsulating the knowledge of the distributions with a simple summary statistic.
+	
 	\subsection*{POMDP vs MDP}
-	The use of a Partially Observable Markov Decision Process goes in tandem with distinguishing between covariates and sensor readings. In the past work when the preventive maintenance problem was treated as an MDP, it ignored the fact that there may be hidden states (for example, system health) that impacted sensor observations.
+	The use of a Partially Observable Markov Decision Process (POMDP) goes in tandem with distinguishing between covariates and sensor readings. In previous research, when the preventive maintenance problem was treated as an \textit{spell out MDP, what is it, provide reference}  MDP, it ignored the fact that there may be hidden states (for example, system health) that impacted sensor observations.
 	
-	\section*{Outline}
-	We demonstrate two methods. One will be fitting an HMM to the provided data and then we have a POMDP. After that, we can solve the POMDP using model-based approaches.
-	
-	The other approach involves using POMDP-RL techniques using deep variational autoencoders
-	.
 	\section*{Using a Modified EM Framework}
-	The question then becomes: "How we can determine these hidden states?
+	The primary question this research seeks to answer is, how we can determine these hidden states?
 	
-	Let $S=\{1,2,\ldots,X\}$ be the space of underlying states and the space of observations be $O$. An HMM $\theta=(\pi_0,P,B)$ is parameterized by $\pi_0$, $P$, and $B$ representing the initial state matrix, state transition matrix, and emission matrix respectively. Let $\pi_0=[P(s_0=i)]_{i=1}^X$, $P_{ij}=P(s_{t+1}=j|s_t=i)$ and $B_{ij}(\eta)=P_{\eta}(y_t=j|s_t=i)$.
+	Let $S=\{1,2,\ldots,X\}$ be the space of underlying states and $O$ be the space of observations. A HMM $\theta=(\pi_0,P,B)$ is parameterized by $\pi_0$, $P$, and $B$, which represent the initial state matrix, state transition matrix, and emission matrix, respectively. Let $\pi_0=[P(s_0=i)]_{i=1}^X$, $P_{ij}=P(s_{t+1}=j|s_t=i)$ and $B_{ij}(\eta)=P_{\eta}(y_t=j|s_t=i)$.
 	
-	For estimation, we can use an EM framework, treating the hidden states as the latent states in a Hidden Markov Model with our measurements as the observations. The latent states represent the health of the machine, where $1$ is failing condition and $M$ is perfect condition.
+	For estimation, we can use an EM \textit{what is an EM framework?  providd reference}framework, treating the hidden states as the latent states in a Hidden Markov Model (HMM) with our measurements as the observations. The latent states represent the health of the machine, where $1$ is failing condition and $M$ is perfect condition.
 	
-	Let $\mathcal{Y} = (Y^{(1)},\ldots,Y^{(D)})$ be the set of $D$ observation sequences, where each $Y^{(i)}=(y_1^{(i)},\ldots,y_{T}^{(i)})$ and assume each observation is an iid draw.
+	Let $\mathcal{Y} = (Y^{(1)},\ldots,Y^{(D)})$ be the set of $D$ observation sequences, where each $Y^{(i)}=(y_1^{(i)},\ldots,y_{T}^{(i)})$, and assume that each observation is an IID draw.
 
-	The technique we use is to repeat the following steps until convergence ($\theta = (\pi_0,P,B)$):
+	The technique used was to repeat the following steps until convergence ($\theta = (\pi_0,P,B)$):
 	\begin{itemize}
 		\item Compute $Q(\theta,\theta^s) = \sum_{x\in \mathcal{S}} \log [P(\mathcal{O},x;\theta)]P(x|\mathcal{O};\theta^s)$ for the $E$-step
 		\item Set $\theta^{s+1} = \arg \max_{\theta} Q(\theta, \theta^s)$ for the $M$-step.
@@ -79,33 +75,33 @@
 	&= \sum_{k=1}^N \sum_{i=1}^X \pi_{k|N}(i)\log B_{iy_k}(\eta) + \sum_{k=1}^N \sum_{i=1}^X \sum_{j=1}^X \pi_{k|N}(i,j)\log P_{ij} + const(\theta^s)
 	\end{align*}
 	
-	Of note is that $\pi_{k|N}(i)=P(x_k=i|y_{1:N},\theta^s)$ and $\pi_{k|N}(i,j)=P(x_k=i,x_{k+1}=j|y_{1:N},\theta^s)$ are computed in the E step. We derive these probabilities in the Forward-Backward Filtering subsection.
+	Of note is that $\pi_{k|N}(i)=P(x_k=i|y_{1:N},\theta^s)$ and $\pi_{k|N}(i,j)=P(x_k=i,x_{k+1}=j|y_{1:N},\theta^s)$ are computed in the $E$ step of the EM framework. The derivation of these probabilities is presented in the Forward-Backward Filtering subsection.
 	
 	\subsection*{Continuous Emissions}
 	
-	For our work, we assume $B_{ij}(\eta) = P_{\eta}(y_t=j|s_t=i) = f(j)$, where $f\sim N(C(i),R(i))$. So in our case, $\eta=(C(1),\ldots,C(X),R(1),\ldots,R(X))$. We estimate $\eta$ and $P$ in the $M$ step.
+	For this work, assume $B_{ij}(\eta) = P_{\eta}(y_t=j|s_t=i) = f(j)$, where $f\sim N(C(i),R(i))$. Therefore, $\eta=(C(1),\ldots,C(X),R(1),\ldots,R(X))$. The parameters $\eta$ and $P$ are estimated in the $M$ step.
 	
 	Then $\pi_{k|N}(i)\log B_{iy_k}(\eta)$ becomes
 	$$
 	\sum_{k=1}^N \sum_{i=1}^X \pi_{k|N}(i)\paren*{-\frac{\log R(i)}{2}-\frac{(y_k-C(i))^2}{2R(i)}}=-\frac{1}{2}\sum_{k=1}^N \sum_{i=1}^X \pi_{k|N}(i)\paren*{\log R(i)+\frac{(y_k-C(i))^2}{R(i)}}.
 	$$
 		
-	$$P_{ij}=\frac{\sum_{k=1}^N \pi_{k|N}(i,j)}{\sum_{k=1}^N \pi_{k|N}(i)}$$ is our estimate after maximizing $Q(\theta^{s},\theta)$ with respect to the constraint that $P$ is stochastic.
+	$$P_{ij}=\frac{\sum_{k=1}^N \pi_{k|N}(i,j)}{\sum_{k=1}^N \pi_{k|N}(i)}$$ is the estimate after maximizing $Q(\theta^{s},\theta)$ with respect to the constraint that $P$ is stochastic.
 	
-	And subsequently, the M-step updates for $C$ and $R$ yield
-	$$C(i) = \frac{\sum_{k=1}^N \pi_{k|N}(i)y_k}{\sum_{k=1}^N \pi_{k|N}(i)}$$ and $R(i)=$ (still computing this...).
+	And subsequently, the $M$ step updates for $C$ and $R$ yield
+	$C(i) = \frac{\sum_{k=1}^N \pi_{k|N}(i)y_k}{\sum_{k=1}^N \pi_{k|N}(i)}$ and $R(i)=$ (still computing this...).
 	
 	\subsection*{Forward-Backward Filtering}
 	
-	It is not obvious how to compute $\pi_{k|N}$ and $\pi_{k|N}(i,j)$ at a first glance. For this, we use a forward-backward filtering algorithm. In this algorithm, we make two passes through the data. The first pass goes forward in time while the second pass goes backward in time.
+	It is not obvious how to compute $\pi_{k|N}$ and $\pi_{k|N}(i,j)$ at a first glance. To compute them, a forward-backward filtering algorithm is applied. In this algorithm, two passes are made through the data. The first pass goes forward in time while the second pass goes backward in time.
 	
 	$$\pi_{k|N}(i)=P(x_k=i|y_{1:N})=P(x_k=i|y_{1:k},y_{k+1:N})\propto P(y_{k+1:N}|x_k=i)P(x_k=i|y_{1:k})=\alpha_{1:k}(i)\beta_{k+1:N}(i)$$ where $\alpha_{1:k}(i) = P(x_k=i|y_{1:k})$ and $\beta_{k+1:N}(i)=P(y_{k+1:N}|x_k=i)$. In shorthand notation, we say $$\pi_{k|N}\propto \alpha_{1:k}\beta_{k+1:N}.$$
 	
-	We call $\alpha$ and $\beta$ the forward and backward 'messages' respectively.
+	$\alpha$ and $\beta$ the forward and backward ``messages", respectively.
 	
 	Similarly, $$\pi_{k|N}(i,j)\propto \alpha_{1:k}(i)P_{ij}B_{jy_{k+1}}\beta_{k+1:N}(j).$$
 	
-	To compute the forward and backward messages, we can do this recursively. For the forward update, we have
+	To compute the forward and backward messages, this is done recursively. For the forward update, we have
 	\begin{align*}
 	\alpha_{1:k+1} &=P(x_{k+1}|y_{1:k+1}) \\
 	&=P(x_{k+1}|y_{1:k},y_{k+1}) \\
@@ -119,7 +115,7 @@
 	&= P(y_{k+1}|x_{k+1})\sum_{x_k} P(x_{k+1}|x_k)\alpha_{1:k}.
 	\end{align*}
 	
-	And, for the backward update, we have
+	And, for the backward update:
 	\begin{align*}
 	\beta_{k+1:N} &=P(y_{k+1:N}|x_k) \\
 	&=\sum_{x_{k+1}}P(y_{k+1:N}|x_k,x_{k+1})P(x_{k+1}|x_k) \\
@@ -128,7 +124,7 @@
 	&= \sum_{x_{k+1}}P(y_{k+1}|x_{k+1})P(y_{k+2:N}|x_{k+1})P(x_{k+1}|x_k) = \sum_{x_{k+1}} P(y_{k+1}|x_{k+1})\beta_{k+2:N}P(x_{k+1}|x_k)
 	\end{align*}
 	
-	Assume we see the observation at the $k$th step is $j$, i.e. $y_k=j$. Then $O_{k} = diag(B_{*j})$, i.e. it is a matrix with diagonal entries given by $P(y_k=j|x_k=i)$. Then in matrix form, we can write the above recursions as
+	Assume we find the observation at the $k$th step is $j$, i.e. $y_k=j$. Then $O_{k} = diag(B_{*j})$, meaning it is a matrix with diagonal entries given by $P(y_k=j|x_k=i)$. In matrix form, the above recursions take the form of:
 	$$\alpha_{1:k+1} \propto O_{k+1}P^{\top} \alpha_{1:k}$$
 	and
 	$$\beta_{k+1:N}=PO_{k+1}\beta_{k+2:N}.$$
@@ -147,30 +143,30 @@
 %	Solving this Lagrangian, we get
 %	$C(i) = \frac{\sum_{k=1}^N \pi_{k|N}(i)y_k}{\sum_{k=1}^N \pi_{k|N}(i)}$ and $R(i)=$ (still computing this...).
 	
-	\subsection*{Adapting for the initial and end states being fixed}
-	As mentioned before, we must constrain our set of state sequences to those that begin with a "perfect" state and end at a "failing" state. The difference between past work and our work is that we not only constrain the starting state, but also the final state.
+	\subsection*{Adapting for Fixed States}
+	As mentioned before, our state sequences must be constrained to those state sequences that begin with a ``perfect" state and end at a ``failing" state. The difference between past work and the current work is that both starting and ending states are constrained in the presented research.
 	
-	There are several ways one can do this. We investigated two methods -- the first method involved modifying the M-step calculation for the expected log-likelihood to add an extra constraint in the Lagrangian. The other route we looked at was incorporating the constraint in the forward-backward recursion. We decided to use the latter approach as it was more amenable to a closed form solution.
+	There are several ways to carry out this constraint; this work investigates two methods. The first method involves modifying the $M$ step calculation for the expected log-likelihood to add an extra constraint in the Lagrangian. The second method incorporates the constraint in the forward-backward recursion. Ultimately, the second method was chosen for future study, as it was more amenable to a closed form solution.
 	
-	Since we know the final state will be a failing state, this means we want $$\alpha_{1:N}=P(x_N|y_{1:N})=(0,0,0,1),$$ the vector of all zeroes except for a $1$ in the final position. This is the final $\alpha$ calculated in the forward recursions traditionally, but assuming $O$ and $P$ are invertible, we see that $$\alpha_{1:k+1}O_{k+1}^{-1}(P^{\top})^{-1} \propto \alpha_{1:k}.$$ Thus we can work backwards from $\alpha_{1:N}$ to determine the rest of the $\alpha$ terms.
+	Since the final state will be a failing state, $$\alpha_{1:N}=P(x_N|y_{1:N})=(0,0,0,1),$$ the vector of all zeroes except for a $1$ in the final position. This is the final $\alpha$ calculated in the forward recursions traditionally, but assuming $O$ and $P$ are invertible,  we see that $$\alpha_{1:k+1}O_{k+1}^{-1}(P^{\top})^{-1} \propto \alpha_{1:k}.$$ Thus we can work backwards from $\alpha_{1:N}$ to determine the rest of the $\alpha$ terms.
 	
-	Every time we do the $E$ step in our $EM$ algorithm, we must compute $\alpha_{1:j}$ for $j\in \{1,\ldots,N\}$. To that extent, note that $\alpha_{1:1}=(1,0,0,0)$ and $\alpha_{1:N}=(0,0,0,1)$ as noted previously. Then $$\alpha_{1:k}\propto \prod_{i=2}^k (O_{i}P^{\top})\alpha_{1:1}$$ in the forward direction. And in the backward direction, $$\alpha_{1:k}\propto \prod_{i=N}^{k} (P^{\top})^{-1} O_{i}^{-1}\alpha_{1:N}.$$
+	Every time we do the $E$ step in our $EM$ algorithm, we must compute $\alpha_{1:j}$ for $j\in \{1,\ldots,N\}$. To that extent, note that $\alpha_{1:1}=(1,0,0,0)$ and $\alpha_{1:N}=(0,0,0,1)$, as shown previously. Then $$\alpha_{1:k}\propto \prod_{i=2}^k (O_{i}P^{\top})\alpha_{1:1}$$ in the forward direction. In the backward direction, $$\alpha_{1:k}\propto \prod_{i=N}^{k} (P^{\top})^{-1} O_{i}^{-1}\alpha_{1:N}.$$
 	
 	To account for constraints on the final state \textit{and} the start state, we redefine $$\alpha_{1:k} = \frac{c_1\prod_{i=N}^{k} (P^{\top})^{-1} O_{i}^{-1}\alpha_{1:N} + c_2\prod_{i=2}^k (O_{i}P^{\top})\alpha_{1:1}}{2},$$ for $1<k<N$, where $c_1$ and $c_2$ are normalizing constants for the corresponding terms in the numerator.
 	
-	Our backward message updates do not change. These averaged $\alpha$ values along with the $\beta$ values are then used to compute $\pi_{k|N}(i)$
+	The backward message updates do not change. These averaged $\alpha$ value,s along with the $\beta$ values, are used to compute $\pi_{k|N}(i)$
 	
-	And in the $M$-step, we skip parameter updates for $P_{ij}$ when $i<j$ and keep these values fixed at $0$. This idea is inspired by Roweis [1].
+	And in the $M$ step, we skip parameter updates for $P_{ij}$ when $i<j$ and keep these values fixed at $0$. This idea is inspired by Roweis \cite{hmm}.
 	
 %	And notice what we are doing is a constrained EM approach. Past results (Tettleton) show that within constrained parameter spaces like the one we have, we still see convergence to local optima.
 	
-	\par\noindent\rule{\textwidth}{0.4pt}
+%	\par\noindent\rule{\textwidth}{0.4pt}
 	
-	In summary, we use an altered method of forward-backward filtering to control our first and last states. We don't believe this has been done in the literature and empirically, we also get promising results when using this method.
+	In summary, an altered method of forward-backward filtering is used to control the first and last states. This method has not been taken in previous studies, and empirically the results are promising when when using this method.
 	
-	The estimation of HMM parameters is done for each system trajectory, and then we take an average of these parameters over all trajectories. For example, we estimate the transition matrix for each sample path for a given machine and then take the average of all these transition matrices to obtain a state transition matrix for that machine.
+	The estimation of HMM parameters is done for each system trajectory, and then the average of these parameters over all trajectories is calculated. For example, this method estimates the transition matrix for each sample path for a given machine and then takes the average of all these transition matrices to obtain a state transition matrix for that machine.
 
-	The following figures show the state transition (Figure 1) and emission matrices. For our emissions, we provide two matrices -- one representing the means at each state (Figure 2) and the other with variances (Figure 3).
+	The following Tables show the state transition and emission matrices. For emissions, two matrices are used -- one representing the means at each state (Figure 2) and one with variances (Figure 3).
 %	In our setting, since $P(s,\mathcal{O})=P(\mathcal{O})P(s|\mathcal{O})$, we can write
 %	$$
 %	\arg \max_{\theta} \sum_{s\in \mathcal{S}} \log [P(\mathcal{O},s;\theta)] P(s|\mathcal{O};\theta^{s}) = \arg \max_{\theta} \sum_{s\in \mathcal{S}} \log [P(\mathcal{O},s;\theta)] P(s,\mathcal{O};\theta^{s})=\arg \max_{\theta} \hat{Q}(\theta,\theta^s).
@@ -258,30 +254,31 @@
 %	&+ \sum_{s\in S} p(O|s,R,\theta)p(s|R,\theta) \log (P(s|R,\hat{\theta}))
 %	\end{align*}
 %	
-	Now that we have hidden states estimated, we can introduce the POMDP model.
+	With the hidden states estimated, we can introduce the POMDP model.
 	
 	\subsection*{Variational Autoencoders}
-	The prior two approaches involved treating our preventive maintenance problem as a hidden Markov Model. We can use deep learning techniques such as variational autoencoders instead to tackle this problem. The intuition behind the VAE approach is we want to maximize the sum of log marginal likelihood terms $\sum_{n=1}^N \log p_{\theta}(o^{(n)})$ for observations $(o^{(n)})_{n=1}^N$ where $p_{\theta}(o)=\int p_{\theta}(o|s)p_{\theta}(s)\,ds.$ This is intractable in practice so instead we maximize the sum of ELBOs where each ELBO term is a lower bound of the log marginal likelihood.
-	$$ELBO(\theta,\phi,o)=\E_{q_{\phi}(s|o)}[\log \frac{p_{\theta}(o|s)p_{\theta}(s)}{q_{\phi}(s|o)}]$$ for a family of encoders $q_{\phi}(s|o)$ parameterised by $\phi$. One can see the analogy between this and the EM approach discussed earlier. We're using a surrogate expression, ELBO, instead of the log marginal distribution.
+	The prior two approaches involved treating the preventive maintenance problem as a HMM. Conversely, deep learning techniques such as variational autoencoders can be used to tackle this problem. The intuition behind the VAE approach is the desire to maximize the sum of log marginal likelihood terms $\sum_{n=1}^N \log p_{\theta}(o^{(n)})$ for observations $(o^{(n)})_{n=1}^N$ where $p_{\theta}(o)=\int p_{\theta}(o|s)p_{\theta}(s)\,ds.$ This is intractable in practice, so instead the sum of ELBOs is maximized, where each ELBO term is a lower bound of the log marginal likelihood.
+	$$ELBO(\theta,\phi,o)=\E_{q_{\phi}(s|o)}[\log \frac{p_{\theta}(o|s)p_{\theta}(s)}{q_{\phi}(s|o)}]$$ for a family of encoders $q_{\phi}(s|o)$ parameterised by $\phi$. One can see the analogy between this and the EM approach discussed earlier. This study uses a surrogate expression, ELBO, instead of the log marginal distribution. 
 	
 	\subsection*{Deep Variational RL}
-	Lastly, we can incorporate estimation and control by using deep variational reinforcement learning. Fundamentally, instead of learning a generative model that maximizes just the ELBO functions, we also optimize an expected return. We implemented this on CMAPSS data using Tensorflow instead of PyTorch because we needed to modify our implementation to restrict the state sequences from our model estimates. Tensorflow, although more difficult to prototype in, leads itself to customization far easier than Keras or PyTorch.
+	Lastly, estimation and control are incorporated by using deep variational reinforcement learning. Fundamentally, instead of learning a generative model that maximizes just the ELBO functions, the newly developed method also optimizes an expected return. The proposed method was implemented on CMAPSS data using Tensorflow \cite{tensor}.  Tensorflow was chosen over other machine learning libraries because of the need to restrict the state sequences from model estimates. Tensorflow, although more difficult to prototype in, leads itself to customization far easier than most other tools available.
 	 
 	\section*{Detailed Discussion of Two Research Pathways}
-	Currently, the models in place just treat the preventive maintenance problem as an MDP, focusing solely on measurement observations $(y_t)$ while ignoring the potential hidden states $(x_t)$. This leads us to discuss the first research direction.
+	Currently, the models in place treat the preventive maintenance problem as an MDP, focusing solely on measurement observations $(y_t)$ while ignoring the potential hidden states $(x_t)$. This leads to the first research path.
+	
 	\subsection*{Path 1: Single Source}
-	This may be split into two parts:
+	The first research path proposed is the use of single source prior knowledge.  This path takes the form of:
 	
 	\begin{itemize}
-		\item \textbf{Estimation:} System identification -- estimate an underlying state and then use model-based approaches to solve for optimal repair strategy to reduce total maintenance cost.
-		\item \textbf{Control:} Determining optimal actions without knowledge of underlying states (model-free reinforcement-learning approach)
+		\item \textbf{Estimation:} Estimating an underlying state and then use model-based approaches to solve for optimal repair strategy to reduce total maintenance cost.
+		\item \textbf{Control:} Determining optimal actions without knowledge of underlying states (model-free reinforcement-learning approach).
 		\item \textbf{Combining Estimation and Control:} Understanding the benefits of using a deep-RL approach that combines the two.
 	\end{itemize}
 	
 	
-	As before, we create a simulation for a machine running until it reaches failure. The underlying states $(1,2,3,4)$ represent the health level of the machine, with $1$ indicating very-low/failing and $4$ very-high/perfect condition. A level of $2$ denotes low but not failing and $3$ moderately high health.
+	To test this research approach, a machine running until failure was simulated. The underlying states $(1,2,3,4)$ represent the health level of the machine, with $1$ indicating very-low/failing and $4$ very-high/perfect condition. A level of $2$ denotes low but not failing and $3$ moderately high health.
 	
-	Our state transitions are given by 
+	The state transitions are given by 
 	$$
 	\begin{bmatrix}
 	p_{11} & 0 & 0 & 0 \\
@@ -304,13 +301,13 @@
 	\end{bmatrix}
 	$$
 	
-	is our transition matrix, where we use $p'$ to denote these are probabilities when we do a repair.
+	is the transition matrix, where $p'$ are the probabilities of when a repair is executed. 
 	
-	Our observations depend on whether we repair the system or not. Furthermore, the observation space is continuous with the observations distributed by pdfs $f_0$ and $f_1$ for actions 'no-repair' and 'repair' respectively.
+	The observations depend on whether or not the systems is repaired. Furthermore, the observation space is continuous with the observations distributed by pdfs $f_0$ and $f_1$ for actions ``no-repair" and ``repair", respectively.
 	
-	If we don't repair the system, then define $O(o|s,a=0) \sim f_0(s)$. Else, if we do repair, then $O(o|s,a=1) \sim f_1(s)$.
+	If no repair is executed, then define $O(o|s,a=0) \sim f_0(s)$. Else, if there is a repair, then $O(o|s,a=1) \sim f_1(s)$.
 	
-	If we use discrete observation buckets, then we have a matrix form
+	Using discrete observation buckets, a matrix is given of form:
 	$$    O(0) = 
 	\begin{bmatrix}
 	No Repair & 1 & 2 & 3 & 4 \\
@@ -333,11 +330,11 @@
 	\end{bmatrix}
 	$$
 	
-	Lastly, our reward function takes the following form:
+	Lastly, the reward function takes the following form:
 	$$\sum_{t=1}^T \sum_{s=1}^4 [c_1(4-s_t)I(s_t=j) + c_2(s_t)I_M(a_t=1|s_t=j)]]$$
 	where $I$ is an indicator function. $c_1(4-s_t)$ is the cost of maintenance and $c_2(s_t)$ is the cost of being in a degraded state.
 	
-	Another way of writing this is as follows
+	Another way of writing this is as follows:
 	
 	$$
 	R(0) = 
@@ -361,8 +358,6 @@
 	\end{bmatrix}
 	$$
 	 
-	 For our experiments, we work with the following rewards.
-	 
 	 \begin{table}[h!]
 	 	\begin{center}
 	 		\caption{Reward table.}
@@ -378,23 +373,25 @@
 	 		\end{tabular}
 	 	\end{center}
 	 \end{table}
+	 
+	 For example, the reward for repairing in state $2$ is $50$.
 	
 	The overarching goal is to use reinforcement learning methods with POMDPs to give an optimal strategy for repairing the system that minimizes the total repair costs and losses due to non-repair.
 	
-	The two routes are as follows:
-	\begin{itemize}
-		\item 1. EM based approach for estimation and then determining an optimal control policy using any POMDP solver. For example, we could use a VAE (variational autoencoder) for time series. This doesn't incorporate control, maximizing a likelihood function, and outputs a particle filter model.
-		\item 2. DVRL (deep variational reinforcement learning), which combines both estimation and control. This is because it's optimizing an objective cost function that also depends on model parameters.
-	\end{itemize}
+	Two methods can be used to realize this approach to the given research problsm:
+	\begin{enumerate}
+		\item Using an EM-based approach for estimation and then determining an optimal control policy using any POMDP solver. For example, using a VAE (variational autoencoder) for time series. This approach doesn't incorporate control, instead maximizing a likelihood function and outputting a particle filter model.
+		\item A DVRL (deep variational reinforcement learning) approach, which combines both estimation and control. This approach optimizes an objective cost function that depends on model parameters.
+	\end{enumerate}
 	
-	We also incorporate knowledge of the start and end states being in perfect and poor condition respectively, which we discuss in the next section.
+	Both of these approaches also incorporate knowledge of the start and end states being in perfect and poor condition respectively, which is discussed in the following section.
 	
 	\section*{Current Status 1}
 	
-	So far, we have studied four different POMDP based techniques for modeling the preventive maintenance problem. We implemented value-iteration, Monte-Carlo Tree Search (POMCP), ADRQN, and DVRL on the CMAPSS dataset. After finishing up these implementations, we are currently analyzing how well deep-RL methods such as DVRL and ADRQN performed versus model-based methods. We also incorporate constraints on the start and end states by a method similar to boosting, where we propagate the errors between our true start and end states and our estimates, re-running DVRL until we reach convergence. The next steps are analyzing how two sources of information (prior knowledge with observations) should be combined to determine optimal repair strategies.
+	So far, the authors have studied four different POMDP based techniques for modeling the preventive maintenance problem. We implemented value-iteration, Monte-Carlo Tree Search (POMCP), ADRQN, and DVRL on the CMAPSS dataset. After realizing these implementations, we are currently analyzing the performance of deep-RL methods such as DVRL and ADRQN versus model-based methods. We have also incorporated the constraints on the start and end states discussed in this paper via a method similar to boosting, where we propagate the errors between our true start and end states and our estimates and re-running DVRL until we reach convergence. The next steps are to analyze how two sources of information (prior knowledge with observations) should be combined to determine optimal repair strategies.
 	
 	\subsection*{Results from Separating Estimation and Control}
-	After doing HMM estimation and POMDP value iteration, we get the utility vector seen in Figure 4.
+	After doing HMM estimation and POMDP value iteration, we developed the utility vector seen in Figure 4.
 	
 		\begin{figure}
 		\centering
@@ -403,64 +400,66 @@
 		\label{fig:utilityvec}
 	\end{figure}
 	
-	In practice, we often have some existing knowledge about the system process before seeing measurements. This leads us to the second research path.
+	In practice, there is often some existing knowledge about the system process before seeing any real-time measurements. This knowledge leads to the second research path.
 	
 	\subsection*{Path 2: Combining Multiple Sources}
 	
-	Here, we ask how to combine prior knowledge about the data generating process when determining the optimal repair strategy that minimizes costs. For example, if we have a controlled system generating data, this alters the observed machine measurements as opposed to an uncontrolled system. This is because if the machine is deteriorating, we repair and restore the system back to full health so our measurements seen will be different than if we let the machine fail.
+	Here, this study asks how to combine prior knowledge about the data generating process when determining the optimal repair strategy that minimizes costs. For example, if given a controlled system generating data, this alters the observed machine measurements as opposed to an uncontrolled system. This alteration is because if the machine is deteriorating, a repair and restoration the system back to full health is executed such that the measurements seen will be different than if machine fails.
 	
-	The alternative route would be to identify enough of the distribution based on impact on the objective function and disambiguate. 
+	The alternative route would be to identify enough of the distribution, based on impact to the objective function, and disambiguate. 
 	\\
 	\\
-	For now, let us assume the data generating process takes on one of the following forms:
+	For now, assume the data generating process takes on one of the following forms:
 	\begin{itemize}
-		\item No prior distribution -- our data is generated via bootstrapping. For example, with the C-MAPPS data, we could resample from the trajectories.
-		\item One prior
+		\item No prior distribution -- data is generated via bootstrapping. For example, with the C-MAPPS data, data is resampled from the trajectories.
+		\item One prior distribution:
 		\begin{itemize}
-			\item Do we trust this prior distribution? Or should we ignore that and just bootstrap? Or just combine both?
+			\item Can this prior distribution be trusted, or should it be ignored and just bootstrap a distribution; or, should the distributions just be combined?
 		\end{itemize}
-		\item We have two prior distributions and we would like to understand which one generates our data, or how they interact with each other. For example, we can combine two priors via a "weighted average" (partial update) or fully via a Bayesian update.
+		\item If there are two prior distributions, which one generates our data, or how do they interact with each other? For example, they can be combined a ``weighted average" (partial update) or fully via a Bayesian update.
 	\end{itemize}
 	
-	These three are the possible ways of combining the two models, which we are investigating:
-	\begin{itemize}
+	These three possible ways of combining the two models are under investigation:
+	\begin{enumerate}
 		\item One generating model at each timestep
 			\begin{itemize}
-				\item In this setting, only one of $P_1$ or $P_2$ generates our data.
+				\item In this setting, only one of $P_1$ or $P_2$ generates data.
 			\end{itemize}
 		\item Mixture model
 		\item Hierarchical Bayes
-	\end{itemize}
+	\end{enumerate}
 	
-	Analogously to the single source model, we have another layer of complexity when studying estimation versus control here. Either we could
+	Analogously to the single source model, there is another layer of complexity when studying estimation versus control here. The analysis either:
 	\begin{itemize}
-		\item Estimate underlying model and then come up with a control policy using POMDP-RL.
-		\item Perform control and estimation at once using a method such as DVRL again.
+		\item Estimates the underlying model and then comes up with a control policy using POMDP-R.
+		\item Performs control and estimation at once using a method such as DVRL again.
 	\end{itemize}
 	
-	This section gives one a glimpse of some of the open problems we are working on.
+	This section gives one a glimpse of some of the open problems the authors are addressing.
 	
 	\subsection*{Sequential Testing}
-	The paper \url{http://stat.columbia.edu/~jcliu/paper/GSPRT_SQA3.pdf} introduces Sequential Probability Ratio Testing (SPRT) for different families of hypotheses.
+	Thomas Kolarik's paper ``Using SPRT as stopping condition" 
+	\cite{url} introduces Sequential Probability Ratio Testing (SPRT) for different families of hypotheses.
 	
-	When we have two families of composite hypotheses, i.e.,
+	When there are two families of composite hypotheses, i.e.,
 	$$H_0: f\in \{g_{\theta}:\theta\in \Theta\} \textrm{ against } H_A:f\in \{h_{\gamma}:\gamma\in \Gamma\}$$, we consider a sequential test where we compute $$L_n = \frac{\sup_{\gamma\in \Gamma} \prod_{i=1}^n h_{\gamma}(X_i)}{\sup_{\theta\in \Theta} \prod_{i=1}^n g_{\theta}(X_i)}.$$ If $L_n$ crosses $e^A$ or $e^{-B}$ for constants $A,B>0$, then we stop sampling. If $L_n>e^A$, then we reject the null.
 	
-	We could use this to infer which distribution is generating our data, but the research component is understanding how to use this with particle filters. If we use a variational autoencoder to learn an underlying model, the output is a particle filter. Currently there hasn't been work on how to use SPRT with particle filters.
-	\subsection*{Example: Mixture Model Setting}
-	What we would like to solve is initially the following:
-	If our data is generated from $\epsilon_t P_0 + (1-\epsilon_t) P_1$, where $P_0$ and $P_1$ are the two priors, does $\epsilon_t\to 0$ or to a constant over time? Maybe $P_0$ is one prior generated from bootstrapping and $P_1$ is the second prior provided or based on data that incorporates domain knowledge.
+	This is then used to infer which distribution is generating the data.  The current research component is understanding how to use this with particle filters. By using a variational autoencoder to learn an underlying model, the output becomes a particle filter. Currently, there has not been any published research on how to use SPRT with particle filters.
 	
-	In this setting, we can think of our $z_t=\{x_t,y_t\}$ pairs coming from data sources $P_0$ and $P_1$.
+	\subsection*{Example: Mixture Model Setting}
+	What this study proposes to solve is initially the following:
+	if the data is generated from $\epsilon_t P_0 + (1-\epsilon_t) P_1$, where $P_0$ and $P_1$ are the two priors, does $\epsilon_t\to 0$ or to a constant over time? Maybe $P_0$ is one prior generated from bootstrapping and $P_1$ is the second prior provided or based on data that incorporates domain knowledge.
+	
+	In this setting, the $z_t=\{x_t,y_t\}$ pairs can be thought of as coming from data sources $P_0$ and $P_1$.
 	
 	Define $p(z_t|P_0)$ and $p(z_t|P_1)$ to be the probabilities of observing $z_t$ given $P_0$ and $P_1$ respectively at time $t$. Then $$p(P_j|z_t)=\frac{\epsilon_t p(z_t|P_0) I(j=0) + (1-\epsilon_t) p(z_t|P_1) I(j=1)}{\epsilon_t p(z_t|P_0) + (1-\epsilon_t) p(z_t|P_1)}.$$
 	
-	But now, we want to understand
+	But now, this study seeks to understand
 	$$p(\{P_{j_1},\ldots,P_{j_T}\}|\{z_1,\ldots,z_T\})$$ where each $P_{jt}$ is either $P_0$ or $P_1$.
 	
-	The simplistic approach to estimate $\epsilon$ would be to do a maximization of the above quantity over all assignments of $\{P_{j1},\ldots,P_{jT}\}$ to the set $\{P_0,P_1\}^T$. This method, however, is computationally intensive and furthermore does not account for time-dependence in our data.
+	The simplistic approach to estimate $\epsilon$ would be to do a maximization of the above quantity over all assignments of $\{P_{j1},\ldots,P_{jT}\}$ to the set $\{P_0,P_1\}^T$. This method, however, is computationally intensive and furthermore does not account for time-dependence in the data.
 	
-	We propose modeling this as a multiarmed bandit problem, where $P_0$ and $P_1$ are the two arms. The goal here is to then use concentration inequalities to understand good approximate repair policies. These will be approximate because there is a dependency between actions taken at different timesteps and we are looking at finite-horizon solutions.
+	Therefore, the authors propose modeling this as a multiarmed bandit problem, where $P_0$ and $P_1$ are the two arms. The goal here is to then use concentration inequalities to understand good approximate repair policies. These will be approximate because there is a dependency between actions taken at different timesteps and we are looking at finite-horizon solutions.
 	
 	%We propose a method which uses RL to optimize an objective function which implicitly tells us the proportion of time data comes from $P_0$ vs $P_1$. At time $t$, after we observe $z_1,\ldots,z_t$, we can do one of three actions. Either we choose $P_0$ or $P_1$ as our hypothesis of the prior, or we continue exploration, which incurs a cost $C$. If we choose incorrectly between $P_0$ and $P_1$, we incur a cost $L$ and if we were correct, we don't incur any cost.
 	%
@@ -483,7 +482,7 @@
 	
 	\section*{Current Status 2}
 	
-	For this, the first priority is studying how we can combine particle filters (outputs of VAE) can be used with SPRT. Other open problems that will be tackled after this are how to get guarantees on learning multiple source distributions using concentration-type inequalities.
+	For this research path, the first priority is studying how we can combine particle filters (outputs of VAE) with SPRT. An open problems that will be tackled after this combination is resolved are how to get guarantees on learning multiple-source distributions using concentration-type inequalities.
 	%
 	%\section*{Appendix: End Of Life Analysis Background}
 	%The goal of the preliminary analysis is to create a Bayesian probabilistic survival model, using incomplete data sets in a general way.  The goal of this section is to define the model and methodology used and to outline options and identify risk areas.
@@ -574,13 +573,14 @@
 	%is the baseline survivor function.
 	
 	\begin{thebibliography}{1}
+		\bibitem{GE} Predix Platform, online: https://www.ge.com/digital/iiot-platform/machine-learning-analytics, last access 10-2-2019.		
+		
+		\bibitem{tensor} Abadi, Martín, et al. ``Tensorflow: Large-scale machine learning on heterogeneous distributed systems." \textit{arXiv preprint arXiv:1603.04467} (2016). 
+
 		\bibitem{hmm}S. Roweis. Constrained Hidden Markov Models. Advances in neural information processing systems, 2000.
-%		\bibitem{spectralHMM}D. Hsu, S. M. Kakade, and T. Zhang. A spectral algorithm for learning hidden Markov
-%		models. Journal of Computer and System Sciences, 78(5):1460?1480, 2012b.
-%		\bibitem{dbn}J. O, J. W. Lee, S. Park, and B. Zhang. Stock Trading by Modelling Price Trend with Dynamic Bayesian Networks. DEAL 2004, LNCS 3177, pp. 794-799, 2004.
-%		\bibitem{sober}H. Zhao, P. Poupart. A Sober Look at Spectral Learning. 2014.
-%		\bibitem{volforecast1}X. Zhuang and L. Chan. Volatility Forecasts in Financial Time Series with HMM-GARCH Models. IDEAL 2004, LNCS 3177, pp. 807-812, 2004
-%		\bibitem{volforecast2}A. Rossi and G. Gallo. Volatility Forecasts in Financial Time Series with HMM-GARCH Models. Journal of Empirical Finance. Volume 13. Issue 2. pp. 203-230. 2006.
+		
+		\bibitem{url} T. Kolarik, ``Use SPRT as stopping condition," online: http://stat.columbia.edu/~jcliu/paper/GSPRT\_SQA3.pdf
+		
 	\end{thebibliography}
 	
 \end{document}
