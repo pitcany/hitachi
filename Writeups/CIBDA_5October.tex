@@ -268,8 +268,7 @@
 %	&+ \sum_{s\in S} p(O|s,R,\theta)p(s|R,\theta) \log (P(s|R,\hat{\theta}))
 %	\end{align*}
 %	
-	With the hidden states estimated, we can introduce the POMDP model.
-	
+
 	\subsection*{Other Experiments}
 	We also test our new estimation method with a custom hidden markov model. In this case, we simulate a four state Gaussian HMM which starts at state $0$ and has the transition matrix
 	
@@ -293,6 +292,9 @@
 	\end{array} \right)$
 	
 Previously, with standard HMM fitting without our new forward-backward updates, we were not estimating that state $3$ was an absorbing state as the probability of staying at $3$ was not estimated as $1$.
+
+\subsection*{Methodology}
+When analyzing our hidden markov model fitting techniques with CMAPSS data, we trained model parameters on each sample trajectory separately. Then we averaged the estimated transition, emission means, and emission covariance matrices.
 
 	\subsection*{Variational Autoencoders}
 	The prior two approaches involved treating the preventive maintenance problem as a HMM. Conversely, deep learning techniques such as variational autoencoders can be used to tackle this problem. The intuition behind the VAE approach is the desire to maximize the sum of log marginal likelihood terms $\sum_{n=1}^N \log p_{\theta}(o^{(n)})$ for observations $(o^{(n)})_{n=1}^N$ where $p_{\theta}(o)=\int p_{\theta}(o|s)p_{\theta}(s)\,ds.$ This is intractable in practice, so instead the sum of ELBOs is maximized, where each ELBO term is a lower bound of the log marginal likelihood.
