@@ -271,30 +271,27 @@
 	With the hidden states estimated, we can introduce the POMDP model.
 	
 	\subsection*{Other Experiments}
-	We also test our new estimation method with a custom hidden markov model. In this case, we simulate a four state Gaussian HMM which starts at state $0$ and has the transition matrix 
-	\begin{tabular}{|c|c|c|c|}
-		\hline 
-		0.5 & 0.5 & 0.0 & 0.0 \\ 
-		\hline 
-		0.0 & 0.7 & 0.3 & 0.0 \\ 
-		\hline 
-		0.0 & 0.0 & 0.7 & 0.3 \\ 
-		\hline 
-		0.0 & 0.0 & 0.0 & 1.0 \\ 
-		\hline 
-	\end{tabular}. The emission distribution at state $s$ is normal with mean $2s$ and variance $0.5$. We generate a sample path of length $500$ from this and then re-estimate the underlying parameters. With our new approach, we get improved estimates of the transition matrix as
-\begin{tabular}{|c|c|c|c|}
-	\hline 
+	We also test our new estimation method with a custom hidden markov model. In this case, we simulate a four state Gaussian HMM which starts at state $0$ and has the transition matrix
+	
+	$\left(
+	\begin{array}{cccc}
+	0.5 & 0.5 & 0. & 0. \\
+	0. & 0.7 & 0.3 & 0. \\
+	0. & 0. & 0.7 & 0.3 \\
+	0. & 0. & 0. & 1. \\
+	\end{array}
+	\right)$
+
+	The emission distribution at state $s$ is normal with mean $2s$ and variance $0.5$. We generate a sample path of length $500$ from this and then re-estimate the underlying parameters. With our new approach, we get improved estimates of the transition matrix as
+
+	$\left(
+	\begin{array}{cccc}
 	6.43e-289 & 1.000 & 0.000 & 0.000 \\ 
-	\hline 
 	0e+00 & 0.000994 & 0.999006 & 0.000 \\ 
-	\hline 
 	0e+00 & 0e+00 & 0.857 & 0.142 \\ 
-	\hline 
 	0e+00 & 0.000 & 0.000 & 1.000 \\ 
-	\hline 
-\end{tabular}
-Ok.
+	\end{array} \right)$
+	
 Previously, with standard HMM fitting without our new forward-backward updates, we were not estimating that state $3$ was an absorbing state as the probability of staying at $3$ was not estimated as $1$.
 
 	\subsection*{Variational Autoencoders}
