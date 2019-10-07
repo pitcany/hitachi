@@ -180,7 +180,7 @@
 	
 	The estimation of HMM parameters is done for each system trajectory, and then the average of these parameters over all trajectories is calculated. For example, this method estimates the transition matrix for each sample path for a given machine and then takes the average of all these transition matrices to obtain a state transition matrix for that machine.
 
-	The following Tables show the state transition and emission matrices. For emissions, two matrices are used -- one representing the means at each state (Figure 2) and one with variances (Figure 3).
+	The following tables show the state transition and emission matrices. For emissions, two matrices are used -- one representing the means at each state (Figure 2) and one with variances (Figure 3).
 %	In our setting, since $P(s,\mathcal{O})=P(\mathcal{O})P(s|\mathcal{O})$, we can write
 %	$$
 %	\arg \max_{\theta} \sum_{s\in \mathcal{S}} \log [P(\mathcal{O},s;\theta)] P(s|\mathcal{O};\theta^{s}) = \arg \max_{\theta} \sum_{s\in \mathcal{S}} \log [P(\mathcal{O},s;\theta)] P(s,\mathcal{O};\theta^{s})=\arg \max_{\theta} \hat{Q}(\theta,\theta^s).
@@ -270,6 +270,33 @@
 %	
 	With the hidden states estimated, we can introduce the POMDP model.
 	
+	\subsection*{Other Experiments}
+	We also test our new estimation method with a custom hidden markov model. In this case, we simulate a four state Gaussian HMM which starts at state $0$ and has the transition matrix 
+	\begin{tabular}{|c|c|c|c|}
+		\hline 
+		0.5 & 0.5 & 0.0 & 0.0 \\ 
+		\hline 
+		0.0 & 0.7 & 0.3 & 0.0 \\ 
+		\hline 
+		0.0 & 0.0 & 0.7 & 0.3 \\ 
+		\hline 
+		0.0 & 0.0 & 0.0 & 1.0 \\ 
+		\hline 
+	\end{tabular}. The emission distribution at state $s$ is normal with mean $2s$ and variance $0.5$. We generate a sample path of length $500$ from this and then re-estimate the underlying parameters. With our new approach, we get improved estimates of the transition matrix as
+\begin{tabular}{|c|c|c|c|}
+	\hline 
+	6.43e-289 & 1.000 & 0.000 & 0.000 \\ 
+	\hline 
+	0e+00 & 0.000994 & 0.999006 & 0.000 \\ 
+	\hline 
+	0e+00 & 0e+00 & 0.857 & 0.142 \\ 
+	\hline 
+	0e+00 & 0.000 & 0.000 & 1.000 \\ 
+	\hline 
+\end{tabular}
+
+Previously, with standard HMM fitting without our new forward-backward updates, we were not estimating that state $3$ was an absorbing state as the probability of staying at $3$ was not estimated as $1$.
+
 	\subsection*{Variational Autoencoders}
 	The prior two approaches involved treating the preventive maintenance problem as a HMM. Conversely, deep learning techniques such as variational autoencoders can be used to tackle this problem. The intuition behind the VAE approach is the desire to maximize the sum of log marginal likelihood terms $\sum_{n=1}^N \log p_{\theta}(o^{(n)})$ for observations $(o^{(n)})_{n=1}^N$ where $p_{\theta}(o)=\int p_{\theta}(o|s)p_{\theta}(s)\,ds.$ This is intractable in practice, so instead the sum of ELBOs is maximized, where each ELBO term is a lower bound of the log marginal likelihood.
 	$$ELBO(\theta,\phi,o)=\E_{q_{\phi}(s|o)}[\log \frac{p_{\theta}(o|s)p_{\theta}(s)}{q_{\phi}(s|o)}]$$ for a family of encoders $q_{\phi}(s|o)$ parameterised by $\phi$. One can see the analogy between this and the EM approach discussed earlier. This study uses a surrogate expression, ELBO, instead of the log marginal distribution. 
