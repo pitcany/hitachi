@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2019.8.27)  8 OCT 2019 08:46
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2019.8.27)  8 OCT 2019 16:56
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -504,59 +504,45 @@ t/10 P\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 y[]\OMS/cmsy/m/n/10 j\OML/cmm/m/it/10 x
 
  []
 
-[4]
-<../../../Pictures/betterstatemean.png, id=51, 888.31876pt x 147.55125pt>
-File: ../../../Pictures/betterstatemean.png Graphic file (type png)
-<use ../../../Pictures/betterstatemean.png>
-Package pdftex.def Info: ../../../Pictures/betterstatemean.png  used on input l
-ine 249.
-(pdftex.def)             Requested size: 224.63467pt x 37.31099pt.
-<../../../Pictures/bettercovars.png, id=53, 897.3525pt x 138.5175pt>
-File: ../../../Pictures/bettercovars.png Graphic file (type png)
-<use ../../../Pictures/bettercovars.png>
-Package pdftex.def Info: ../../../Pictures/bettercovars.png  used on input line
- 256.
-(pdftex.def)             Requested size: 314.48718pt x 48.54524pt.
- [5 <../../../Pictures/betterstatemean.png> <../../../Pictures/bettercovars.png
->]
-Overfull \hbox (30.03639pt too wide) in paragraph at lines 327--328
+[4] [5]
+Overfull \hbox (30.03639pt too wide) in paragraph at lines 349--350
 []\T1/cmr/bx/n/10 Control: \T1/cmr/m/n/10 De-ter-min-ing op-ti-mal ac-tions wit
 h-out knowl-edge of un-der-ly-ing states (model-free reinforcement-
  []
 
 [6] [7]
-Underfull \hbox (badness 10000) in paragraph at lines 473--477
+Underfull \hbox (badness 10000) in paragraph at lines 495--499
 
  []
 
 [8] [9]
-Overfull \hbox (53.39967pt too wide) in paragraph at lines 644--645
+Overfull \hbox (53.39967pt too wide) in paragraph at lines 666--667
 []\T1/cmr/m/n/10 T. Ko-larik, ``Use SPRT as stop-ping con-di-tion," on-line: ht
-tp://stat.columbia.edu/ jcliu/paper/GSPRT_SQA3.pdf 
+tp://stat.columbia.edu/ jcliu/paper/GSPRT_SQA3.pdf
  []
 
 
-Underfull \hbox (badness 1983) in paragraph at lines 646--647
+Underfull \hbox (badness 1983) in paragraph at lines 668--669
 []\T1/cmr/m/n/10 Igl, Max-i-m-il-ian, et al. ``Deep Vari-a-tional Re-in-force-m
 ent Learn-ing for POMDPs," JMLR:
  []
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 651.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 673.
 [10]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 651.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 673.
  (./CIBDA_revised_and_cleanedOct8.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 651.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 651.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 673.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 673.
 Package rerunfilecheck Info: File `CIBDA_revised_and_cleanedOct8.out' has not c
 hanged.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 651.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 673.
  ) 
 Here is how much of TeX's memory you used:
- 7205 strings out of 494484
- 106354 string characters out of 6175786
- 214458 words of memory out of 5000000
- 10727 multiletter control sequences out of 15000+600000
+ 7189 strings out of 494484
+ 105920 string characters out of 6175786
+ 217372 words of memory out of 5000000
+ 10717 multiletter control sequences out of 15000+600000
  17594 words of font info for 50 fonts, out of 8000000 for 9000
  59 hyphenation exceptions out of 8191
  29i,9n,35p,1809b,433s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -578,10 +564,10 @@ ist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/font
 s/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type
 1/public/amsfonts/cm/cmsy5.pfb></usr/share/texlive/texmf-dist/fonts/type1/publi
 c/amsfonts/cm/cmsy7.pfb>
-Output written on CIBDA_revised_and_cleanedOct8.pdf (10 pages, 232002 bytes).
+Output written on CIBDA_revised_and_cleanedOct8.pdf (10 pages, 211205 bytes).
 PDF statistics:
- 398 PDF objects out of 1000 (max. 8388607)
- 147 compressed objects within 2 object streams
- 43 named destinations out of 1000 (max. 500000)
- 11 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 389 PDF objects out of 1000 (max. 8388607)
+ 143 compressed objects within 2 object streams
+ 41 named destinations out of 1000 (max. 500000)
+ 1 words of extra memory for PDF output out of 10000 (max. 10000000)
 

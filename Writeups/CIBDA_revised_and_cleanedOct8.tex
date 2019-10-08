@@ -183,18 +183,40 @@
 	The estimation of HMM parameters is done for each system trajectory, and then the average of these parameters over all trajectories is calculated. For example, this method estimates the transition matrix for each sample path for a given machine and then takes the average of all these transition matrices to obtain a state transition matrix for that machine.
 	
 	The same was done for emission means, and emission covariance matrices.
-
-	Figures 1 and 2 show the emission matrices. For emissions, two matrices are used -- one representing the means at each state (Figure 1) and one with variances (Figure 2).
 	
 	The estimated transition matrix is
-		$\left(
+		$$\left(
 	\begin{array}{cccc}
 	0.66 & 0.34 & 0. & 0. \\
 	0. & 0.63 & 0.37 & 0. \\
 	0. & 0. & 0.77 & 0.23 \\
 	0. & 0. & 0. & 1. \\
 	\end{array}
-	\right).$
+	\right),$$ the mean emission matrix is $$\left(
+	\begin{array}{ccccccccccccc}
+	0.37 & 0.36 & 0.65 & 0.25 & 0.16 & 0.32 & 0.66 & 0.27 & 0.2 & 0.38 & 0.37 & 0.6 &
+	0.63 \\
+	0.45 & 0.44 & 0.55 & 0.3 & 0.19 & 0.41 & 0.57 & 0.32 & 0.22 & 0.46 & 0.45 & 0.53
+	& 0.55 \\
+	0.53 & 0.5 & 0.48 & 0.36 & 0.24 & 0.52 & 0.48 & 0.37 & 0.26 & 0.54 & 0.5 & 0.44 &
+	0.46 \\
+	0.67 & 0.62 & 0.34 & 0.45 & 0.3 & 0.68 & 0.32 & 0.47 & 0.31 & 0.68 & 0.62 & 0.3 &
+	0.31 \\
+	\end{array}
+	\right)$$ and the corresponding variances are
+	
+	$$\frac{\left(
+	\begin{array}{ccccccccccccc}
+		0.093 & 0.85 & 0.66 & 0.50 & 0.37 & 0.64 & 0.67 &
+		0.49 & 0.36 & 0.76 & 0.07 & 0.7 & 0.83 \\
+		0.97 & 0.91 & 0.72 & 0.54 & 0.44 & 0.71 & 0.74 &
+		0.52 & 0.42 & 0.81 & 0.8 & 0.82 & 0.90 \\
+		0.97 & 0.91 & 0.67 & 0.45 & 0.33 & 0.6753 & 0.71 &
+		0.44 & 0.32 & 0.82 & 0.83 & 0.795 & 0.867 \\
+		0.01045 & 0.943 & 0.73 & 0.49 & 0.33 & 0.822 & 0.82 &
+		0.48 & 0.311 & 0.877 & 0.86 & 0.91 & 0.945 \\
+	\end{array}
+	\right)}{100}$$
 %	In our setting, since $P(s,\mathcal{O})=P(\mathcal{O})P(s|\mathcal{O})$, we can write
 %	$$
 %	\arg \max_{\theta} \sum_{s\in \mathcal{S}} \log [P(\mathcal{O},s;\theta)] P(s|\mathcal{O};\theta^{s}) = \arg \max_{\theta} \sum_{s\in \mathcal{S}} \log [P(\mathcal{O},s;\theta)] P(s,\mathcal{O};\theta^{s})=\arg \max_{\theta} \hat{Q}(\theta,\theta^s).
@@ -244,20 +266,20 @@
 %		\label{fig:transmat}
 %	\end{figure}
 	
-		\begin{figure}
-		\centering
-		\includegraphics[width=0.5\linewidth]{../../../Pictures/betterstatemean}
-		\caption[Emission matrix]{}
-		\label{fig:emissionmeans}
-	\end{figure}
-
-	\begin{figure}
-	\centering
-	\includegraphics[width=0.7\linewidth]{../../../Pictures/bettercovars}
-	\caption[Emission matrix covariances]{}
-	\label{fig:emissioncovars}
-	\end{figure}
-	
+%		\begin{figure}
+%		\centering
+%		\includegraphics[width=0.5\linewidth]{../../../Pictures/betterstatemean}
+%		\caption[Emission matrix]{}
+%		\label{fig:emissionmeans}
+%	\end{figure}
+%
+%	\begin{figure}
+%	\centering
+%	\includegraphics[width=0.7\linewidth]{../../../Pictures/bettercovars}
+%	\caption[Emission matrix covariances]{}
+%	\label{fig:emissioncovars}
+%	\end{figure}
+%	
 %	\subsection*{Other methods to consider}
 %	Letting $Q(\theta,\theta')$ be the objective function we want to optimize, we originally have $$Q(\theta,\theta')=\sum_{s\in S} \log P(O,s|\theta)P(O,s|\theta')$$ where $S$ represents the set of all possible state sequences. But as stated before, we now have an extra constraint that our start and end states are $M$ and $1$. The route we take is to consider an extra variable $R$ in the formulation of $Q(\theta,\theta')$, which represents a restriction to some subset of sequences. For our setting, we'll use $r\in R$ such that $r_0=M$ and $r_T=1$. This becomes:
 %	
@@ -385,7 +407,7 @@ Previously, with standard HMM fitting without our new forward-backward updates, 
 	
 	Lastly, the reward function takes the following form:
 	$$\sum_{t=1}^T \sum_{s=1}^4 [c_1(4-s_t)I(s_t=j) + c_2(s_t)I_M(a_t=1|s_t=j)]]$$
-	with $I$ as an indicator function. $c_1(4-s_t)$ is the cost of maintenance and $c_2(s_t)$ is the cost of being in a degraded state where $c_1$ and $c_2$ are constants that we set. In our case, we will set these to $c_1=50$ and $c_2=-50$.
+	with $I$ as an indicator function. $c_1(4-s_t)$ is the reward for being in a higher state and $c_2(s_t)$ accounts for the maintenance costs that reduce the reward where $c_1$ and $c_2$ are constants that we set. In our case, we will set these to $c_1=50$ and $c_2=-50$.
 	
 	Another way of writing this is as follows:
 	
@@ -416,13 +438,13 @@ Previously, with standard HMM fitting without our new forward-backward updates, 
 	 		\caption{Reward table.}
 	 		\label{tab:table1}
 	 		\begin{tabular}{l|c|r} % <-- Alignments: 1st column left, 2nd middle and 3rd right, with vertical lines in between
-	 			\textbf{State} & \textbf{Repair} & \textbf{Not Repair}\\
+	 			\textbf{State} & \textbf{Not Repair} & \textbf{Repair}\\
 	 			%$\alpha$ & $\beta$ & $\gamma$ \\
 	 			\hline
-	 			1 & 100 & -50\\
+	 			1 & 100 & 50\\
 	 			2 & 50 & 0\\
-	 			3 & 0 & 50\\
-	 			4 & -50 & 100
+	 			3 & 0 & -50\\
+	 			4 & -50 & -100
 	 		\end{tabular}
 	 	\end{center}
 	 \end{table}
@@ -440,7 +462,7 @@ Previously, with standard HMM fitting without our new forward-backward updates, 
 	Both of these approaches also incorporate knowledge of the start and end states being in perfect and poor condition respectively, which is discussed in the following section.
 	
 	\section*{Results}
-After doing HMM estimation we used Perseus, a randomized point-based value iteration algorithm, to approximately solve the POMDP. With our cost function defined from earlier, we saw that expected reward from the optimal policy was $365.02$. Furthermore, in this policy, one starts off not repairing the system, but then chooses the repair action repeatedly in the later iterations.
+After doing HMM estimation we used Perseus, a randomized point-based value iteration algorithm, to approximately solve the POMDP. With our cost function defined from earlier, we saw that expected reward from the optimal policy was $365.02$. Furthermore, in this policy, one starts off not repairing the system, but then chooses the repair action repeatedly in the later iterations. Since this is a POMDP, we don't know the underlying state, but we have a ``belief`` about which state we are in. This is a belief state, which we represent as a vector of probabilities for being in each state.
 
 We have the following alpha-vectors for this policy:
 
@@ -458,7 +480,7 @@ We have the following alpha-vectors for this policy:
 	\hline 
 \end{tabular} 
 
-The alpha-vectors computed help us determine which action to pick at a timestep, given information about our belief state. The action taken corresponds to the one with an alpha vector $\alpha$ that maximizes $\alpha^{\top} \beta$, where $\beta$ is the belief state vector. For example, if our belief state vector is $\beta=(0,0,0.5,0.5)$, we will pick the repair action since $\alpha=(246.76,296.76,346.76,396.76)$ maximizes $\alpha^{\top} \beta$.  
+The alpha-vectors computed help us determine which action to pick at a timestep, given information about our belief state. The action taken corresponds to the one with an alpha vector $\alpha$ that maximizes $\alpha^{\top} \beta$, where $\beta$ is the belief state vector. For example, if our belief state vector is $\beta=(0,0,0.5,0.5)$, we will pick the repair action since $\alpha=(246.76,296.76,346.76,396.76)$ maximizes $\alpha^{\top} \beta$.
 
 \subsection*{Progress To Date}
 
@@ -637,13 +659,13 @@ For this research path, the first priority is studying how we can combine partic
 	\begin{thebibliography}{1}
 		\bibitem{GE} Predix Platform, online: https://www.ge.com/digital/iiot-platform/machine-learning-analytics, last access 10-2-2019.		
 		
-		\bibitem{tensor} Abadi, Martín, et al. ``Tensorflow: Large-scale machine learning on heterogeneous distributed systems." \textit{arXiv preprint arXiv:1603.04467} (2016). 
+		\bibitem{tensor} Abadi, Martin, et al. ``Tensorflow: Large-scale machine learning on heterogeneous distributed systems." \textit{arXiv preprint arXiv:1603.04467} (2016). 
 
 		\bibitem{hmm}S. Roweis. Constrained Hidden Markov Models. Advances in neural information processing systems, 2000.
 		
-		\bibitem{url} T. Kolarik, ``Use SPRT as stopping condition," online: http://stat.columbia.edu/~jcliu/paper/GSPRT\_SQA3.pdf
+		\bibitem{url} T. Kolarik, ``Use SPRT as stopping condition," online: http://stat.columbia.edu/~jcliu/paper/GSPRT\_SQA3.pdf (2014)
 		
-		\bibitem{igl} Igl, Maximilian, et al. ``Deep Variational Reinforcement Learning for POMDPs," JMLR: http://proceedings.mlr.press/v80/igl18a/igl18a.pdf
+		\bibitem{igl} Igl, Maximilian, et al. ``Deep Variational Reinforcement Learning for POMDPs," JMLR: http://proceedings.mlr.press/v80/igl18a/igl18a.pdf (2018)
 		
 		\bibitem{tony} Cassandra, A. R.; Littman, M. L.; and Zhang, N. L.  1997. Incremental Pruning: A Simple, Fast, Exact Method for Partially Observable Markov Decision Processes. In UAI.
 	\end{thebibliography}
