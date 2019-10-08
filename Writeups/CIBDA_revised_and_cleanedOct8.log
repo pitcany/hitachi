@@ -1,9 +1,9 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2019.8.27)  8 OCT 2019 03:49
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2019.8.27)  8 OCT 2019 03:50
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**CIBDA_7October.tex
-(./CIBDA_7October.tex
+**CIBDA_revised_and_cleanedOct8.tex
+(./CIBDA_revised_and_cleanedOct8.tex
 LaTeX2e <2018-12-01>
 (/usr/share/texlive/texmf-dist/tex/latex/base/article.cls
 Document Class: article 2018/09/03 v1.4i Standard LaTeX document class
@@ -367,8 +367,8 @@ e
 \c@theorem=\count125
 \c@corollary=\count126
 
-(./CIBDA_7October.aux)
-\openout1 = `CIBDA_7October.aux'.
+(./CIBDA_revised_and_cleanedOct8.aux)
+\openout1 = `CIBDA_revised_and_cleanedOct8.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 37.
 LaTeX Font Info:    ... okay on input line 37.
@@ -413,9 +413,9 @@ LaTeX Info: Redefining \ref on input line 37.
 LaTeX Info: Redefining \pageref on input line 37.
 LaTeX Info: Redefining \nameref on input line 37.
 
-(./CIBDA_7October.out) (./CIBDA_7October.out)
+(./CIBDA_revised_and_cleanedOct8.out) (./CIBDA_revised_and_cleanedOct8.out)
 \@outlinefile=\write3
-\openout3 = `CIBDA_7October.out'.
+\openout3 = `CIBDA_revised_and_cleanedOct8.out'.
 
 
 *geometry* driver: auto-detecting
@@ -544,21 +544,22 @@ ent Learn-ing for POMDPs," JMLR:
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 635.
 [10]
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 635.
- (./CIBDA_7October.aux)
+ (./CIBDA_revised_and_cleanedOct8.aux)
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 635.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 635.
-Package rerunfilecheck Info: File `CIBDA_7October.out' has not changed.
+Package rerunfilecheck Info: File `CIBDA_revised_and_cleanedOct8.out' has not c
+hanged.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 635.
  ) 
 Here is how much of TeX's memory you used:
  7206 strings out of 494484
- 106170 string characters out of 6175786
- 214428 words of memory out of 5000000
+ 106365 string characters out of 6175786
+ 214458 words of memory out of 5000000
  10727 multiletter control sequences out of 15000+600000
  17594 words of font info for 50 fonts, out of 8000000 for 9000
  59 hyphenation exceptions out of 8191
- 29i,9n,35p,1794b,431s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 29i,9n,35p,1809b,431s stack positions out of 5000i,500n,10000p,200000b,80000s
  </home/yannik/.texlive2018/texmf-var/fonts/pk/ljfour/jknappen/ec/ecti1000.60
 0pk> </home/yannik/.texlive2018/texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx1000.
 600pk> </home/yannik/.texlive2018/texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx120
@@ -577,7 +578,7 @@ ist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/font
 s/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type
 1/public/amsfonts/cm/cmsy5.pfb></usr/share/texlive/texmf-dist/fonts/type1/publi
 c/amsfonts/cm/cmsy7.pfb>
-Output written on CIBDA_7October.pdf (10 pages, 232710 bytes).
+Output written on CIBDA_revised_and_cleanedOct8.pdf (10 pages, 232710 bytes).
 PDF statistics:
  404 PDF objects out of 1000 (max. 8388607)
  148 compressed objects within 2 object streams
