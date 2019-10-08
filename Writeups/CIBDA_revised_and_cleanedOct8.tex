@@ -316,10 +316,10 @@ Previously, with standard HMM fitting without our new forward-backward updates, 
 	\subsection*{Deep Variational RL}
 	Lastly, estimation and control are incorporated by using deep variational reinforcement learning. At a high level, DVRL does not only estimate the underlying model, but it also attempts to find an optimal policy simultaneously. So instead of learning a generative model that maximizes just the ELBO functions, the newly developed method also optimizes an expected return. The proposed method was implemented on CMAPSS data using Tensorflow \cite{tensor}.  Tensorflow was chosen over other machine learning libraries because of the need to restrict the state sequences from model estimates. Tensorflow, although more difficult to prototype in, leads itself to customization far easier than most other tools available.
 	 
-	\section*{Detailed Discussion of Two Research Pathways}
+	\section*{Detailed Discussion of Research Pathways in RL}
 	Currently, the models in place treat the preventive maintenance problem as an MDP, focusing solely on measurement observations $(y_t)$ while ignoring the potential hidden states $(x_t)$. This leads to the first research path.
 	
-	\subsection*{Path 1: Single Source}
+	\subsection*{Current Work: Single Source}
 	The first research path proposed is the use of single source prior knowledge.  This path takes the form of:
 	
 	\begin{itemize}
@@ -439,96 +439,112 @@ Previously, with standard HMM fitting without our new forward-backward updates, 
 	
 	Both of these approaches also incorporate knowledge of the start and end states being in perfect and poor condition respectively, which is discussed in the following section.
 	
-	\section*{Current Status 1}
-	
-	So far, the authors have studied four different POMDP based techniques for modeling the preventive maintenance problem. We implemented value-iteration, Monte-Carlo Tree Search (POMCP), ADRQN, and DVRL on the CMAPSS dataset. After realizing these implementations, we are currently analyzing the performance of deep-RL methods such as DVRL and ADRQN versus model-based methods. We have also incorporated the constraints on the start and end states discussed in this paper via an adjustment to the E-step in the EM algorithm for HMM fitting. The next steps are to analyze how two sources of information (prior knowledge with observations) should be combined to determine optimal repair strategies.
-	
-	\subsection*{Results from Separating Estimation and Control}
-	After doing HMM estimation we used SolvePOMDP, a Java program that solves POMDPs, to execute value iteration. With our cost function defined from earlier, we saw that expected reward from the optimal policy was $158$. Furthermore, in this policy, one starts off not repairing the system, but then chooses the repair action repeatedly in the later iterations.
-	
-	In practice, there is often some existing knowledge about the system process before seeing any real-time measurements. This knowledge leads to the second research path.
-	
-	\subsection*{Path 2: Combining Multiple Sources}
-	
-	Here, this study asks how to combine prior knowledge about the data generating process when determining the optimal repair strategy that minimizes costs. For example, if given a controlled system generating data, this alters the observed machine measurements as opposed to an uncontrolled system. This alteration is because if the machine is deteriorating, a repair and restoration the system back to full health is executed such that the measurements seen will be different than if machine fails.
-	
-	The alternative route would be to identify enough of the distribution, based on impact to the objective function, and disambiguate. 
-	\\
-	\\
-	For now, assume the data generating process takes on one of the following forms:
+	\section*{Results}
+After doing HMM estimation we used Perseus, a randomized point-based value iteration algorithm, to approximately solve the POMDP. With our cost function defined from earlier, we saw that expected reward from the optimal policy was $365.02$. Furthermore, in this policy, one starts off not repairing the system, but then chooses the repair action repeatedly in the later iterations.
+
+We have the following alpha-vectors for this policy:
+
+\begin{tabular}{|c|c|c|c|c|}
+	\hline 
+	No Repair & 355.20 & 289.36 & 282.22 & 276.47 \\ 
+	\hline 
+	No Repair & 365.02 & 267.08 & 213.60 & 162.59 \\ 
+	\hline 
+	No Repair & 364.39 & 276.45 & 254.06 & 262.49 \\ 
+	\hline 
+	Repair & 246.76 & 296.76 & 346.76 & 396.76 \\ 
+	\hline 
+	No Repair & 360.56 & 283.40 & 266.09 & 266.64 \\ 
+	\hline 
+\end{tabular} 
+
+The alpha-vectors computed help us determine which action to pick at a timestep, given information about our belief state. The action taken corresponds to the one with an alpha vector $\alpha$ that maximizes $\alpha^{\top} \beta$, where $\beta$ is the belief state vector. For example, if our belief state vector is $\beta=(0,0,0.5,0.5)$, we will pick the repair action since $\alpha=(246.76,296.76,346.76,396.76)$ maximizes $\alpha^{\top} \beta$.  
+
+\subsection*{Progress To Date}
+
+So far, the authors have studied four different POMDP based techniques for modeling the preventive maintenance problem. We implemented value-iteration, Monte-Carlo Tree Search (POMCP), ADRQN, and DVRL on the CMAPSS dataset. After realizing these implementations, we are currently analyzing the performance of deep-RL methods such as DVRL and ADRQN versus model-based methods. We have also incorporated the constraints on the start and end states discussed in this paper via an adjustment to the E-step in the EM algorithm for HMM fitting. The next steps are to analyze how two sources of information (prior knowledge with observations) should be combined to determine optimal repair strategies.
+
+In practice, there is often some existing knowledge about the system process before seeing any real-time measurements. This knowledge leads to the second research path.
+
+\subsection*{Future Work: Combining Multiple Sources}
+
+Here, this study asks how to combine prior knowledge about the data generating process when determining the optimal repair strategy that minimizes costs. For example, if given a controlled system generating data, this alters the observed machine measurements as opposed to an uncontrolled system. This alteration is because if the machine is deteriorating, a repair and restoration the system back to full health is executed such that the measurements seen will be different than if machine fails.
+
+The alternative route would be to identify enough of the distribution, based on impact to the objective function, and disambiguate. 
+\\
+\\
+For now, assume the data generating process takes on one of the following forms:
+\begin{itemize}
+	\item No prior distribution -- data is generated via bootstrapping. For example, with the C-MAPPS data, data is resampled from the trajectories.
+	\item One prior distribution:
 	\begin{itemize}
-		\item No prior distribution -- data is generated via bootstrapping. For example, with the C-MAPPS data, data is resampled from the trajectories.
-		\item One prior distribution:
-		\begin{itemize}
-			\item Can this prior distribution be trusted, or should it be ignored and just bootstrap a distribution; or, should the distributions just be combined?
-		\end{itemize}
-		\item If there are two prior distributions, which one generates our data, or how do they interact with each other? For example, they can be combined a ``weighted average" (partial update) or fully via a Bayesian update.
+		\item Can this prior distribution be trusted, or should it be ignored and just bootstrap a distribution; or, should the distributions just be combined?
 	\end{itemize}
-	
-	These three possible ways of combining the two models are under investigation:
-	\begin{enumerate}
-		\item One generating model at each timestep
-			\begin{itemize}
-				\item In this setting, only one of $P_1$ or $P_2$ generates data.
-			\end{itemize}
-		\item Mixture model
-		\item Hierarchical Bayes
-	\end{enumerate}
-	
-	Analogously to the single source model, there is another layer of complexity when studying estimation versus control here. The analysis either:
+	\item If there are two prior distributions, which one generates our data, or how do they interact with each other? For example, they can be combined a ``weighted average" (partial update) or fully via a Bayesian update.
+\end{itemize}
+
+These three possible ways of combining the two models are under investigation:
+\begin{enumerate}
+	\item One generating model at each timestep
 	\begin{itemize}
-		\item Estimates the underlying model and then comes up with a control policy using POMDP-RL.
-		\item Performs control and estimation at once using a method such as DVRL again.
+		\item In this setting, only one of $P_1$ or $P_2$ generates data.
 	\end{itemize}
-	
-	This section gives one a glimpse of some of the open problems the authors are addressing.
-	
-	\subsection*{Sequential Testing}
-	Thomas Kolarik's paper ``Using SPRT as stopping condition" 
-	\cite{url} introduces Sequential Probability Ratio Testing (SPRT) for different families of hypotheses.
-	
-	When there are two families of composite hypotheses, i.e.,
-	$$H_0: f\in \{g_{\theta}:\theta\in \Theta\} \textrm{ against } H_A:f\in \{h_{\gamma}:\gamma\in \Gamma\}$$, we consider a sequential test where we compute $$L_n = \frac{\sup_{\gamma\in \Gamma} \prod_{i=1}^n h_{\gamma}(X_i)}{\sup_{\theta\in \Theta} \prod_{i=1}^n g_{\theta}(X_i)}.$$ If $L_n$ crosses $e^A$ or $e^{-B}$ for constants $A,B>0$, then we stop sampling. If $L_n>e^A$, then we reject the null.
-	
-	This is then used to infer which distribution is generating the data.  The current research component is understanding how to use this with particle filters. By using a variational autoencoder to learn an underlying model, the output becomes a particle filter. Currently, there has not been any published research on how to use SPRT with particle filters.
-	
-	\subsection*{Example: Mixture Model Setting}
-	What this study proposes to solve is initially the following:
-	if the data is generated from $\epsilon_t P_0 + (1-\epsilon_t) P_1$, where $P_0$ and $P_1$ are the two priors, does $\epsilon_t\to 0$ or to a constant over time? Maybe $P_0$ is one prior generated from bootstrapping and $P_1$ is the second prior provided or based on data that incorporates domain knowledge.
-	
-	In this setting, the $z_t=\{x_t,y_t\}$ pairs can be thought of as coming from data sources $P_0$ and $P_1$.
-	
-	Define $p(z_t|P_0)$ and $p(z_t|P_1)$ to be the probabilities of observing $z_t$ given $P_0$ and $P_1$ respectively at time $t$. Then $$p(P_j|z_t)=\frac{\epsilon_t p(z_t|P_0) I(j=0) + (1-\epsilon_t) p(z_t|P_1) I(j=1)}{\epsilon_t p(z_t|P_0) + (1-\epsilon_t) p(z_t|P_1)}.$$
-	
-	But now, this study seeks to understand
-	$$p(\{P_{j_1},\ldots,P_{j_T}\}|\{z_1,\ldots,z_T\})$$ where each $P_{jt}$ is either $P_0$ or $P_1$.
-	
-	The simplistic approach to estimate $\epsilon$ would be to do a maximization of the above quantity over all assignments of $\{P_{j1},\ldots,P_{jT}\}$ to the set $\{P_0,P_1\}^T$. This method, however, is computationally intensive and furthermore does not account for time-dependence in the data.
-	
-	Therefore, the authors propose modeling this as a multiarmed bandit problem, where $P_0$ and $P_1$ are the two arms. The goal here is to then use concentration inequalities to understand good approximate repair policies. These will be approximate because there is a dependency between actions taken at different timesteps and we are looking at finite-horizon solutions.
-	
-	%We propose a method which uses RL to optimize an objective function which implicitly tells us the proportion of time data comes from $P_0$ vs $P_1$. At time $t$, after we observe $z_1,\ldots,z_t$, we can do one of three actions. Either we choose $P_0$ or $P_1$ as our hypothesis of the prior, or we continue exploration, which incurs a cost $C$. If we choose incorrectly between $P_0$ and $P_1$, we incur a cost $L$ and if we were correct, we don't incur any cost.
-	%
-	%This is now a three action POMDP where the observations are the $z_i$'s and the underlying states are $P_0$ and $P_1$.
-	%
-	%Our observation distributions are given by the pdfs $O_s(z)$, which can be one of $O_0(z)$ or $O_1(z)$, depending on whether the underlying data comes from $P_0$ or $P_1$ at that time.
-	%
-	%State transitions, however, require a little more thought. For now, the transitions between our two states is just a 2x2 matrix
-	%
-	%$$
-	%\begin{bmatrix}
-	%p_{00} & p_{01} \\ 
-	%p_{10} & p_{11} 
-	%\end{bmatrix}
-	%$$
-	%
-	%For our cost function, define this again to be $R_s(a)=C*I(a=2)+L*I(a<2,s\neq a)$ where $s\in \{0,1\}$ represents the underlying distribution and $a\in \{0,1,2\}$ represents choosing $P_0$, $P_1$, or neither. So if $a=1$, we chose $P_1$. One way of dealing with the time-dependent structure here is by incorporating a discount factor $\gamma$ that weighs the most recent reward more.
-	
-	%In this setting, we cannot use a model-based approach since we don't have knowledge about our state transitions. But with a model-free approach such as deep variational reinforcement learning \url{https://arxiv.org/pdf/1806.02426.pdf}, we can infer the proportion of time data comes from each generating process. One potential route to take here is to use a generalized sequential probability ratio test for separate families of hypotheses \url{http://stat.columbia.edu/~jcliu/paper/GSPRT_SQA3.pdf} to better understand how the distributions are being combined. Another possible approach is to use a hierarchical Bayesian model to relate $P(z_t|P_0)$ and $P(z_t|P_1)$ and update the previously mentioned weighted mixture model.
-	
-	\section*{Current Status 2}
-	
-	For this research path, the first priority is studying how we can combine particle filters (outputs of VAE) with SPRT. An open problems that will be tackled after this combination is resolved are how to get guarantees on learning multiple-source distributions using concentration-type inequalities.
+	\item Mixture model
+	\item Hierarchical Bayes
+\end{enumerate}
+
+Analogously to the single source model, there is another layer of complexity when studying estimation versus control here. The analysis either:
+\begin{itemize}
+	\item Estimates the underlying model and then comes up with a control policy using POMDP-RL.
+	\item Performs control and estimation at once using a method such as DVRL again.
+\end{itemize}
+
+This section gives one a glimpse of some of the open problems the authors are addressing.
+
+\subsection*{Sequential Testing}
+Thomas Kolarik's paper ``Using SPRT as stopping condition" 
+\cite{url} introduces Sequential Probability Ratio Testing (SPRT) for different families of hypotheses.
+
+When there are two families of composite hypotheses, i.e.,
+$$H_0: f\in \{g_{\theta}:\theta\in \Theta\} \textrm{ against } H_A:f\in \{h_{\gamma}:\gamma\in \Gamma\}$$, we consider a sequential test where we compute $$L_n = \frac{\sup_{\gamma\in \Gamma} \prod_{i=1}^n h_{\gamma}(X_i)}{\sup_{\theta\in \Theta} \prod_{i=1}^n g_{\theta}(X_i)}.$$ If $L_n$ crosses $e^A$ or $e^{-B}$ for constants $A,B>0$, then we stop sampling. If $L_n>e^A$, then we reject the null.
+
+This is then used to infer which distribution is generating the data.  The current research component is understanding how to use this with particle filters. By using a variational autoencoder to learn an underlying model, the output becomes a particle filter. Currently, there has not been any published research on how to use SPRT with particle filters.
+
+\subsection*{Example: Mixture Model Setting}
+What this study proposes to solve is initially the following:
+if the data is generated from $\epsilon_t P_0 + (1-\epsilon_t) P_1$, where $P_0$ and $P_1$ are the two priors, does $\epsilon_t\to 0$ or to a constant over time? Maybe $P_0$ is one prior generated from bootstrapping and $P_1$ is the second prior provided or based on data that incorporates domain knowledge.
+
+In this setting, the $z_t=\{x_t,y_t\}$ pairs can be thought of as coming from data sources $P_0$ and $P_1$.
+
+Define $p(z_t|P_0)$ and $p(z_t|P_1)$ to be the probabilities of observing $z_t$ given $P_0$ and $P_1$ respectively at time $t$. Then $$p(P_j|z_t)=\frac{\epsilon_t p(z_t|P_0) I(j=0) + (1-\epsilon_t) p(z_t|P_1) I(j=1)}{\epsilon_t p(z_t|P_0) + (1-\epsilon_t) p(z_t|P_1)}.$$
+
+But now, this study seeks to understand
+$$p(\{P_{j_1},\ldots,P_{j_T}\}|\{z_1,\ldots,z_T\})$$ where each $P_{jt}$ is either $P_0$ or $P_1$.
+
+The simplistic approach to estimate $\epsilon$ would be to do a maximization of the above quantity over all assignments of $\{P_{j1},\ldots,P_{jT}\}$ to the set $\{P_0,P_1\}^T$. This method, however, is computationally intensive and furthermore does not account for time-dependence in the data.
+
+Therefore, the authors propose modeling this as a multiarmed bandit problem, where $P_0$ and $P_1$ are the two arms. The goal here is to then use concentration inequalities to understand good approximate repair policies. These will be approximate because there is a dependency between actions taken at different timesteps and we are looking at finite-horizon solutions.
+
+%We propose a method which uses RL to optimize an objective function which implicitly tells us the proportion of time data comes from $P_0$ vs $P_1$. At time $t$, after we observe $z_1,\ldots,z_t$, we can do one of three actions. Either we choose $P_0$ or $P_1$ as our hypothesis of the prior, or we continue exploration, which incurs a cost $C$. If we choose incorrectly between $P_0$ and $P_1$, we incur a cost $L$ and if we were correct, we don't incur any cost.
+%
+%This is now a three action POMDP where the observations are the $z_i$'s and the underlying states are $P_0$ and $P_1$.
+%
+%Our observation distributions are given by the pdfs $O_s(z)$, which can be one of $O_0(z)$ or $O_1(z)$, depending on whether the underlying data comes from $P_0$ or $P_1$ at that time.
+%
+%State transitions, however, require a little more thought. For now, the transitions between our two states is just a 2x2 matrix
+%
+%$$
+%\begin{bmatrix}
+%p_{00} & p_{01} \\ 
+%p_{10} & p_{11} 
+%\end{bmatrix}
+%$$
+%
+%For our cost function, define this again to be $R_s(a)=C*I(a=2)+L*I(a<2,s\neq a)$ where $s\in \{0,1\}$ represents the underlying distribution and $a\in \{0,1,2\}$ represents choosing $P_0$, $P_1$, or neither. So if $a=1$, we chose $P_1$. One way of dealing with the time-dependent structure here is by incorporating a discount factor $\gamma$ that weighs the most recent reward more.
+
+%In this setting, we cannot use a model-based approach since we don't have knowledge about our state transitions. But with a model-free approach such as deep variational reinforcement learning \url{https://arxiv.org/pdf/1806.02426.pdf}, we can infer the proportion of time data comes from each generating process. One potential route to take here is to use a generalized sequential probability ratio test for separate families of hypotheses \url{http://stat.columbia.edu/~jcliu/paper/GSPRT_SQA3.pdf} to better understand how the distributions are being combined. Another possible approach is to use a hierarchical Bayesian model to relate $P(z_t|P_0)$ and $P(z_t|P_1)$ and update the previously mentioned weighted mixture model.
+
+For this research path, the first priority is studying how we can combine particle filters (outputs of VAE) with SPRT. An open problems that will be tackled after this combination is resolved are how to get guarantees on learning multiple-source distributions using concentration-type inequalities.
 	%
 	%\section*{Appendix: End Of Life Analysis Background}
 	%The goal of the preliminary analysis is to create a Bayesian probabilistic survival model, using incomplete data sets in a general way.  The goal of this section is to define the model and methodology used and to outline options and identify risk areas.
