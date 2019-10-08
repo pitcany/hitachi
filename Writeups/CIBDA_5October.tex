@@ -428,17 +428,10 @@ When analyzing our hidden markov model fitting techniques with CMAPSS data, we t
 	
 	\section*{Current Status 1}
 	
-	So far, the authors have studied four different POMDP based techniques for modeling the preventive maintenance problem. We implemented value-iteration, Monte-Carlo Tree Search (POMCP), ADRQN, and DVRL on the CMAPSS dataset. After realizing these implementations, we are currently analyzing the performance of deep-RL methods such as DVRL and ADRQN versus model-based methods. We have also incorporated the constraints on the start and end states discussed in this paper via a method similar to boosting, where we propagate the errors between our true start and end states and our estimates and re-running DVRL until we reach convergence. The next steps are to analyze how two sources of information (prior knowledge with observations) should be combined to determine optimal repair strategies.
+	So far, the authors have studied four different POMDP based techniques for modeling the preventive maintenance problem. We implemented value-iteration, Monte-Carlo Tree Search (POMCP), ADRQN, and DVRL on the CMAPSS dataset. After realizing these implementations, we are currently analyzing the performance of deep-RL methods such as DVRL and ADRQN versus model-based methods. We have also incorporated the constraints on the start and end states discussed in this paper via an adjustment to the E-step in the EM algorithm for HMM fitting. The next steps are to analyze how two sources of information (prior knowledge with observations) should be combined to determine optimal repair strategies.
 	
 	\subsection*{Results from Separating Estimation and Control}
-	After doing HMM estimation and POMDP value iteration, we developed the utility vector seen in Figure 4.
-	
-		\begin{figure}
-		\centering
-		\includegraphics[width=0.25\linewidth]{../../../Pictures/utilityvector}
-		\caption[Utility vector]{}
-		\label{fig:utilityvec}
-	\end{figure}
+	After doing HMM estimation we used SolvePOMDP, a Java program that solves POMDPs, to execute value iteration. With our cost function defined from earlier, we saw that expected reward from the optimal policy was $158$. Furthermore, in this policy, one starts off not repairing the system, but then chooses the repair action repeatedly in the later iterations.
 	
 	In practice, there is often some existing knowledge about the system process before seeing any real-time measurements. This knowledge leads to the second research path.
 	
@@ -471,7 +464,7 @@ When analyzing our hidden markov model fitting techniques with CMAPSS data, we t
 	
 	Analogously to the single source model, there is another layer of complexity when studying estimation versus control here. The analysis either:
 	\begin{itemize}
-		\item Estimates the underlying model and then comes up with a control policy using POMDP-R.
+		\item Estimates the underlying model and then comes up with a control policy using POMDP-RL.
 		\item Performs control and estimation at once using a method such as DVRL again.
 	\end{itemize}
 	
