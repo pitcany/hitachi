@@ -148,7 +148,7 @@
 	\subsection*{Adapting for Fixed States}
 	As mentioned before, our state sequences must be constrained to those state sequences that begin with a ``perfect" state and end at a ``failing" state. The difference between past work and the current work is that both starting and ending states are constrained in the presented research.
 	
-	There are several ways to carry out this constraint; this work investigates two methods. The first method involves modifying the $M$ step calculation for the expected log-likelihood to add an extra constraint in the Lagrangian. The second method incorporates the constraint in the forward-backward recursion. Ultimately, the second method was chosen for future study, as it was more amenable to a closed form solution.
+	There are several ways to carry out this constraint; this work investigates two methods. The first method involves modifying the $M$ step calculation for the expected log-likelihood to add an extra constraint in the Lagrangian. The second method incorporates the constraint in the forward-backward recursion. Ultimately, the second method was chosen for future study, as it was more amenable to a closed form solution and easier to implement.
 	
 	Since the starting state will be a fully healthy state,
 	$$\alpha_{1:1}=P(x_1|y_1)=(1,0,0,0).$$
@@ -182,7 +182,7 @@
 	
 	The estimation of HMM parameters is done for each system trajectory, and then the average of these parameters over all trajectories is calculated. For example, this method estimates the transition matrix for each sample path for a given machine and then takes the average of all these transition matrices to obtain a state transition matrix for that machine.
 
-	Figures 1 and 2 show the emission matrices. For emissions, two matrices are used -- one representing the means at each state (Figure 2) and one with variances (Figure 3).
+	Figures 1 and 2 show the emission matrices. For emissions, two matrices are used -- one representing the means at each state (Figure 1) and one with variances (Figure 2).
 	
 	The estimated transition matrix is
 		$\left(
@@ -287,8 +287,8 @@
 	$\left(
 	\begin{array}{cccc}
 	0.5 & 0.5 & 0. & 0. \\
-	0. & 0.7 & 0.3 & 0. \\
-	0. & 0. & 0.7 & 0.3 \\
+	0. & 0.5 & 0.5 & 0. \\
+	0. & 0. & 0.5 & 0.5 \\
 	0. & 0. & 0. & 1. \\
 	\end{array}
 	\right)$
@@ -297,15 +297,15 @@
 
 	$\left(
 	\begin{array}{cccc}
-	0.000 & 1.000 & 0.000 & 0.000 \\ 
-	0.000 & 0.000 & 1.000 & 0.000 \\ 
-	0.000 & 0.000 & 0.667 & 0.333 \\ 
+	0.347 & 0.653 & 0.000 & 0.000 \\ 
+	0.000 & 0.652 & 0.348 & 0.000 \\ 
+	0.000 & 0.000 & 0.505 & 0.495 \\ 
 	0.000 & 0.000 & 0.000 & 1.000 \\ 
 	\end{array} \right)$
 	
-	with estimated mean emissions $(0.77,1.45,3.54,6.00)$.
+	with estimated mean emissions $(1.24,3.40,5.07,6.09)$ and variances $(0.63,0.62,0.38,0.21)$.
 	
-Previously, with standard HMM fitting without our new forward-backward updates, we were not estimating that state $3$ was an absorbing state as the probability of staying at $3$ was not estimated as $1$. Furthermore, when using our state constrained method, we have more stable estimates of the covariance.
+Previously, with standard HMM fitting without our new forward-backward updates, we were not estimating that state $3$ was an absorbing state as the predicted probability of staying at $3$ was not $1$. Furthermore, when using our state constrained method, we have more stable estimates of the covariance.
 
 \subsection*{Methodology}
 When analyzing our hidden markov model fitting techniques with CMAPSS data, we trained model parameters on each sample trajectory separately. Then we averaged the estimated transition, emission means, and emission covariance matrices.
@@ -361,56 +361,56 @@ When analyzing our hidden markov model fitting techniques with CMAPSS data, we t
 	
 	If no repair is executed, then define $O(o|s,a=0) \sim f_0(s)$. Else, if there is a repair, then $O(o|s,a=1) \sim f_1(s)$.
 	
-	Using discrete observation buckets, a matrix is given of form:
-	$$    O(0) = 
-	\begin{bmatrix}
-	No Repair & 1 & 2 & 3 & 4 \\
-	1 & o_{11} & o_{12} & o_{13} & o_{14} \\
-	2 & o_{21} & o_{22} & o_{23} & o_{24} \\
-	3 & o_{31} & o_{32} & o_{33} & o_{34} \\
-	4 & o_{41} & o_{42} & o_{43} & o_{44} \\
-	\end{bmatrix}
-	$$
-	
-	and
-	
-	$$    O(1) = 
-	\begin{bmatrix}
-	Repair & 1 & 2 & 3 & 4 \\
-	1 & o'_{11} & o'_{12} & o'_{13} & o'_{14} \\
-	2 & o'_{21} & o'_{22} & o'_{23} & o'_{24} \\
-	3 & o'_{31} & o'_{32} & o'_{33} & o'_{34} \\
-	4 & o'_{41} & o'_{42} & o'_{43} & o'_{44} \\
-	\end{bmatrix}
-	$$
+%	Using discrete observation buckets, a matrix is given of form:
+%	$$    O(0) = 
+%	\begin{bmatrix}
+%	No Repair & 1 & 2 & 3 & 4 \\
+%	1 & o_{11} & o_{12} & o_{13} & o_{14} \\
+%	2 & o_{21} & o_{22} & o_{23} & o_{24} \\
+%	3 & o_{31} & o_{32} & o_{33} & o_{34} \\
+%	4 & o_{41} & o_{42} & o_{43} & o_{44} \\
+%	\end{bmatrix}
+%	$$
+%	
+%	and
+%	
+%	$$    O(1) = 
+%	\begin{bmatrix}
+%	Repair & 1 & 2 & 3 & 4 \\
+%	1 & o'_{11} & o'_{12} & o'_{13} & o'_{14} \\
+%	2 & o'_{21} & o'_{22} & o'_{23} & o'_{24} \\
+%	3 & o'_{31} & o'_{32} & o'_{33} & o'_{34} \\
+%	4 & o'_{41} & o'_{42} & o'_{43} & o'_{44} \\
+%	\end{bmatrix}
+%	$$
 	
 	Lastly, the reward function takes the following form:
 	$$\sum_{t=1}^T \sum_{s=1}^4 [c_1(4-s_t)I(s_t=j) + c_2(s_t)I_M(a_t=1|s_t=j)]]$$
-	where $I$ is an indicator function. $c_1(4-s_t)$ is the cost of maintenance and $c_2(s_t)$ is the cost of being in a degraded state. $c_1$ and $c_2$ are constants that we set. In our case, we will set these to $c_1=50$ and $c_2=-50$.
+	with $I$ as an indicator function. $c_1(4-s_t)$ is the cost of maintenance and $c_2(s_t)$ is the cost of being in a degraded state where $c_1$ and $c_2$ are constants that we set. In our case, we will set these to $c_1=50$ and $c_2=-50$.
 	
 	Another way of writing this is as follows:
 	
-	$$
-	R(0) = 
-	\begin{bmatrix}
-	No Repair & Reward \\
-	1 & r_1 \\
-	2 & r_2 \\
-	3 & r_3 \\
-	4 & r_4 \\
-	\end{bmatrix}
-	$$
-	
-	$$
-	R(1) = 
-	\begin{bmatrix}
-	Repair & Reward \\
-	1 & r'_1 \\
-	2 & r'_2 \\
-	3 & r'_3 \\
-	4 & r'_4 \\
-	\end{bmatrix}
-	$$
+%	$$
+%	R(0) = 
+%	\begin{bmatrix}
+%	No Repair & Reward \\
+%	1 & r_1 \\
+%	2 & r_2 \\
+%	3 & r_3 \\
+%	4 & r_4 \\
+%	\end{bmatrix}
+%	$$
+%	
+%	$$
+%	R(1) = 
+%	\begin{bmatrix}
+%	Repair & Reward \\
+%	1 & r'_1 \\
+%	2 & r'_2 \\
+%	3 & r'_3 \\
+%	4 & r'_4 \\
+%	\end{bmatrix}
+%	$$
 	 
 	 \begin{table}[h!]
 	 	\begin{center}

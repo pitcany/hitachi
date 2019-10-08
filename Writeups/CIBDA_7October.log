@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2019.8.27)  7 OCT 2019 22:14
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2019.8.27)  7 OCT 2019 23:58
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -524,11 +524,7 @@ Overfull \hbox (30.03639pt too wide) in paragraph at lines 328--329
 h-out knowl-edge of un-der-ly-ing states (model-free reinforcement-
  []
 
-[6]
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-[7]
+[6] [7]
 Underfull \hbox (badness 10000) in paragraph at lines 456--460
 
  []
@@ -558,11 +554,11 @@ Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 636.
 Here is how much of TeX's memory you used:
  7207 strings out of 494484
  106181 string characters out of 6175786
- 216428 words of memory out of 5000000
+ 214428 words of memory out of 5000000
  10727 multiletter control sequences out of 15000+600000
  17594 words of font info for 50 fonts, out of 8000000 for 9000
  59 hyphenation exceptions out of 8191
- 29i,9n,35p,1811b,438s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 29i,9n,35p,1811b,433s stack positions out of 5000i,500n,10000p,200000b,80000s
  </home/yannik/.texlive2018/texmf-var/fonts/pk/ljfour/jknappen/ec/ecti1000.60
 0pk> </home/yannik/.texlive2018/texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx1000.
 600pk> </home/yannik/.texlive2018/texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx120
@@ -581,7 +577,7 @@ ist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/font
 s/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type
 1/public/amsfonts/cm/cmsy5.pfb></usr/share/texlive/texmf-dist/fonts/type1/publi
 c/amsfonts/cm/cmsy7.pfb>
-Output written on CIBDA_7October.pdf (10 pages, 233032 bytes).
+Output written on CIBDA_7October.pdf (10 pages, 232160 bytes).
 PDF statistics:
  405 PDF objects out of 1000 (max. 8388607)
  149 compressed objects within 2 object streams
