@@ -1,9 +1,9 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2019.8.27)  7 OCT 2019 21:48
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2019.8.27)  7 OCT 2019 21:49
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**CIBDA_5October.tex
-(./CIBDA_5October.tex
+**CIBDA_7October.tex
+(./CIBDA_7October.tex
 LaTeX2e <2018-12-01>
 (/usr/share/texlive/texmf-dist/tex/latex/base/article.cls
 Document Class: article 2018/09/03 v1.4i Standard LaTeX document class
@@ -367,8 +367,8 @@ e
 \c@theorem=\count125
 \c@corollary=\count126
 
-(./CIBDA_5October.aux)
-\openout1 = `CIBDA_5October.aux'.
+(./CIBDA_7October.aux)
+\openout1 = `CIBDA_7October.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 37.
 LaTeX Font Info:    ... okay on input line 37.
@@ -413,9 +413,9 @@ LaTeX Info: Redefining \ref on input line 37.
 LaTeX Info: Redefining \pageref on input line 37.
 LaTeX Info: Redefining \nameref on input line 37.
 
-(./CIBDA_5October.out) (./CIBDA_5October.out)
+(./CIBDA_7October.out) (./CIBDA_7October.out)
 \@outlinefile=\write3
-\openout3 = `CIBDA_5October.out'.
+\openout3 = `CIBDA_7October.out'.
 
 
 *geometry* driver: auto-detecting
@@ -548,10 +548,10 @@ ent Learn-ing for POMDPs," JMLR:
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 633.
 [10]
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 633.
- (./CIBDA_5October.aux)
+ (./CIBDA_7October.aux)
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 633.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 633.
-Package rerunfilecheck Info: File `CIBDA_5October.out' has not changed.
+Package rerunfilecheck Info: File `CIBDA_7October.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 633.
  ) 
@@ -581,7 +581,7 @@ ist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/font
 s/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type
 1/public/amsfonts/cm/cmsy5.pfb></usr/share/texlive/texmf-dist/fonts/type1/publi
 c/amsfonts/cm/cmsy7.pfb>
-Output written on CIBDA_5October.pdf (10 pages, 232527 bytes).
+Output written on CIBDA_7October.pdf (10 pages, 232527 bytes).
 PDF statistics:
  403 PDF objects out of 1000 (max. 8388607)
  148 compressed objects within 2 object streams
