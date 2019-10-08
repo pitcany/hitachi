@@ -419,10 +419,10 @@ Previously, with standard HMM fitting without our new forward-backward updates, 
 	 			\textbf{State} & \textbf{Repair} & \textbf{Not Repair}\\
 	 			%$\alpha$ & $\beta$ & $\gamma$ \\
 	 			\hline
-	 			1 & 100 & -50\\
-	 			2 & 50 & 0\\
-	 			3 & 0 & 50\\
-	 			4 & -50 & 100
+	 			1 & -100 & 50\\
+	 			2 & -50 & 0\\
+	 			3 & 0 & -50\\
+	 			4 & 50 & -100
 	 		\end{tabular}
 	 	\end{center}
 	 \end{table}
@@ -439,16 +439,34 @@ Previously, with standard HMM fitting without our new forward-backward updates, 
 	
 	Both of these approaches also incorporate knowledge of the start and end states being in perfect and poor condition respectively, which is discussed in the following section.
 	
-	\section*{Current Status 1}
+	\section*{Results}
+	After doing HMM estimation we used Perseus, a randomized point-based value iteration algorithm, to approximately solve the POMDP. With our cost function defined from earlier, we saw that expected reward from the optimal policy was $365.02$. Furthermore, in this policy, one starts off not repairing the system, but then chooses the repair action repeatedly in the later iterations.
+	
+	We have the following alpha-vectors for this policy:
+	
+	\begin{tabular}{|c|c|c|c|c|}
+		\hline 
+		No Repair & 355.20 & 289.36 & 282.22 & 276.47 \\ 
+		\hline 
+		No Repair & 365.02 & 267.08 & 213.60 & 162.59 \\ 
+		\hline 
+		No Repair & 364.39 & 276.45 & 254.06 & 262.49 \\ 
+		\hline 
+		Repair & 246.76 & 296.76 & 346.76 & 396.76 \\ 
+		\hline 
+		No Repair & 360.56 & 283.40 & 266.09 & 266.64 \\ 
+		\hline 
+	\end{tabular} 
+	
+	The alpha-vectors computed help us determine which action to pick at a timestep, given information about our belief state. The action taken corresponds to the one with an alpha vector $\alpha$ that maximizes $\alpha^{\top} \beta$, where $\beta$ is the belief state vector. For example, if our belief state vector is $\beta=(0,0,0.5,0.5)$, we will pick the repair action since $\alpha=(246.76,296.76,346.76,396.76)$ maximizes $\alpha^{\top} \beta$.  
+	
+	\section*{Current Status}
 	
 	So far, the authors have studied four different POMDP based techniques for modeling the preventive maintenance problem. We implemented value-iteration, Monte-Carlo Tree Search (POMCP), ADRQN, and DVRL on the CMAPSS dataset. After realizing these implementations, we are currently analyzing the performance of deep-RL methods such as DVRL and ADRQN versus model-based methods. We have also incorporated the constraints on the start and end states discussed in this paper via an adjustment to the E-step in the EM algorithm for HMM fitting. The next steps are to analyze how two sources of information (prior knowledge with observations) should be combined to determine optimal repair strategies.
 	
-	\subsection*{Results from Separating Estimation and Control}
-	After doing HMM estimation we used SolvePOMDP, a Java program that solves POMDPs, to execute value iteration. With our cost function defined from earlier, we saw that expected reward from the optimal policy was $158$. Furthermore, in this policy, one starts off not repairing the system, but then chooses the repair action repeatedly in the later iterations.
-	
 	In practice, there is often some existing knowledge about the system process before seeing any real-time measurements. This knowledge leads to the second research path.
 	
-	\subsection*{Path 2: Combining Multiple Sources}
+	\subsection*{Future Work: Combining Multiple Sources}
 	
 	Here, this study asks how to combine prior knowledge about the data generating process when determining the optimal repair strategy that minimizes costs. For example, if given a controlled system generating data, this alters the observed machine measurements as opposed to an uncontrolled system. This alteration is because if the machine is deteriorating, a repair and restoration the system back to full health is executed such that the measurements seen will be different than if machine fails.
 	
@@ -525,8 +543,6 @@ Previously, with standard HMM fitting without our new forward-backward updates, 
 	%For our cost function, define this again to be $R_s(a)=C*I(a=2)+L*I(a<2,s\neq a)$ where $s\in \{0,1\}$ represents the underlying distribution and $a\in \{0,1,2\}$ represents choosing $P_0$, $P_1$, or neither. So if $a=1$, we chose $P_1$. One way of dealing with the time-dependent structure here is by incorporating a discount factor $\gamma$ that weighs the most recent reward more.
 	
 	%In this setting, we cannot use a model-based approach since we don't have knowledge about our state transitions. But with a model-free approach such as deep variational reinforcement learning \url{https://arxiv.org/pdf/1806.02426.pdf}, we can infer the proportion of time data comes from each generating process. One potential route to take here is to use a generalized sequential probability ratio test for separate families of hypotheses \url{http://stat.columbia.edu/~jcliu/paper/GSPRT_SQA3.pdf} to better understand how the distributions are being combined. Another possible approach is to use a hierarchical Bayesian model to relate $P(z_t|P_0)$ and $P(z_t|P_1)$ and update the previously mentioned weighted mixture model.
-	
-	\section*{Current Status 2}
 	
 	For this research path, the first priority is studying how we can combine particle filters (outputs of VAE) with SPRT. An open problems that will be tackled after this combination is resolved are how to get guarantees on learning multiple-source distributions using concentration-type inequalities.
 	%
